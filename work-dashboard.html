@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blockchain Health Dashboard — Shaade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --sans: 'Inter', system-ui, sans-serif;
+      --serif: 'Crimson Pro', Georgia, serif;
+      --text: #1a1a1a; --muted: #4a4a4a; --faint: #8a8a8a;
+      --border: rgba(0,0,0,0.1); --border-mid: rgba(0,0,0,0.18);
+      --bg: #ffffff;
+      --c-terracotta: #E0452E; --c-rust: #C23A2A; --c-brick: #8B2018; --c-clay: #C18E78;
+      --c-navy: #1A3862; --c-deep-blue: #1F4068; --c-steel: #5A7FA8;
+      --c-gold: #D5AB52; --c-olive: #A19D6E; --c-sage: #C5CDB1; --c-forest: #3F4F3D;
+    }
+
+    body {
+      font-family: var(--sans); color: var(--text); background: #ffffff;
+      line-height: 1.6; letter-spacing: 0.01em; font-weight: 500;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      border-bottom: 0.5px solid var(--border);
+      position: sticky; top: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    #progress-bar {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      height: 1.5px;
+      width: 0%;
+      background: var(--c-terracotta);
+      transition: width 0.1s linear;
+      z-index: 101;
+    }
+    .nav-inner { max-width: 1060px; margin: 0 auto; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .nav-name { font-family: var(--serif); font-size: 18px; text-decoration: none; color: var(--text); letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--c-terracotta); }
+
+    .page { max-width: 1060px; margin: 0 auto; padding: 0 2rem; }
+
+    /* HERO */
+    .hero { padding: 5rem 0 3.5rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+    .hero-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .hero-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); padding: 3px 10px; border: 0.5px solid var(--border-mid); border-radius: 3px; }
+    .hero-co { font-size: 11px; color: var(--faint); }
+    .hero h1 { font-family: var(--serif); font-size: 50px; line-height: 1.1; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .hero h1 em { font-style: italic; color: var(--muted); }
+    .hero-sub { font-size: 17px; line-height: 1.65; color: var(--muted); font-weight: 400; max-width: 600px; }
+
+    /* SUMMARY STRIP */
+    .summary { display: grid; grid-template-columns: repeat(4, 1fr); background: #f8f8f8; border: 1px solid #ebebeb; border-radius: 12px; overflow: hidden; margin-bottom: 5rem; }
+    .s-item { background: transparent; padding: 1.75rem; border-right: 1px solid #ebebeb; }
+    .s-item:last-child { border-right: none; }
+    .s-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.5rem; }
+    .s-val { font-size: 14px; line-height: 1.5; color: var(--text); }
+
+    /* LAYOUT */
+    .layout { margin-bottom: 5rem; }
+    .side { display: none; }
+
+    /* SECTIONS */
+    .sections { display: flex; flex-direction: column; gap: 4rem; }
+    .section { scroll-margin-top: 90px; }
+    .sec-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-brick); margin-bottom: 0.9rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+    .section h2 { font-family: var(--serif); font-size: 26px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.25; margin-bottom: 1.1rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+    .section p { font-size: 16px; line-height: 1.8; color: var(--muted); font-weight: 400; margin-bottom: 1.1rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+    .section p:last-child { margin-bottom: 0; }
+    .section p strong { color: var(--text); font-weight: 500; }
+    .section p em { font-style: italic; }
+
+    /* IMAGES */
+    .img-wrap { margin: 1.75rem 0; border-radius: 6px; overflow: hidden; border: 0.5px solid var(--border); cursor: zoom-in; transition: box-shadow 0.2s; }
+    .img-wrap:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    .img-wrap img { width: 100%; height: auto; display: block; }
+    .img-cap { font-size: 12px; color: var(--faint); margin-top: 0.5rem; font-style: italic; }
+
+    /* CALLOUT */
+    .callout { border-left: 3px solid var(--c-navy); padding: 1.1rem 1.6rem; margin: 1.5rem auto; background: transparent; border-radius: 0; max-width: 680px; }
+    .callout p { font-family: var(--serif); font-size: 22px; line-height: 1.55; color: var(--c-navy); font-weight: 400; margin: 0; max-width: none; font-style: italic; }
+    .callout p em { font-style: italic; }
+
+    /* PROB LIST */
+    .prob-list { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; margin: 1.25rem auto; max-width: 680px; }
+    .prob-list li { font-size: 16px; line-height: 1.75; color: var(--muted); font-weight: 400; padding-left: 1.1rem; border-left: 1.5px solid var(--border-mid); }
+    .prob-list li strong { display: block; font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: 0.01em; margin-bottom: 0.2rem; }
+    .prob-list li:nth-child(1) { border-left-color: var(--c-steel); }
+    .prob-list li:nth-child(2) { border-left-color: var(--c-gold); }
+    .prob-list li:nth-child(3) { border-left-color: var(--c-terracotta); }
+    .prob-list li:nth-child(4) { border-left-color: var(--c-navy); }
+
+    /* INSIGHT */
+    .insight { background: #f9f9f9; border: 0.5px solid var(--border); border-radius: 6px; padding: 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.4rem; margin: 1.5rem auto; max-width: 680px; }
+    .insight-lbl { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); font-weight: 500; }
+    .insight-txt { font-family: var(--serif); font-size: 19px; line-height: 1.35; color: var(--text); font-weight: 400; }
+    .insight-sub { font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 0.4rem; font-weight: 300; }
+
+    /* GOAL CARDS */
+    .goals-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; max-width: 740px; margin-left: auto; margin-right: auto; }
+    .goal-card { background: #f8f8f8; border: 1px solid #ebebeb; border-radius: 12px; padding: 1.4rem; }
+    .goal-tag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.5rem; font-weight: 500; }
+    .goal-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; line-height: 1.4; }
+    .goal-body { font-size: 14px; color: var(--muted); line-height: 1.65; font-weight: 400; }
+
+    /* OUTCOME GRID */
+    .outcome-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; max-width: 740px; margin-left: auto; margin-right: auto; }
+    .outcome-card { background: #f8f8f8; border: 1px solid #ebebeb; border-radius: 12px; padding: 1.5rem; }
+    .oc-icon { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.6rem; font-weight: 500; }
+    .oc-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+    .oc-body { font-size: 14px; color: var(--muted); line-height: 1.65; font-weight: 400; margin: 0; }
+
+    /* CASE NAV */
+    .case-nav { display: flex; justify-content: space-between; align-items: center; padding: 2rem 0 3rem; border-top: 0.5px solid var(--border); margin-top: 2rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+    .case-nav a { text-decoration: none; color: var(--text); display: flex; flex-direction: column; gap: 4px; transition: opacity 0.15s; }
+    .case-nav a:hover { opacity: 0.6; }
+    .cn-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+    .cn-title { font-family: var(--serif); font-size: 18px; font-weight: 400; }
+    .cn-right { text-align: right; align-items: flex-end; }
+
+    /* PILL NAV */
+    #pill-nav {
+      position: fixed; bottom: 1.75rem; left: 50%; transform: translateX(-50%) translateY(6px);
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border: 0.5px solid rgba(0,0,0,0.12);
+      border-radius: 14px;
+      padding: 7px 12px;
+      display: flex; align-items: center; gap: 7px;
+      z-index: 200;
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease, border-radius 0.2s ease, padding 0.2s ease;
+      pointer-events: none;
+      cursor: pointer;
+    }
+    #pill-nav.visible { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: all; }
+
+    .pill-dots { display: flex; align-items: center; gap: 5px; }
+    .pill-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(0,0,0,0.18); transition: background 0.2s, transform 0.2s; cursor: pointer; }
+    .pill-dot.active { background: var(--c-terracotta); transform: scale(1.3); }
+    .pill-divider { width: 0.5px; height: 12px; background: rgba(0,0,0,0.12); }
+    #pill-section { font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; white-space: nowrap; }
+
+    /* LIGHTBOX */
+    #lightbox { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; padding: 2.5rem; pointer-events: none; opacity: 0; transition: opacity 0.25s ease; }
+    #lightbox.open { pointer-events: all; opacity: 1; }
+    #lightbox-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.35); }
+    #lightbox-modal { position: relative; z-index: 1; background: var(--bg); border-radius: 10px; box-shadow: 0 24px 80px rgba(0,0,0,0.2); max-width: 90vw; width: 100%; overflow: hidden; transform: scale(0.94) translateY(8px); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    #lightbox.open #lightbox-modal { transform: scale(1) translateY(0); }
+    #lightbox-modal img { width: 100%; height: auto; display: block; max-height: 88vh; object-fit: contain; }
+    #lightbox-close { position: absolute; top: 0.6rem; right: 0.85rem; color: #aaa; font-size: 22px; line-height: 1; cursor: pointer; z-index: 2; transition: color 0.15s; font-family: sans-serif; font-weight: 300; }
+    #lightbox-close:hover { color: var(--text); }
+
+    @media (max-width: 720px) {
+      .summary { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 34px; }
+      .goals-grid, .outcome-grid { grid-template-columns: 1fr; }
+      .case-nav { flex-direction: column; align-items: flex-start; }
+      .cn-right { text-align: left; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="lightbox">
+  <div id="lightbox-backdrop"></div>
+  <div id="lightbox-modal">
+    <span id="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+</div>
+
+<nav>
+  <div id="progress-bar"></div>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-name">Shaade</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Work</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="https://www.linkedin.com/in/shaade/" target="_blank">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page">
+
+  <header class="hero">
+    <div class="hero-meta">
+      <span class="hero-tag">Blockchain · UX</span>
+      <span class="hero-co">Kaleido</span>
+    </div>
+    <h1>A dashboard for an infrastructure <em>nobody could see</em></h1>
+    <p class="hero-sub">Kaleido's customers were running enterprise blockchains in production — without a clear picture of whether their environments were healthy. I led the design of a dashboard that turned protocol-engineer intuition into a tool any operator could use to spot trouble before it spread.</p>
+  </header>
+
+  <div class="summary">
+    <div class="s-item"><div class="s-label">Role</div><div class="s-val">Lead product designer</div></div>
+    <div class="s-item"><div class="s-label">Platform</div><div class="s-val">Kaleido Console (web)</div></div>
+    <div class="s-item"><div class="s-label">Domain</div><div class="s-val">Blockchain infrastructure</div></div>
+    <div class="s-item"><div class="s-label">Scope</div><div class="s-val">Discovery → UX → visual design</div></div>
+  </div>
+
+  <div class="img-wrap">
+    <img src="images/blockchain-env-dash.png" alt="The Blockchain Health Dashboard — Chain Health and Node Health sections" />
+  </div>
+
+  <div class="layout">
+    <div class="sections">
+
+      <section class="section" id="problem">
+        <p class="sec-label">The problem</p>
+        <h2>What does "healthy" even mean?</h2>
+        <p>Kaleido is a Blockchain-as-a-Service platform. Customers spin up nodes, build consortiums, and run production environments without having to operate the underlying chain themselves. The trade is convenience for visibility — and that trade was starting to show.</p>
+        <p>Operators didn't have a clear way to answer the most basic question about their own environment: <strong>is this thing healthy right now?</strong> Block height, transaction throughput, node resource pressure — the data existed, but it lived in places only the protocol engineers knew how to read.</p>
+        <p>The framing question for the project came directly from the team:</p>
+        <div class="callout">
+          <p><em>"How do we identify what qualifies as a 'healthy' environment — and how do we bring those data points to the user so they can act on them?"</em></p>
+        </div>
+        <p>That's a deceptively hard question. "Healthy" isn't a single metric. It's a pattern across several signals, read against a baseline that varies by chain, traffic, and configuration. The dashboard couldn't just <em>display</em> data — it had to help operators recognize when something was off, even before they knew what to look for.</p>
+
+        <div class="insight">
+          <span class="insight-lbl">The real ask</span>
+          <span class="insight-txt">Translate engineer intuition into a tool an operator can read at a glance.</span>
+          <span class="insight-sub">The data already existed. The interpretation was the missing layer — and that's where the design had to do the work.</span>
+        </div>
+      </section>
+
+      <section class="section" id="goals">
+        <p class="sec-label">Research</p>
+        <h2>Five goals from engineer interviews</h2>
+        <p>Interviews with protocol and DevOps engineers surfaced five design principles — each a yardstick I checked the design against later.</p>
+
+        <div class="goals-grid">
+          <div class="goal-card">
+            <div class="goal-tag">Visibility</div>
+            <div class="goal-title">Show what's happening across chain and nodes</div>
+            <div class="goal-body">The default view had to give a holistic read before the user picked anything specific.</div>
+          </div>
+          <div class="goal-card">
+            <div class="goal-tag">Progressive disclosure</div>
+            <div class="goal-title">Don't show everything by default</div>
+            <div class="goal-body">Use interaction to peel back layers when troubleshooting demands it.</div>
+          </div>
+          <div class="goal-card">
+            <div class="goal-tag">Scannability</div>
+            <div class="goal-title">Use trends and color to surface anomalies</div>
+            <div class="goal-body">Trend lines and color make outliers pop without forcing users to remember thresholds.</div>
+          </div>
+          <div class="goal-card">
+            <div class="goal-tag">Engagement signal</div>
+            <div class="goal-title">Notice which metrics matter most</div>
+            <div class="goal-body">Interaction data shows where the next investment should go.</div>
+          </div>
+          <div class="goal-card" style="grid-column: span 2;">
+            <div class="goal-tag">Action</div>
+            <div class="goal-title">Always answer "what can I do next?"</div>
+            <div class="goal-body">Every drill-down had to lead somewhere — a node detail view, a log query, a config to check.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="chain">
+        <p class="sec-label">Chain Health</p>
+        <h2>Surfacing the network signal</h2>
+        <p>An environment has two fundamentally different layers — the chain itself, and the nodes running it. Engineers diagnosed them differently, so the dashboard splits along that same line: <strong>Chain Health</strong> and <strong>Node Health</strong>, two distinct mental models, two distinct visual treatments.</p>
+        <p>Chain Health answers the network-level question: <em>is this chain doing what it's supposed to do?</em> The default time window is the last 24 hours — long enough to see overnight patterns, short enough to feel current.</p>
+        <p>Two panels carry most of the load:</p>
+
+        <ul class="prob-list">
+          <li><strong>Blocks.</strong> Transaction count across the previous 20 blocks. A flat line of empty blocks tells one story. A sudden spike tells another. Either way, you see the rhythm of the chain at a glance.</li>
+          <li><strong>Transactions.</strong> Transaction count over time, with a public/private toggle. Splitting them respects how operators actually think about workload — public traffic and private traffic have different shapes, different concerns, and different remediation paths.</li>
+        </ul>
+
+        <p>Block height anchors the top of the section as a single, prominent number. It's the simplest signal of "the chain is moving" and the first thing engineers told me they look at when something feels off.</p>
+
+        <div class="img-wrap">
+          <img src="images/blockchain-chainsummary.gif" alt="Chain summary in motion — block height incrementing, transaction line redrawing" />
+        </div>
+      </section>
+
+      <section class="section" id="nodes">
+        <p class="sec-label">Node Health</p>
+        <h2>From environment-wide to a single node</h2>
+        <p>Node Health is the troubleshooting surface. The default view shows all nodes in the environment together, so operators can spot which one is misbehaving without having to know its name first. Click into a node and the same metrics narrow to that single instance — same vocabulary, same chart shapes, just scoped down.</p>
+        <p>The four metrics earned their place because they're what engineers said they actually check, in roughly this order:</p>
+
+        <ul class="prob-list">
+          <li><strong>CPU utilization.</strong> The first place stress shows up. A CPU pinned for hours rarely ends well.</li>
+          <li><strong>Memory utilization.</strong> Slower-moving than CPU, and a cleaner indicator of leaks or runaway processes.</li>
+          <li><strong>Peer count.</strong> How aware nodes are of each other. A node that drops peers is a node that's about to fall behind the chain.</li>
+          <li><strong>Disk utilization.</strong> Blockchain data and logs only ever grow. Disk is the slow-burn problem that takes down environments quietly if you're not watching it.</li>
+        </ul>
+
+        <p>Progressive disclosure does the heavy lifting here. The all-nodes view is intentionally calm — sparklines, no axes, no labels you don't need. The single-node view brings in detail: full charts, axis values, time-range scrubbing. The same component, two density levels, switched by user intent.</p>
+
+        <div class="insight">
+          <span class="insight-lbl">The interaction principle</span>
+          <span class="insight-txt">One vocabulary, two density levels.</span>
+          <span class="insight-sub">Drilling into a node shouldn't feel like learning a new screen. The metrics, ordering, and color stay the same — only the resolution changes.</span>
+        </div>
+
+        <div class="img-wrap">
+          <img src="images/blockchain-screen2.png" alt="Single-node detail — CPU, memory, peer count, and disk charts" />
+        </div>
+
+        <div class="img-wrap">
+          <img src="images/blockchain-health-dashboard.png" alt="Full health dashboard view" />
+        </div>
+      </section>
+
+      <section class="section" id="reflection">
+        <p class="sec-label">Reflection</p>
+        <h2>What I'd tell you if you asked</h2>
+        <p>This was an early-career project at Kaleido and the one I learned the most from about designing for technical operators. A few things I'd carry forward:</p>
+
+        <div class="outcome-grid">
+          <div class="outcome-card">
+            <div class="oc-icon">Process</div>
+            <div class="oc-title">Engineer interviews are the shortcut</div>
+            <p class="oc-body">When the audience is technical, the people already doing the job in their head are the most valuable design input you have. Externalizing the protocol engineers' mental model gave me an IA that didn't need to be defended later.</p>
+          </div>
+          <div class="outcome-card">
+            <div class="oc-icon">Retro</div>
+            <div class="oc-title">What I'd do differently</div>
+            <p class="oc-body">I'd design the alerting story alongside the dashboard, not after. A monitoring tool is half-finished without an opinion about when it should reach out to you — and that's a design problem, not just a configuration screen.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div id="pill-nav">
+    <div class="pill-dots">
+      <div class="pill-dot active" data-target="problem"></div>
+      <div class="pill-dot" data-target="goals"></div>
+      <div class="pill-dot" data-target="chain"></div>
+      <div class="pill-dot" data-target="nodes"></div>
+      <div class="pill-dot" data-target="reflection"></div>
+    </div>
+    <div class="pill-divider"></div>
+    <span id="pill-section">The problem</span>
+  </div>
+
+  <nav class="case-nav">
+    <a href="work-admin-grid.html">
+      <span class="cn-label">← Previous</span>
+      <span class="cn-title">Admin Grid</span>
+    </a>
+    <a href="work-zkp.html" class="cn-right">
+      <span class="cn-label">Next →</span>
+      <span class="cn-title">Blockchain Tokens</span>
+    </a>
+  </nav>
+
+</div>
+
+<script>
+  // Pill nav
+  const pill = document.getElementById('pill-nav');
+  const pillSection = document.getElementById('pill-section');
+  const pillDots = document.querySelectorAll('.pill-dot');
+  const sectionLabels = {
+    problem: 'The problem', goals: 'Research', structure: 'Structure',
+    chain: 'Chain Health', nodes: 'Node Health', reflection: 'Reflection'
+  };
+
+  // Show/hide on scroll
+  window.addEventListener('scroll', () => {
+    pill.classList.toggle('visible', window.scrollY > 120);
+  }, { passive: true });
+
+  // Click dots to jump
+  pillDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      document.getElementById(dot.dataset.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Track active section
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        pillDots.forEach(d => d.classList.toggle('active', d.dataset.target === id));
+        pillSection.textContent = sectionLabels[id] || '';
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+  document.querySelectorAll('.section[id]').forEach(s => obs.observe(s));
+
+  // Progress bar
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop || document.body.scrollTop;
+    const total = doc.scrollHeight - doc.clientHeight;
+    bar.style.width = (scrolled / total * 100) + '%';
+  }, { passive: true });
+
+  document.querySelectorAll('.img-wrap img').forEach(img => {
+    img.addEventListener('click', () => {
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('open');
+    });
+  });
+  document.getElementById('lightbox-backdrop').addEventListener('click', () => {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox-img').src = '';
+  });
+  document.getElementById('lightbox-close').addEventListener('click', () => {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox-img').src = '';
+  });
+</script>
+</body>
+</html>

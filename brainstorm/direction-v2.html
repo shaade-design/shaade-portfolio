@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Visual Direction v2 — Light & Airy</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Karla:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Karla', sans-serif;
+    background: #f0efed;
+    color: #1a1a1a;
+    padding: 3rem 2rem 4rem;
+    line-height: 1.6;
+  }
+  .page { max-width: 1160px; margin: 0 auto; }
+  h1 { font-family: 'Crimson Pro', serif; font-size: 34px; font-weight: 400; margin-bottom: 0.4rem; }
+  .subtitle { font-size: 14px; color: #7a7a7a; margin-bottom: 2.5rem; font-weight: 300; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+  .card {
+    border: 1.5px solid rgba(0,0,0,0.09);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  }
+  .card:hover { border-color: #3A6991; box-shadow: 0 6px 28px rgba(58,105,145,0.1); transform: translateY(-2px); }
+  .card.selected { border-color: #3A6991; box-shadow: 0 0 0 3px rgba(58,105,145,0.15); }
+
+  .preview {
+    height: 300px;
+    background: #f5f4f2;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .card-body { padding: 1.4rem 1.5rem 1.5rem; border-top: 0.5px solid rgba(0,0,0,0.07); }
+  .card-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin-bottom: 0.35rem; }
+  .card-title { font-family: 'Crimson Pro', serif; font-size: 20px; font-weight: 400; margin-bottom: 0.4rem; line-height: 1.25; }
+  .card-desc { font-size: 13px; color: #6a6a6a; font-weight: 300; line-height: 1.65; }
+  .tag-selected { display: none; font-size: 12px; color: #3A6991; font-weight: 500; margin-top: 0.75rem; }
+  .card.selected .tag-selected { display: block; }
+
+  /* ─── OPTION A: Full-bleed app window, light chrome ─── */
+  .opt-a {
+    width: 100%;
+    background: #f0efed;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1.25rem 0;
+    gap: 0;
+  }
+  .window {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 8px 8px 0 0;
+    border: 0.5px solid rgba(0,0,0,0.1);
+    border-bottom: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+  .win-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.07);
+    background: #fafafa;
+    flex-shrink: 0;
+  }
+  .win-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .win-title { font-size: 10px; color: #aaa; margin-left: 6px; font-family: monospace; }
+  .win-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+  .win-sidebar {
+    width: 44px;
+    background: #f7f6f5;
+    border-right: 0.5px solid rgba(0,0,0,0.07);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .sbar-item { width: 28px; height: 28px; border-radius: 6px; background: rgba(0,0,0,0.05); }
+  .sbar-item.active { background: rgba(58,105,145,0.15); }
+  .win-content {
+    flex: 1;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .win-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .win-h { font-size: 12px; font-weight: 500; color: #1a1a1a; }
+  .ai-badge {
+    font-size: 9px;
+    padding: 2px 8px;
+    background: rgba(58,105,145,0.1);
+    color: #3A6991;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .metric-strip { display: flex; gap: 6px; }
+  .met {
+    flex: 1;
+    background: #f7f6f5;
+    border: 0.5px solid rgba(0,0,0,0.07);
+    border-radius: 6px;
+    padding: 7px 8px;
+  }
+  .met-n { font-family: 'Crimson Pro', serif; font-size: 18px; color: #1a1a1a; line-height: 1; }
+  .met-l { font-size: 8px; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+  .report-preview {
+    flex: 1;
+    border: 0.5px solid rgba(0,0,0,0.07);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .rp-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+    min-height: 36px;
+  }
+  .rp-row:last-child { border-bottom: none; flex: 1; }
+  .rp-accent { width: 3px; flex-shrink: 0; }
+  .rp-text { padding: 8px 10px; flex: 1; }
+  .rp-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.08em; color: #bbb; margin-bottom: 3px; }
+  .rp-line { height: 5px; background: rgba(0,0,0,0.07); border-radius: 3px; }
+  .rp-line.w70 { width: 70%; }
+  .rp-line.w50 { width: 50%; }
+  .rp-line.w85 { width: 85%; }
+
+  /* ─── OPTION B: Floating card on warm paper ─── */
+  .opt-b {
+    width: 100%;
+    background: #f7f6f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    gap: 10px;
+  }
+  .paper-card {
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    border: 0.5px solid rgba(0,0,0,0.08);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+    overflow: hidden;
+  }
+  .pc-header {
+    padding: 12px 14px 10px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .pc-eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #bbb; margin-bottom: 3px; }
+  .pc-title { font-size: 13px; font-weight: 500; color: #1a1a1a; line-height: 1.3; }
+  .pc-meta { font-size: 9px; color: #ccc; }
+  .pc-body { padding: 10px 14px; display: flex; flex-direction: column; gap: 7px; }
+  .pc-section { display: flex; align-items: flex-start; gap: 8px; }
+  .pc-bar { width: 3px; border-radius: 2px; flex-shrink: 0; margin-top: 2px; }
+  .pc-lines { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .pc-line { height: 5px; background: rgba(0,0,0,0.07); border-radius: 3px; }
+  .pc-line.w80 { width: 80%; }
+  .pc-line.w55 { width: 55%; }
+  .pc-line.w70 { width: 70%; }
+  .pc-footer {
+    display: flex;
+    border-top: 0.5px solid rgba(0,0,0,0.06);
+    padding: 8px 14px;
+    gap: 0;
+  }
+  .pc-stat { flex: 1; text-align: center; }
+  .pc-stat-n { font-family: 'Crimson Pro', serif; font-size: 20px; color: #1a1a1a; display: block; line-height: 1; }
+  .pc-stat-l { font-size: 8px; color: #bbb; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; display: block; }
+
+  .small-card {
+    width: 100%;
+    background: #fff;
+    border-radius: 8px;
+    border: 0.5px solid rgba(0,0,0,0.07);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .sc-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .sc-lines { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .sc-line { height: 5px; background: rgba(0,0,0,0.07); border-radius: 3px; }
+  .sc-line.w65 { width: 65%; }
+  .sc-line.w40 { width: 40%; }
+  .sc-tag { font-size: 9px; padding: 2px 8px; border-radius: 20px; border: 0.5px solid rgba(0,0,0,0.1); color: #aaa; flex-shrink: 0; }
+
+  /* ─── OPTION C: Split — dark UI left, light annotation right ─── */
+  .opt-c {
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+  }
+  .c-left {
+    width: 55%;
+    background: #11243F;
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    gap: 8px;
+  }
+  .c-eyebrow { font-size: 8px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); margin-bottom: 2px; }
+  .c-title { font-size: 12px; color: #fff; font-weight: 500; line-height: 1.35; }
+  .c-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 8px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    background: rgba(58,105,145,0.3);
+    color: #8ab4d4;
+    width: fit-content;
+  }
+  .c-rows { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+  .c-row {
+    display: flex;
+    align-items: stretch;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+    overflow: hidden;
+    border: 0.5px solid rgba(255,255,255,0.06);
+  }
+  .c-row-strip { width: 3px; flex-shrink: 0; }
+  .c-row-body { padding: 7px 9px; flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .c-row-label { font-size: 7px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.25); }
+  .c-row-line { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+  .c-row-line.w75 { width: 75%; }
+  .c-row-line.w50 { width: 50%; }
+  .c-stats {
+    display: flex;
+    gap: 6px;
+    padding-top: 4px;
+    border-top: 0.5px solid rgba(255,255,255,0.06);
+  }
+  .c-stat { flex: 1; text-align: center; }
+  .c-stat-n { font-family: 'Crimson Pro', serif; font-size: 16px; color: #fff; display: block; line-height: 1; }
+  .c-stat-l { font-size: 7px; color: rgba(255,255,255,0.25); display: block; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .c-right {
+    flex: 1;
+    background: #f7f6f4;
+    border-left: 0.5px solid rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    gap: 10px;
+    justify-content: center;
+  }
+  .anno {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .anno-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #bbb; }
+  .anno-line { height: 5px; background: rgba(0,0,0,0.08); border-radius: 3px; }
+  .anno-line.w90 { width: 90%; }
+  .anno-line.w65 { width: 65%; }
+  .anno-line.w75 { width: 75%; }
+  .anno-divider { height: 0.5px; background: rgba(0,0,0,0.07); }
+
+  .note {
+    margin-top: 2rem;
+    font-size: 13px;
+    color: #9a9a9a;
+    font-weight: 300;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Which treatment for your graphics?</h1>
+  <p class="subtitle">All three use light backgrounds — Bon-style. The difference is how the UI itself is framed. Click to select.</p>
+
+  <div class="grid">
+
+    <!-- Option A: App window, light chrome -->
+    <div class="card" onclick="this.classList.toggle('selected')">
+      <div class="preview">
+        <div class="opt-a">
+          <div class="window">
+            <div class="win-bar">
+              <div class="win-dot" style="background:#ff5f57"></div>
+              <div class="win-dot" style="background:#febc2e"></div>
+              <div class="win-dot" style="background:#28c840"></div>
+              <span class="win-title">UserVoice · Impact Reports</span>
+            </div>
+            <div class="win-body">
+              <div class="win-sidebar">
+                <div class="sbar-item active"></div>
+                <div class="sbar-item"></div>
+                <div class="sbar-item"></div>
+              </div>
+              <div class="win-content">
+                <div class="win-header">
+                  <span class="win-h">Impact Reports</span>
+                  <span class="ai-badge">✦ AI</span>
+                </div>
+                <div class="metric-strip">
+                  <div class="met">
+                    <div class="met-n">~99%</div>
+                    <div class="met-l">faster</div>
+                  </div>
+                  <div class="met">
+                    <div class="met-n">25%</div>
+                    <div class="met-l">shared</div>
+                  </div>
+                  <div class="met">
+                    <div class="met-n">30×</div>
+                    <div class="met-l">weekly</div>
+                  </div>
+                </div>
+                <div class="report-preview">
+                  <div class="rp-row">
+                    <div class="rp-accent" style="background:#f97316"></div>
+                    <div class="rp-text">
+                      <div class="rp-label">Pain Points</div>
+                      <div class="rp-line w85"></div>
+                      <div class="rp-line w70" style="margin-top:4px"></div>
+                    </div>
+                  </div>
+                  <div class="rp-row">
+                    <div class="rp-accent" style="background:#22c55e"></div>
+                    <div class="rp-text">
+                      <div class="rp-label">Value to Users</div>
+                      <div class="rp-line w70"></div>
+                    </div>
+                  </div>
+                  <div class="rp-row">
+                    <div class="rp-accent" style="background:#818cf8"></div>
+                    <div class="rp-text">
+                      <div class="rp-label">Challenge Hypothesis</div>
+                      <div class="rp-line w50"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-label">Option A</p>
+        <p class="card-title">Browser window on warm paper</p>
+        <p class="card-desc">Macbook chrome + sidebar + content. Signals "real product." Light and airy. Each case study gets its own accent colors inside the window.</p>
+        <p class="tag-selected">✓ Selected</p>
+      </div>
+    </div>
+
+    <!-- Option B: Floating report card -->
+    <div class="card" onclick="this.classList.toggle('selected')">
+      <div class="preview">
+        <div class="opt-b">
+          <div class="paper-card">
+            <div class="pc-header">
+              <div>
+                <div class="pc-eyebrow">UserVoice · AI Report</div>
+                <div class="pc-title">Onboarding Friction<br>Theme Analysis</div>
+              </div>
+              <div class="pc-meta">847 ideas</div>
+            </div>
+            <div class="pc-body">
+              <div class="pc-section">
+                <div class="pc-bar" style="background:#DC8055; height:28px"></div>
+                <div class="pc-lines">
+                  <div class="pc-line w80"></div>
+                  <div class="pc-line w55"></div>
+                </div>
+              </div>
+              <div class="pc-section">
+                <div class="pc-bar" style="background:#3A6991; height:28px"></div>
+                <div class="pc-lines">
+                  <div class="pc-line w70"></div>
+                  <div class="pc-line w80"></div>
+                </div>
+              </div>
+              <div class="pc-section">
+                <div class="pc-bar" style="background:#818cf8; height:28px"></div>
+                <div class="pc-lines">
+                  <div class="pc-line w55"></div>
+                  <div class="pc-line w70"></div>
+                </div>
+              </div>
+            </div>
+            <div class="pc-footer">
+              <div class="pc-stat">
+                <span class="pc-stat-n">~99%</span>
+                <span class="pc-stat-l">faster</span>
+              </div>
+              <div class="pc-stat">
+                <span class="pc-stat-n">25%</span>
+                <span class="pc-stat-l">shared</span>
+              </div>
+              <div class="pc-stat">
+                <span class="pc-stat-n">30</span>
+                <span class="pc-stat-l">/ week</span>
+              </div>
+            </div>
+          </div>
+          <div class="small-card">
+            <div class="sc-dot" style="background:#22c55e"></div>
+            <div class="sc-lines">
+              <div class="sc-line w65"></div>
+              <div class="sc-line w40"></div>
+            </div>
+            <div class="sc-tag">Challenge →</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-label">Option B</p>
+        <p class="card-title">Floating report cards on warm paper</p>
+        <p class="card-desc">Clean white cards with soft shadow, color-coded sections. Matches your portfolio palette exactly. Feels document-like — appropriate for an AI reporting tool.</p>
+        <p class="tag-selected">✓ Selected</p>
+      </div>
+    </div>
+
+    <!-- Option C: Dark UI + light annotation split -->
+    <div class="card" onclick="this.classList.toggle('selected')">
+      <div class="preview">
+        <div class="opt-c">
+          <div class="c-left">
+            <div>
+              <div class="c-eyebrow">UserVoice</div>
+              <div class="c-title">Impact Reports</div>
+            </div>
+            <div class="c-chip">✦ AI-generated</div>
+            <div class="c-rows">
+              <div class="c-row">
+                <div class="c-row-strip" style="background:#f97316"></div>
+                <div class="c-row-body">
+                  <div class="c-row-label">Pain Points</div>
+                  <div class="c-row-line w75"></div>
+                  <div class="c-row-line w50" style="margin-top:3px"></div>
+                </div>
+              </div>
+              <div class="c-row">
+                <div class="c-row-strip" style="background:#22c55e"></div>
+                <div class="c-row-body">
+                  <div class="c-row-label">Value to Users</div>
+                  <div class="c-row-line w75"></div>
+                </div>
+              </div>
+              <div class="c-row">
+                <div class="c-row-strip" style="background:#818cf8"></div>
+                <div class="c-row-body">
+                  <div class="c-row-label">Challenge Hypothesis</div>
+                  <div class="c-row-line w50"></div>
+                </div>
+              </div>
+            </div>
+            <div class="c-stats">
+              <div class="c-stat">
+                <span class="c-stat-n">~99%</span>
+                <span class="c-stat-l">faster</span>
+              </div>
+              <div class="c-stat">
+                <span class="c-stat-n">25%</span>
+                <span class="c-stat-l">shared</span>
+              </div>
+            </div>
+          </div>
+          <div class="c-right">
+            <div class="anno">
+              <div class="anno-label">Key insight</div>
+              <div class="anno-line w90"></div>
+              <div class="anno-line w65"></div>
+            </div>
+            <div class="anno-divider"></div>
+            <div class="anno">
+              <div class="anno-label">Design decision</div>
+              <div class="anno-line w75"></div>
+              <div class="anno-line w90"></div>
+              <div class="anno-line w65"></div>
+            </div>
+            <div class="anno-divider"></div>
+            <div class="anno">
+              <div class="anno-label">Tradeoff</div>
+              <div class="anno-line w75"></div>
+              <div class="anno-line w65"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-label">Option C</p>
+        <p class="card-title">Dark UI + light annotation side by side</p>
+        <p class="card-desc">The product UI is dark (enterprise-native), the annotation panel is light. Split shows both the artifact and the thinking. Most editorial of the three.</p>
+        <p class="tag-selected">✓ Selected</p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="note">You can mix treatments across case studies — e.g. Option A for AI Reporting, Option B for Idea Sheet, Option A for Admin Grid.</p>
+</div>
+</body>
+</html>

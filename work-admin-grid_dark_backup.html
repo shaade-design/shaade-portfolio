@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idea Grid Recovery — Smooth Operator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0c0c0d;--bg-2:#141416;--bg-3:#1c1c1f;--bg-4:#242428;
+    --border:rgba(255,255,255,0.07);--border-2:rgba(255,255,255,0.13);
+    --text:#edeae4;--text-muted:#8d8a96;--text-dim:#54515c;
+    --accent:#e05c35;--accent-soft:rgba(224,92,53,0.12);--accent-2:#efa070;
+    --green:#52b882;--green-soft:rgba(82,184,130,0.12);
+    --red:#e05858;--red-soft:rgba(224,88,88,0.12);
+    --blue:#5b9cf6;--yellow:#e5c246;
+    --serif:'DM Serif Display',Georgia,serif;
+    --sans:'DM Sans',system-ui,sans-serif;
+    --mono:'DM Mono','Courier New',monospace;
+    --radius:8px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;background:rgba(12,12,13,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+  .nav-logo{font-family:var(--serif);font-size:17px;color:var(--text);text-decoration:none}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{color:var(--text-muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+  .nav-links a:hover{color:var(--text)}
+
+  .hero{padding:148px 48px 72px;max-width:1100px;margin:0 auto}
+  .breadcrumb{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text-dim);margin-bottom:36px;letter-spacing:.06em}
+  .breadcrumb a{color:var(--text-dim);text-decoration:none;transition:color .2s}
+  .breadcrumb a:hover{color:var(--text-muted)}
+  .bc-sep{opacity:.4}
+  .bc-cur{color:var(--accent)}
+  .eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+  .eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--accent)}
+  h1{font-family:var(--serif);font-size:clamp(40px,5.5vw,68px);line-height:1.06;letter-spacing:-.02em;color:var(--text);margin-bottom:24px;max-width:820px}
+  h1 em{font-style:italic;color:var(--accent-2)}
+  .hero-lead{font-size:18px;color:var(--text-muted);max-width:580px;line-height:1.68;margin-bottom:48px}
+  .hero-meta{display:flex;gap:40px;flex-wrap:wrap}
+  .meta-item{display:flex;flex-direction:column;gap:4px}
+  .meta-label{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-dim)}
+  .meta-value{font-size:14px;font-weight:500;color:var(--text)}
+
+  .stat-band{background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:52px 48px}
+  .stat-band-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+  .stat-card{display:flex;flex-direction:column;gap:8px}
+  .stat-bar{width:32px;height:2px;background:var(--border-2);margin-bottom:4px}
+  .stat-num{font-family:var(--serif);font-size:54px;line-height:1;letter-spacing:-.03em}
+  .stat-num.red{color:var(--red)}
+  .stat-num.green{color:var(--green)}
+  .stat-num.blue{color:var(--blue)}
+  .stat-desc{font-size:14px;color:var(--text-muted);line-height:1.55;max-width:260px}
+
+  .content{max-width:1100px;margin:0 auto;padding:80px 48px}
+  .section{margin-bottom:88px}
+  .sec-hd{display:flex;align-items:baseline;gap:14px;margin-bottom:36px}
+  .sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--accent);opacity:.7}
+  h2{font-family:var(--serif);font-size:32px;letter-spacing:-.02em;line-height:1.2;color:var(--text)}
+  p{font-size:16px;color:var(--text-muted);line-height:1.75;max-width:680px;margin-bottom:18px}
+  p:last-child{margin-bottom:0}
+  p strong{color:var(--text);font-weight:600}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+  .col-wide{display:grid;grid-template-columns:3fr 2fr;gap:56px;align-items:start}
+
+  .callout{background:var(--bg-2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:2px 8px 8px 2px;padding:22px 26px;margin:28px 0}
+  .callout p{font-size:15px;max-width:none;margin:0}
+
+  .prob-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin:20px 0}
+  .prob-list li{display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--text-muted);line-height:1.6}
+  .prob-list li::before{content:'—';color:var(--accent);font-family:var(--mono);font-size:12px;margin-top:3px;flex-shrink:0;opacity:.7}
+
+  .timeline{position:relative;padding-left:28px;border-left:1px solid var(--border);display:flex;flex-direction:column;gap:36px;margin-top:28px}
+  .tl-item{position:relative}
+  .tl-item::before{content:'';position:absolute;left:-34px;top:7px;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);box-shadow:0 0 0 3px var(--bg-3)}
+  .tl-tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:5px;opacity:.8}
+  .tl-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px}
+  .tl-body{font-size:14px;color:var(--text-muted);line-height:1.65;max-width:520px}
+
+  .outcome-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:28px}
+  .outcome-card{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:22px;transition:border-color .2s}
+  .outcome-card:hover{border-color:var(--border-2)}
+  .oc-icon{font-size:18px;margin-bottom:10px}
+  .oc-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px}
+  .oc-body{font-size:13px;color:var(--text-muted);line-height:1.6;max-width:none;margin:0}
+
+  .insight{background:var(--bg-3);border:1px solid var(--border-2);border-radius:var(--radius);padding:28px 32px;display:flex;flex-direction:column;gap:6px}
+  .insight-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim)}
+  .insight-txt{font-family:var(--serif);font-size:22px;line-height:1.35;color:var(--text);font-style:italic}
+  .insight-sub{font-size:13px;color:var(--text-muted);margin-top:4px}
+
+  /* mock grid UI */
+  .ui-mockup{background:var(--bg-3);border:1px solid var(--border-2);border-radius:var(--radius);overflow:hidden;margin:28px 0}
+  .ui-bar{background:#3b3bcc;padding:10px 16px;display:flex;align-items:center;gap:10px}
+  .ui-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3)}
+  .ui-bar-lbl{font-size:12px;color:rgba(255,255,255,.7);font-family:var(--mono)}
+  .ui-bar-badge{background:var(--accent);color:white;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;margin-left:auto}
+  .ui-subbar{padding:8px 16px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;background:var(--bg-4)}
+  .ui-chip{background:var(--bg-3);border:1px solid var(--border-2);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--text-muted);font-family:var(--mono)}
+  .ui-chip.new{background:var(--green-soft);border-color:var(--green);color:var(--green)}
+  .ui-grid-hd{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;padding:8px 16px;border-bottom:1px solid var(--border);font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);background:var(--bg-4)}
+  .ui-row{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;padding:10px 16px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text-muted);align-items:center}
+  .ui-row:nth-child(even){background:rgba(255,255,255,.015)}
+  .pill{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;font-family:var(--mono);letter-spacing:.05em}
+  .pill-blue{background:rgba(91,156,246,.15);color:var(--blue)}
+  .pill-green{background:rgba(82,184,130,.15);color:var(--green)}
+  .pill-muted{background:rgba(255,255,255,.06);color:var(--text-dim)}
+  .pill-yellow{background:rgba(229,194,70,.15);color:var(--yellow)}
+  .hl{background:rgba(229,194,70,.3);color:var(--text);padding:0 2px;border-radius:2px}
+
+  /* filter panel demo */
+  .filter-demo{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--bg-3);border:1px solid var(--border-2);border-radius:var(--radius);overflow:hidden;margin:28px 0}
+  .fd-l{border-right:1px solid var(--border)}
+  .fd-hd{padding:14px 16px;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;justify-content:space-between}
+  .fd-sec{padding:4px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);background:var(--bg-4);border-bottom:1px solid var(--border)}
+  .fd-row{padding:8px 16px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted);border-bottom:1px solid var(--border)}
+  .fd-check{width:14px;height:14px;border:1px solid var(--border-2);border-radius:3px;flex-shrink:0}
+  .fd-check.on{background:#3b3bcc;border-color:#3b3bcc}
+  .fd-indent{padding-left:32px}
+  .fd-foot{padding:10px 16px;display:flex;gap:8px;background:var(--bg-4)}
+  .fd-btn{font-size:12px;padding:5px 12px;border-radius:5px;border:1px solid var(--border-2);background:var(--bg-3);color:var(--text-muted);cursor:default;font-family:var(--sans)}
+  .fd-btn.pri{background:#3b3bcc;border-color:#3b3bcc;color:white}
+  .fd-badge{background:#3b3bcc;color:white;font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px}
+  .fd-note{font-family:var(--mono);font-size:10px;color:var(--accent-2);background:var(--accent-soft);padding:2px 8px;border-radius:4px}
+
+  .caption{font-size:13px;color:var(--text-dim);font-family:var(--mono);letter-spacing:.04em;margin-top:-18px;margin-bottom:28px}
+
+  .case-nav{background:var(--bg-2);border-top:1px solid var(--border);padding:48px}
+  .case-nav-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+  .case-nav a{color:var(--text-muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;display:flex;align-items:center;gap:8px}
+  .case-nav a:hover{color:var(--text)}
+  .next-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+  .next-ttl{font-family:var(--serif);font-size:20px;color:var(--text)}
+
+  .lb-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+  .lb-overlay.on{opacity:1;pointer-events:all}
+  .lb-img{max-width:90vw;max-height:88vh;border-radius:6px;box-shadow:0 32px 80px rgba(0,0,0,.6);transform:scale(.94);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+  .lb-overlay.on .lb-img{transform:scale(1)}
+  .lb-x{position:absolute;top:24px;right:32px;color:rgba(255,255,255,.6);font-size:28px;cursor:pointer;line-height:1;transition:color .2s}
+  .lb-x:hover{color:white}
+
+  figure{margin:28px 0;cursor:zoom-in;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border-2)}
+  figure img{width:100%;display:block}
+  figcaption{padding:10px 14px;font-family:var(--mono);font-size:11px;color:var(--text-dim);background:var(--bg-2);letter-spacing:.04em}
+
+  @media(max-width:768px){
+    nav{padding:16px 24px}
+    .hero{padding:120px 24px 56px}
+    .stat-band{padding:40px 24px}
+    .stat-band-inner,.two-col,.col-wide,.outcome-grid,.filter-demo{grid-template-columns:1fr}
+    .fd-l{border-right:none;border-bottom:1px solid var(--border)}
+    .content{padding:56px 24px}
+    .nav-links{display:none}
+    .case-nav{padding:32px 24px}
+    .stat-band-inner{gap:32px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Smooth Operator</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Work</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="breadcrumb">
+    <a href="index.html">Work</a>
+    <span class="bc-sep">/</span>
+    <span class="bc-cur">Idea Grid Recovery</span>
+  </div>
+  <div class="eyebrow">UserVoice · Product Design</div>
+  <h1>Recovering from an NPS of <em>−36</em></h1>
+  <p class="hero-lead">When the Angular → React migration of UserVoice's core admin grid shipped, it landed with an NPS of −36. I diagnosed what broke, wrote the recovery pitch, and led the design through a focused 6-week cycle — not just to restore what was lost, but to set up the next two years of grid investment.</p>
+  <div class="hero-meta">
+    <div class="meta-item"><span class="meta-label">My role</span><span class="meta-value">Sole product designer</span></div>
+    <div class="meta-item"><span class="meta-label">Platform</span><span class="meta-value">Admin Console (React)</span></div>
+    <div class="meta-item"><span class="meta-label">Cycle</span><span class="meta-value">6 weeks</span></div>
+    <div class="meta-item"><span class="meta-label">What followed</span><span class="meta-value">Idea Lists → Impact Reports</span></div>
+  </div>
+</section>
+
+<div class="stat-band">
+  <div class="stat-band-inner">
+    <div class="stat-card">
+      <div class="stat-bar"></div>
+      <div class="stat-num red">−36</div>
+      <p class="stat-desc">Post-migration NPS from 39 responses. More detractors than promoters on the product's most-used page.</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-bar"></div>
+      <div class="stat-num blue">5</div>
+      <p class="stat-desc">Discrete improvements pitched, scoped, and shipped in 6 weeks — without scope creep or rabbit holes.</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-bar"></div>
+      <div class="stat-num green">&gt;50%</div>
+      <p class="stat-desc">Target positive sentiment from follow-up interviews with customers whose exact complaints were addressed.</p>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <section class="section">
+    <div class="sec-hd"><span class="sec-num">01</span><h2>Reading the NPS wreckage</h2></div>
+    <div class="col-wide">
+      <div>
+        <p>Some context that matters: the React migration wasn't just a technical port. It was an intentional redesign — we added column customization, rebuilt saved views navigation, introduced per-column filtering, and modernized the visual language. It was ambitious. And it shipped with a −36 NPS.</p>
+        <p>That's an important distinction. The features we added were well-received. The regressions — things that had worked in Angular and silently disappeared — were what customers were reacting to. <strong>−36 from 39 responses</strong> on the product's most-used page, from the segment most critical to retention.</p>
+        <p>My first move was to cross-reference the NPS verbatims with in-product feedback and session data to find patterns. Four clusters emerged — all recoverable, none requiring architectural changes:</p>
+        <ul class="prob-list">
+          <li>Applied filters were invisible — customers had built workflows around seeing filter state at a glance, and that was gone</li>
+          <li>Filter panels broke down with large data sets — Select All was missing, nesting behavior was inconsistent across filter types</li>
+          <li>The default "All Time" range buried recent activity with no surfacing mechanism</li>
+          <li>Keyword search highlighting — the way customers understood <em>why</em> a result appeared — had been dropped in the port</li>
+        </ul>
+        <div class="callout">
+          <p>I made a deliberate decision <strong>not</strong> to frame this as a redesign. Calling it recovery — targeted fixes to specific regressions — kept scope tight, accelerated buy-in, and let us ship quickly to customers who were already frustrated. A redesign pitch would have taken months we didn't have.</p>
+        </div>
+      </div>
+      <div>
+        <div class="insight">
+          <span class="insight-lbl">The nuance</span>
+          <span class="insight-txt">The new features landed. The regressions killed the NPS. Those are two different problems requiring two different responses.</span>
+          <span class="insight-sub">Conflating them would have led to either defending the design or throwing it out. Neither was right.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-hd"><span class="sec-num">02</span><h2>The case I had to make first</h2></div>
+    <div class="col-wide">
+      <div>
+        <p>Before the UX fixes could be prioritized, I had to make a case that went beyond "the grid feels off." Engineering time is finite. "Make it better" doesn't win cycles. So I pulled the performance data and built a competitive benchmark that made the problem impossible to dismiss.</p>
+
+        <p>UserVoice's grid was loading in <strong>3.6 seconds</strong>. Applying a filter took another 3.5 seconds. Sorting: 2 seconds. Searching: up to 3 seconds. These weren't edge cases — they were the core actions our most active admins performed daily.</p>
+
+        <p>I benchmarked against ProductBoard, our most direct competitor at the time:</p>
+
+        <ul class="prob-list">
+          <li>Full grid load: <strong>3.6s UV</strong> vs <strong>1.75s ProductBoard</strong></li>
+          <li>Applying filters: <strong>3.5s UV</strong> vs <strong>0.10s ProductBoard</strong></li>
+          <li>Sorting: <strong>2s UV</strong> vs <strong>0.10s ProductBoard</strong></li>
+          <li>Opening an idea detail: <strong>2.7s UV</strong> vs <strong>0.30s ProductBoard</strong></li>
+        </ul>
+
+        <p>Then I anchored those numbers to Nielsen Norman Group's response time thresholds — the research standard for when delays break user focus and erode trust. At 1 second, users feel the system responding. At 3+ seconds, they start to doubt whether their action registered at all. Nearly every core action in our grid was in that doubt zone.</p>
+
+        <div class="callout">
+          <p>The argument wasn't aesthetic. It was: <strong>our users are experiencing delays that research says break focus and erode trust, our closest competitor doesn't have this problem, and it's showing up in our NPS.</strong> That's a business problem, not a design preference — and it got treated like one.</p>
+        </div>
+
+        <p>This became the foundation for a parallel performance workstream that ran alongside the UX fixes — filter optimization, lazy loading, reduced page refreshes. The UX recovery and the performance work were separate pitches, but they reinforced each other: fixing the interactions mattered more once the interactions were actually fast.</p>
+      </div>
+      <div>
+        <div class="insight">
+          <span class="insight-lbl">The lesson</span>
+          <span class="insight-txt">Hard numbers beat design rationale every time when you're competing for engineering cycles.</span>
+          <span class="insight-sub">Benchmarking against a competitor and tying it to NPS turned a subjective complaint into a quantifiable gap. That's a different conversation.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-hd"><span class="sec-num">03</span><h2>What the research actually showed</h2></div>
+    <p>Before the NPS survey, we'd already run moderated usability sessions on the new grid — 10 users across a mix of existing customers who'd participated in pre-development interviews and first-time participants who'd never seen it. The sessions were task-based: filter to a specific forum, manage saved views, sort and save a view, search and add a label.</p>
+    <p>The sessions confirmed some things we expected and surfaced a few we didn't. The headline findings:</p>
+
+    <ul class="prob-list">
+      <li><strong>Filter chips looked like tabs.</strong> Multiple users confused the filter chips at the top of the grid with the "Activity and Moderation" / "Idea" navigation tabs — a visual collision that made filter state hard to parse</li>
+      <li><strong>Labels were a consistent blocker.</strong> Almost every user tried to add a label directly from the grid column — and couldn't. Toni Schmidt: <em>"This makes me feel stupid."</em> Carlos from Meta failed three of five tasks, with label management as the primary friction point</li>
+      <li><strong>Search highlighting was about confidence, not findability.</strong> Users could still find what they were looking for — but the missing highlighting meant they couldn't tell why results were returned. As the session notes put it: "the highlighting was a convenience that raised confidence in the search results"</li>
+      <li><strong>Real-time loading mattered more than anyone expected.</strong> Several users were so used to the old grid's lag that they didn't trust whether their actions had saved. Without instant feedback, they second-guessed themselves</li>
+    </ul>
+
+    <div class="col-wide" style="margin-top:32px">
+      <div>
+        <p>Rafael Gomez, an early look participant, gave the clearest articulation of the filter visibility problem:</p>
+        <div class="callout">
+          <p><em>"Forum and category filters worked better and made it easier to switch between forums and categories when it was above the ideas heading — all the filters were clearly visible when they were above the ideas section. Having them hidden can cause confusion as to what filters are applied."</em></p>
+        </div>
+        <p>That quote — and others like it — was directly cited when pitching the filter chip and per-column indicator improvements. It shifted the conversation from "we think this is confusing" to "here's a customer telling us exactly why."</p>
+      </div>
+      <div>
+        <div class="insight">
+          <span class="insight-lbl">Research as leverage</span>
+          <span class="insight-txt">Session notes with specific quotes are worth more in a pitch than any amount of design rationale.</span>
+          <span class="insight-sub">You can disagree with a designer's instinct. It's harder to argue with someone failing a task on camera.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-hd"><span class="sec-num">04</span><h2>Five focused fixes</h2></div>
+    <p>The pitch I wrote was deliberate about scope. Each improvement had an effort estimate, a success metric, and explicit "rabbit holes" — things we'd be tempted to expand into but wouldn't. I'd worked with this eng team long enough to know that open-ended design work loses cycles; specific, bounded work ships.</p>
+    <p>The framing was also intentional: these weren't new features, they were <em>regressions</em>. That changed the conversation from "should we build this?" to "when do we fix it?" — which is a much easier pitch to make.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-tag">¼ week · very low risk</div>
+        <div class="tl-title">"What's New" activity CTA</div>
+        <div class="tl-body">Usage data showed only ~5% of grid visits involved date picker interaction — yet the default "All Time" view buried everything recent. Rather than changing the default (a bigger, riskier call), I proposed a persistent CTA showing a live count of ideas with recent activity. One click applies Last 30 Days. Success target: 8% of visits interact with it, proving customers wanted the signal, just not the friction of the date picker.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-tag">1 week · low risk</div>
+        <div class="tl-title">Filter management for large data sets</div>
+        <div class="tl-body">Select All and Collapse had existed in the Angular grid. They weren't "new features" — they were missing functionality. I documented the exact parent/child interaction model (checked → all children check; mixed state → dash indicator) and used the Forum/Category filter's existing implementation as the reference standard, since it was already doing this correctly. Made consistency the argument, not a design vision.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-tag">1 week · low risk</div>
+        <div class="tl-title">Clickable filter chips + per-column indicators</div>
+        <div class="tl-body">Customers couldn't see what filters were applied without opening the filter panel — which required knowing to click the filter icon. I proposed two connected changes: make the chips themselves clickable (opens to that filter), and add visible blue dot indicators on column headers with applied filters. The column headers also became click targets for per-column filtering. Two problems, one coherent interaction pattern.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-tag">2 weeks · medium risk</div>
+        <div class="tl-title">Keyword search highlighting</div>
+        <div class="tl-body">This was the riskiest item and the one I had to argue for most directly. Engineering flagged that there was no reusable code from the Angular implementation and potential performance impact. My position: keyword search is one of the most frequent actions on the grid, customers named this feature specifically in their feedback, and losing it made search feel broken even when it wasn't. We scoped it carefully with performance budgets, but it went in.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-tag">1 week · low risk</div>
+        <div class="tl-title">Readability + font standardization</div>
+        <div class="tl-body">Font regressions across the column picker, search hint text, and filter panels. Alternating row color and improved hover contrast for scanning. Compacted the idea/moderation tab area into quick-action icons. These felt small but they were visible to every single user on every single grid visit — fixing them signaled that we cared about the whole experience, not just the headline features.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-hd"><span class="sec-num">05</span><h2>Rethinking the filter panel</h2></div>
+    <div class="col-wide">
+      <div>
+        <p>The filter panel was where I had to make the most explicit design decisions. The React port had simplified it — which sounds fine until you realize our customers had built daily workflows around behaviors that were now missing.</p>
+        <p>The core challenge was nested filters. UserVoice supports parent/child relationships in Forum/Category and Labels. The Forum/Category implementation actually handled this correctly. Labels didn't. So I had an internal reference implementation to point to, which made the conversation with engineering concrete: "make Labels work like Forum/Category already works."</p>
+        <p>The three selection states needed to be explicitly specified — not left to engineering interpretation. Unchecked, fully checked, and mixed (some children selected). The mixed state matters: it tells the admin at a glance that they have a partial selection, which is often exactly the state they're in when filtering by a large label taxonomy.</p>
+        <p>I also pushed to ship "Collapse" alongside "Select All." Engineering initially questioned whether it was worth the extra effort. My argument: the customers who hit this problem have 30, 40, 50 labels. For them, a Collapse button is the difference between a usable filter and a scroll-to-find interface.</p>
+      </div>
+      <div>
+        <div class="insight">
+          <span class="insight-lbl">The call I made</span>
+          <span class="insight-txt">Don't redesign the panel. Restore the mental model customers already had.</span>
+          <span class="insight-sub">The Angular behavior wasn't wrong — it had just been dropped. Customers had years of muscle memory built on it. Matching that expectation was the right move.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-demo">
+      <div class="fd-l">
+        <div class="fd-hd">Public Status <span class="fd-badge">4</span><span class="fd-note">Before</span></div>
+        <div class="fd-sec">Idea Status</div>
+        <div class="fd-row"><div class="fd-check on"></div> Active</div>
+        <div class="fd-sec">Open</div>
+        <div class="fd-row fd-indent"><div class="fd-check on"></div> No status</div>
+        <div class="fd-row fd-indent"><div class="fd-check on"></div> Under review</div>
+        <div class="fd-row fd-indent"><div class="fd-check"></div> Started</div>
+        <div class="fd-sec">Closed</div>
+        <div class="fd-row fd-indent"><div class="fd-check"></div> Declined</div>
+        <div class="fd-row fd-indent"><div class="fd-check"></div> Merged</div>
+        <div class="fd-foot"><button class="fd-btn">Clear all</button></div>
+      </div>
+      <div>
+        <div class="fd-hd">Public Status <span class="fd-badge">6</span><span class="fd-note">After</span></div>
+        <div class="fd-sec">Idea Status</div>
+        <div class="fd-row"><div class="fd-check on"></div> Active</div>
+        <div class="fd-sec">Open ∧</div>
+        <div class="fd-row fd-indent"><div class="fd-check on"></div> No status</div>
+        <div class="fd-row fd-indent"><div class="fd-check on"></div> Deferred</div>
+        <div class="fd-row fd-indent"><div class="fd-check on"></div> In Discovery</div>
+        <div class="fd-row fd-indent"><div class="fd-check on"></div> Beta</div>
+        <div class="fd-sec">Closed ∧</div>
+        <div class="fd-row fd-indent"><div class="fd-check"></div> Declined</div>
+        <div class="fd-foot">
+          <button class="fd-btn pri">Select all</button>
+          <button class="fd-btn">Collapse</button>
+          <button class="fd-btn">Clear</button>
+        </div>
+      </div>
+    </div>
+    <p class="caption">↑ After: Select All, Collapse, and consistent parent/child checkbox behavior across all nested filter types.</p>
+  </section>
+
+  <section class="section">
+    <div class="sec-hd"><span class="sec-num">06</span><h2>The search highlighting argument</h2></div>
+    <div class="two-col">
+      <div>
+        <p>Keyword search highlighting was the item that required the most advocacy. Engineering flagged no reusable code from Angular and a real performance risk. The instinct was to defer it.</p>
+        <p>What made the argument concrete was the session data. Users in the moderated tests weren't failing to find ideas — search was returning correct results. The issue was that without highlighting, they couldn't tell <em>why</em> a result appeared. Multiple participants noted they were looking for highlighted words to confirm their search had worked. One was explicitly checking for visual reinforcement before trusting the results.</p>
+        <p>The session notes captured it precisely: highlighting "was a convenience that raised confidence in search results." That reframe — from missing feature to missing confidence signal — is what got it across the line. You can argue about whether a feature is worth building. It's harder to argue that users should just trust a tool they don't feel certain about.</p>
+        <p>The compromise: treat it as medium-risk (2 weeks), set performance budgets upfront, scope it explicitly. Engineering could no longer frame it as open-ended — it was a bounded problem with a clear bar.</p>
+      </div>
+      <div>
+        <div class="ui-mockup">
+          <div class="ui-bar">
+            <span class="ui-bar-lbl">Q &nbsp;<strong style="color:white">search</strong></span>
+          </div>
+          <div class="ui-grid-hd" style="grid-template-columns:1fr 1fr"><span>IDEA</span><span>DESCRIPTION</span></div>
+          <div class="ui-row" style="grid-template-columns:1fr 1fr">
+            <span>Sortable <span class="hl">search</span> results</span>
+            <span style="font-size:11px">Can't sort after <span class="hl">search</span>ing in a forum…</span>
+          </div>
+          <div class="ui-row" style="grid-template-columns:1fr 1fr">
+            <span>Advanced <span class="hl">search</span> options</span>
+            <span style="font-size:11px">Allow <span class="hl">search</span>/filter within status…</span>
+          </div>
+          <div class="ui-row" style="grid-template-columns:1fr 1fr">
+            <span>Full-text <span class="hl">searching</span> for tickets</span>
+            <span style="font-size:11px">Full-text <span class="hl">searching</span> would help us…</span>
+          </div>
+        </div>
+        <p class="caption" style="margin-top:8px">↑ A confidence signal as much as a visual feature.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-hd"><span class="sec-num">07</span><h2>Why this was always about more than the grid</h2></div>
+    <div class="col-wide">
+      <div>
+        <p>The recovery work mattered on its own — NPS back from −36, customers able to do their jobs again. But I was thinking about it as infrastructure for what came next.</p>
+        <p>The idea grid is where admins curate their product backlog. Once the filtering and search experience was trustworthy, we could build persistence on top of it. That's Idea Lists: a way to save a hand-picked set of ideas across sessions, separate from filter-based Saved Views. The pitch I wrote was explicit about the sequencing:</p>
+        <div class="callout">
+          <p>"This project won't have a significant effect on company goals on its own. <strong>We're setting the stage to introduce Idea Impact Reports</strong>, which should have significant impact on both retention and new business."</p>
+        </div>
+        <p>That transparency — naming what we weren't shipping yet and why this was a prerequisite — is something I've found makes a meaningful difference in getting alignment. It shows the roadmap logic, not just the individual pitch.</p>
+        <p>Idea Lists shipped. Impact Reports followed. The grid recovery wasn't just damage control — it was the first move in a multi-cycle arc.</p>
+      </div>
+      <div>
+        <div class="insight">
+          <span class="insight-lbl">The longer play</span>
+          <span class="insight-txt">Grid recovery → Idea Lists → Impact Reports</span>
+          <span class="insight-sub">Each step was a deliberate prerequisite. You can't build persistent collections on a grid people don't trust. You can't build AI-assisted reporting on collections that don't exist.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-hd"><span class="sec-num">08</span><h2>What I'd tell you if you asked</h2></div>
+    <div class="outcome-grid">
+      <div class="outcome-card">
+        <div class="oc-icon">📐</div>
+        <div class="oc-title">Scope discipline is a design skill</div>
+        <p class="oc-body">The hardest part of this project wasn't the design — it was keeping it bounded. "While we're in here" is how recovery projects become six-month rewrites. Writing explicit rabbit holes into the pitch wasn't defensive; it was how I protected the timeline.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="oc-icon">📊</div>
+        <div class="oc-title">Usage data changes the conversation</div>
+        <p class="oc-body">Coming to eng with "customers want this" is a soft argument. Coming with "~5% of grid visits touch the date picker, and here's what we're measuring success against" is a different conversation entirely. It shifts design from preference to hypothesis.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="oc-icon">🔗</div>
+        <div class="oc-title">Name the roadmap logic out loud</div>
+        <p class="oc-body">Being explicit that Idea Lists was infrastructure for Impact Reports — in the pitch itself — made it easier to get alignment on a project with modest near-term impact. Leadership could see the sequence, not just the individual step.</p>
+      </div>
+      <div class="outcome-card">
+        <div class="oc-icon">👂</div>
+        <div class="oc-title">What I'd do differently</div>
+        <p class="oc-body">I'd have pushed for a follow-up NPS survey sooner. We targeted 8 interviews, but a broader sentiment check 60 days post-ship would have given us a better signal on whether the NPS moved — and a stronger story for the next cycle's asks.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="case-nav">
+  <div class="case-nav-inner">
+    <a href="index.html">← All work</a>
+    <a href="work-idea-sheet.html">
+      <div>
+        <div class="next-lbl">Next case study</div>
+        <div class="next-ttl">Idea Detail Sheet Overhaul →</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="lb-overlay" id="lb">
+  <span class="lb-x" id="lb-x">&times;</span>
+  <img class="lb-img" id="lb-img" src="" alt="">
+</div>
+
+<script>
+  const lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img');
+  document.querySelectorAll('figure img').forEach(img=>{
+    img.addEventListener('click',()=>{lbImg.src=img.src;lb.classList.add('on')});
+  });
+  document.getElementById('lb-x').addEventListener('click',()=>lb.classList.remove('on'));
+  lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('on')});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on')});
+</script>
+</body>
+</html>

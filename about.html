@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Shaade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-serif: 'Crimson Pro', Georgia, serif;
+      --color-bg: #ffffff;
+      --color-text: #1a1a1a;
+      --color-muted: #4a4a4a;
+      --color-faint: #8a8a8a;
+      --color-border: rgba(0,0,0,0.1);
+      --color-border-mid: rgba(0,0,0,0.18);
+      /* Palette — Spanish villa / warm earth */
+      --c-terracotta: #E0452E;
+      --c-rust: #C23A2A;
+      --c-clay: #C18E78;
+      --c-brick: #8B2018;
+      --c-navy: #1A3862;
+      --c-deep-blue: #1F4068;
+      --c-steel: #5A7FA8;
+      --c-gold: #D5AB52;
+      --c-olive: #A19D6E;
+      --c-sage: #C5CDB1;
+      --c-forest: #3F4F3D;
+      /* Accent assignments */
+      --color-accent: var(--c-steel);
+      --color-accent-deep: var(--c-navy);
+      --color-accent-warm: var(--c-terracotta);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.48 0 0 0 0 0.36 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-attachment: fixed;
+      background-size: 240px 240px;
+      background-repeat: repeat;
+      line-height: 1.6;
+      letter-spacing: 0.01em;
+      font-weight: 500;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* NAV */
+    nav {
+      border-bottom: 0.5px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-name {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      color: var(--color-text);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--color-muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--color-accent-warm); }
+
+    /* HERO */
+    .hero {
+      margin-bottom: 4rem;
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: 44px;
+      line-height: 1.15;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      max-width: 720px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--c-rust);
+    }
+
+    /* SPLIT */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 4rem;
+      padding-bottom: 4rem;
+      border-bottom: 0.5px solid var(--color-border);
+      margin-bottom: 4rem;
+    }
+    .bio p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--color-muted);
+      font-weight: 300;
+      margin-bottom: 1.25rem;
+    }
+    .bio p:last-child { margin-bottom: 0; }
+
+    .photo {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 0.5px solid var(--color-border);
+    }
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* SECTION LABEL */
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent-deep);
+      margin-bottom: 1.5rem;
+    }
+
+    /* EXPERIENCE */
+    .experience {
+      margin-bottom: 5rem;
+    }
+    .exp-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      padding: 1.1rem 0;
+      border-bottom: 0.5px solid var(--color-border);
+      gap: 2rem;
+    }
+    .exp-row:first-of-type {
+      border-top: 0.5px solid var(--color-border);
+    }
+    .exp-company {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: 2px;
+    }
+    .exp-title {
+      font-size: 13px;
+      color: var(--color-muted);
+      font-weight: 300;
+    }
+    .exp-year {
+      font-size: 13px;
+      color: var(--color-faint);
+      font-weight: 300;
+      white-space: nowrap;
+    }
+
+    /* TESTIMONIALS */
+    .testimonials {
+      margin-bottom: 5rem;
+    }
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    .test-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .test-person {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 1rem;
+      border-bottom: 0.5px solid var(--color-border);
+    }
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+    .avatar-tm { background: #e8eef4; color: var(--c-steel); }
+    .avatar-cb { background: #ecead4; color: #6b6a3f; }
+    .avatar-lx { background: #f6e7da; color: var(--c-brick); }
+    .test-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text);
+      margin-bottom: 1px;
+    }
+    .test-title {
+      font-size: 12px;
+      color: var(--color-faint);
+      font-weight: 300;
+      line-height: 1.4;
+    }
+    .test-quote {
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--color-muted);
+      font-weight: 300;
+    }
+    .test-quote em {
+      font-style: italic;
+      color: var(--c-deep-blue);
+      font-weight: 400;
+    }
+
+    /* CONTACT */
+    .contact {
+      padding: 3rem 0;
+      border-top: 0.5px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .contact h2 {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+    .contact p {
+      font-size: 13px;
+      color: var(--color-muted);
+      font-weight: 300;
+    }
+    .btn {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      padding: 10px 20px;
+      background: var(--c-forest);
+      color: #f5efe6;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.15s;
+    }
+    .btn:hover { background: var(--c-olive); }
+
+    /* RESPONSIVE */
+    @media (max-width: 680px) {
+      .split { grid-template-columns: 1fr; }
+      .photo { max-width: 280px; aspect-ratio: 1/1; }
+      .test-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 32px; }
+      .contact { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-name">Shaade</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="https://www.linkedin.com/in/shaade/" target="_blank">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <section class="hero">
+      <h1>Principal-level designer turning <em>complex systems</em> into clear, human experiences.</h1>
+    </section>
+
+    <div class="split">
+      <div class="bio">
+        <p>I'm a product designer with 10+ years of experience shaping enterprise and consumer products. I thrive at the intersection of data, systems, and craft — designing things that help people make sense of complexity and do their best work.</p>
+        <p>My approach is grounded in curiosity and research. I'm constantly testing ideas, listening to users, and refining designs to make products easier to use, more efficient, and more human. Lately I've been especially interested in how AI can reduce friction in knowledge work — without losing the human in the loop.</p>
+        <p>I've mentored early-career designers through Triangle UXPA and I'm a proud graduate of NC State's College of Design. Outside of work, I enjoy staying active, traveling, and finding inspiration in everyday details.</p>
+      </div>
+      <div class="photo">
+        <img src="photo.jpg" alt="Shaade" />
+      </div>
+    </div>
+
+    <section class="experience">
+      <p class="section-label">Experience</p>
+
+      <div class="exp-row">
+        <div>
+          <p class="exp-company">UserVoice</p>
+          <p class="exp-title">Director of Product Design (IC)</p>
+        </div>
+        <span class="exp-year">2022 – Present</span>
+      </div>
+      <div class="exp-row">
+        <div>
+          <p class="exp-company">UserVoice</p>
+          <p class="exp-title">Senior Product Designer</p>
+        </div>
+        <span class="exp-year">2020 – 2022</span>
+      </div>
+      <div class="exp-row">
+        <div>
+          <p class="exp-company">Kaleido</p>
+          <p class="exp-title">Product Designer</p>
+        </div>
+        <span class="exp-year">2018 – 2019</span>
+      </div>
+      <div class="exp-row">
+        <div>
+          <p class="exp-company">Republic Wireless</p>
+          <p class="exp-title">UX Strategist &amp; Lead Designer</p>
+        </div>
+        <span class="exp-year">2017 – 2018</span>
+      </div>
+      <div class="exp-row">
+        <div>
+          <p class="exp-company">Republic Wireless</p>
+          <p class="exp-title">UX Designer</p>
+        </div>
+        <span class="exp-year">2013 – 2016</span>
+      </div>
+      <div class="exp-row">
+        <div>
+          <p class="exp-company">NC State University</p>
+          <p class="exp-title">Web Designer</p>
+        </div>
+        <span class="exp-year">2011 – 2013</span>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <p class="section-label">What colleagues have said</p>
+      <div class="test-grid">
+
+        <div class="test-card">
+          <div class="test-person">
+            <div class="avatar avatar-tm">TM</div>
+            <div>
+              <p class="test-name">Torre Matthew</p>
+              <p class="test-title">Product Manager</p>
+            </div>
+          </div>
+          <p class="test-quote">Shaade is thoughtful and creative in how she approaches problem-solving and customer discovery. <em>Her dependability and deep understanding of what separates a great user experience from an average one have consistently contributed to beautiful outcomes</em> — even in messy interfaces like data tables.</p>
+        </div>
+
+        <div class="test-card">
+          <div class="test-person">
+            <div class="avatar avatar-cb">CB</div>
+            <div>
+              <p class="test-name">Chelsea Brown</p>
+              <p class="test-title">Design Leader, Design Systems &amp; Creative Tooling</p>
+            </div>
+          </div>
+          <p class="test-quote">Shaade is a great UX designer and researcher. <em>She has a talent for solving a user need with a creative, on-brand solution — her designs are innovative, tested, and clear.</em> Her work established a consistent and effective process for user testing across the company.</p>
+        </div>
+
+        <div class="test-card">
+          <div class="test-person">
+            <div class="avatar avatar-lx">LX</div>
+            <div>
+              <p class="test-name">Likkie Xiong</p>
+              <p class="test-title">Senior Product Designer</p>
+            </div>
+          </div>
+          <p class="test-quote">Shaade was my wonderful mentor at Republic Wireless. <em>Thanks to her guidance, I now understand what it truly means to put users first — and how to balance the needs of the business.</em> Anyone would be lucky to have her as a mentor and collaborator.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="contact">
+      <div>
+        <h2>Let's work together</h2>
+        <p>Open to new opportunities and conversations.</p>
+      </div>
+      <a href="https://www.linkedin.com/in/shaade/" target="_blank" class="btn">Connect on LinkedIn ↗</a>
+    </section>
+
+  </div>
+</body>
+</html>

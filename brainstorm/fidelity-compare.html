@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fidelity Compare</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Karla:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Karla', sans-serif; background: #f0efed; color: #1a1a1a; padding: 3rem 2rem 4rem; }
+  .page { max-width: 960px; margin: 0 auto; }
+  h1 { font-family: 'Crimson Pro', serif; font-size: 32px; font-weight: 400; margin-bottom: 0.4rem; }
+  .subtitle { font-size: 14px; color: #7a7a7a; margin-bottom: 2.5rem; font-weight: 300; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #aaa; margin-bottom: 0.75rem; }
+  .caption { font-size: 13px; color: #6a6a6a; font-weight: 300; line-height: 1.6; margin-top: 1rem; }
+
+  /* Shared card shell */
+  .card-shell {
+    background: #fff;
+    border-radius: 10px;
+    border: 0.5px solid rgba(0,0,0,0.08);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+    overflow: hidden;
+  }
+
+  /* ── SHALLOW ── */
+  .sh-header {
+    padding: 14px 16px 12px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .sh-eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #ccc; margin-bottom: 4px; }
+  .sh-title-bar { height: 10px; background: rgba(0,0,0,0.1); border-radius: 3px; width: 160px; }
+  .sh-title-bar.short { width: 100px; margin-top: 5px; }
+  .sh-meta { height: 8px; background: rgba(0,0,0,0.06); border-radius: 3px; width: 60px; }
+  .sh-body { padding: 12px 16px; display: flex; flex-direction: column; gap: 9px; }
+  .sh-row { display: flex; align-items: flex-start; gap: 8px; }
+  .sh-bar { width: 3px; border-radius: 2px; flex-shrink: 0; height: 26px; }
+  .sh-lines { flex: 1; display: flex; flex-direction: column; gap: 4px; padding-top: 3px; }
+  .sh-line { height: 6px; background: rgba(0,0,0,0.07); border-radius: 3px; }
+  .sh-line.w80 { width: 80%; }
+  .sh-line.w55 { width: 55%; }
+  .sh-line.w70 { width: 70%; }
+  .sh-footer {
+    display: flex; border-top: 0.5px solid rgba(0,0,0,0.06);
+    padding: 10px 16px;
+  }
+  .sh-stat { flex: 1; text-align: center; }
+  .sh-stat-n { font-family: 'Crimson Pro', serif; font-size: 22px; color: #1a1a1a; display: block; line-height: 1; }
+  .sh-stat-l { font-size: 8px; color: #ccc; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; display: block; }
+
+  /* ── DEEP ── */
+  .dp-header {
+    padding: 14px 16px 10px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+  }
+  .dp-eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #bbb; margin-bottom: 4px; }
+  .dp-title { font-size: 14px; font-weight: 500; color: #1a1a1a; line-height: 1.3; }
+  .dp-sub { font-size: 11px; color: #aaa; margin-top: 3px; }
+  .dp-metrics {
+    display: flex; gap: 0;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+  }
+  .dp-metric {
+    flex: 1; padding: 10px 14px; text-align: center;
+    border-right: 0.5px solid rgba(0,0,0,0.06);
+  }
+  .dp-metric:last-child { border-right: none; }
+  .dp-metric-icon { font-size: 12px; margin-bottom: 2px; display: block; }
+  .dp-metric-n { font-family: 'Crimson Pro', serif; font-size: 20px; color: #1a1a1a; display: block; line-height: 1; }
+  .dp-metric-l { font-size: 9px; color: #aaa; display: block; margin-top: 2px; }
+  .dp-body { padding: 12px 16px; display: flex; flex-direction: column; gap: 0; }
+  .dp-section {
+    display: flex; align-items: stretch;
+    border-bottom: 0.5px solid rgba(0,0,0,0.05);
+    padding: 9px 0;
+    gap: 10px;
+  }
+  .dp-section:last-child { border-bottom: none; }
+  .dp-accent { width: 3px; border-radius: 2px; flex-shrink: 0; }
+  .dp-content { flex: 1; }
+  .dp-sec-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #bbb; margin-bottom: 3px; }
+  .dp-sec-text { font-size: 12px; color: #3a3a3a; line-height: 1.4; font-weight: 400; }
+  .dp-sec-sub { font-size: 11px; color: #aaa; margin-top: 2px; line-height: 1.3; font-weight: 300; }
+  .dp-badge {
+    flex-shrink: 0; align-self: center;
+    font-size: 9px; padding: 2px 8px; border-radius: 20px;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Shallow vs. Deep fidelity</h1>
+  <p class="subtitle">Same Option B card structure — the difference is what's inside.</p>
+
+  <div class="grid">
+
+    <!-- SHALLOW -->
+    <div>
+      <p class="label">Shallow — placeholder bars</p>
+      <div class="card-shell">
+        <div class="sh-header">
+          <div>
+            <div class="sh-eyebrow">UserVoice · AI Report</div>
+            <div class="sh-title-bar"></div>
+            <div class="sh-title-bar short"></div>
+          </div>
+          <div class="sh-meta"></div>
+        </div>
+        <div class="sh-body">
+          <div class="sh-row">
+            <div class="sh-bar" style="background:#DC8055"></div>
+            <div class="sh-lines">
+              <div class="sh-line w80"></div>
+              <div class="sh-line w55"></div>
+            </div>
+          </div>
+          <div class="sh-row">
+            <div class="sh-bar" style="background:#3A6991"></div>
+            <div class="sh-lines">
+              <div class="sh-line w70"></div>
+              <div class="sh-line w80"></div>
+            </div>
+          </div>
+          <div class="sh-row">
+            <div class="sh-bar" style="background:#818cf8"></div>
+            <div class="sh-lines">
+              <div class="sh-line w55"></div>
+              <div class="sh-line w70"></div>
+            </div>
+          </div>
+        </div>
+        <div class="sh-footer">
+          <div class="sh-stat">
+            <span class="sh-stat-n">~99%</span>
+            <span class="sh-stat-l">faster</span>
+          </div>
+          <div class="sh-stat">
+            <span class="sh-stat-n">25%</span>
+            <span class="sh-stat-l">shared</span>
+          </div>
+          <div class="sh-stat">
+            <span class="sh-stat-n">30×</span>
+            <span class="sh-stat-l">/ week</span>
+          </div>
+        </div>
+      </div>
+      <p class="caption">Color-coded sections, real metrics — but the text content is just placeholder bars. Looks intentional and art-directed. Faster to build.</p>
+    </div>
+
+    <!-- DEEP -->
+    <div>
+      <p class="label">Deep — real content</p>
+      <div class="card-shell">
+        <div class="dp-header">
+          <div class="dp-eyebrow">UserVoice · AI Impact Report</div>
+          <div class="dp-title">Onboarding Friction</div>
+          <div class="dp-sub">847 ideas · 312 accounts · Generated Jun 2025</div>
+        </div>
+        <div class="dp-metrics">
+          <div class="dp-metric">
+            <span class="dp-metric-icon">⚡</span>
+            <span class="dp-metric-n" style="color:#DC8055">High</span>
+            <span class="dp-metric-l">Urgency</span>
+          </div>
+          <div class="dp-metric">
+            <span class="dp-metric-icon">🗳</span>
+            <span class="dp-metric-n">847</span>
+            <span class="dp-metric-l">Ideas</span>
+          </div>
+          <div class="dp-metric">
+            <span class="dp-metric-icon">🏢</span>
+            <span class="dp-metric-n">312</span>
+            <span class="dp-metric-l">Accounts</span>
+          </div>
+        </div>
+        <div class="dp-body">
+          <div class="dp-section">
+            <div class="dp-accent" style="background:#f97316"></div>
+            <div class="dp-content">
+              <div class="dp-sec-label">Pain Points</div>
+              <div class="dp-sec-text">Setup takes too long for new accounts</div>
+              <div class="dp-sec-sub">Users expect to go live same day — current flow requires 3+ sessions</div>
+            </div>
+            <div class="dp-badge" style="background:rgba(249,115,22,0.1);color:#f97316;">High urgency</div>
+          </div>
+          <div class="dp-section">
+            <div class="dp-accent" style="background:#22c55e"></div>
+            <div class="dp-content">
+              <div class="dp-sec-label">Value to Users</div>
+              <div class="dp-sec-text">Faster onboarding directly increases 30-day retention</div>
+              <div class="dp-sec-sub">Linked to $2.1M ARR opportunity across 40 enterprise accounts</div>
+            </div>
+            <div class="dp-badge" style="background:rgba(34,197,94,0.1);color:#22c55e;">$2.1M ARR</div>
+          </div>
+          <div class="dp-section">
+            <div class="dp-accent" style="background:#818cf8"></div>
+            <div class="dp-content">
+              <div class="dp-sec-label">Challenge the Hypothesis</div>
+              <div class="dp-sec-text">Is complexity the barrier, or expectation-setting?</div>
+              <div class="dp-sec-sub">Research prompt: interview 3 churned accounts from Q1</div>
+            </div>
+            <div class="dp-badge" style="background:rgba(129,140,248,0.1);color:#818cf8;">Research</div>
+          </div>
+        </div>
+      </div>
+      <p class="caption">Real section names, real copy, real metrics with icons, revenue tags. Looks like an actual screenshot of the product. Shows what the AI output actually contains.</p>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

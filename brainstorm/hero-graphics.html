@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Case Study Hero Graphics</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Karla:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Karla', sans-serif; background: #f7f6f5; color: #2a2a2a; padding: 4rem 2rem; }
+  .page { max-width: 760px; margin: 0 auto; }
+  h1 { font-family: 'Crimson Pro', serif; font-size: 28px; font-weight: 400; margin-bottom: 0.3rem; }
+  .subtitle { font-size: 14px; color: #9a9a9a; margin-bottom: 4rem; font-weight: 300; }
+  .case { margin-bottom: 5.5rem; }
+  .case-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #c0c0c0; margin-bottom: 1rem; }
+
+  /* ── Soft stat rows (Julie Lynch style) ── */
+  .rows { display: flex; flex-direction: column; gap: 14px; }
+  .row {
+    display: flex; align-items: center; gap: 1.25rem;
+    padding: 1.5rem 1.75rem;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #2f3b33;
+  }
+  .row u, .row .key {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    font-weight: 400;
+  }
+  .row svg { width: 28px; height: 28px; flex-shrink: 0; stroke-width: 1.5; }
+
+  /* warm palette tints */
+  .tint-terracotta { background: rgba(220,128,85,0.09); color: #6e4630; }
+  .tint-terracotta svg { stroke: #b05a30; }
+  .tint-steel { background: rgba(58,105,145,0.08); color: #2e4a63; }
+  .tint-steel svg { stroke: #3a6991; }
+  .tint-forest { background: rgba(63,79,61,0.08); color: #3a463a; }
+  .tint-forest svg { stroke: #5a6e58; }
+
+  /* ── Full-bleed screen treatment ── */
+  .screen-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #eceae7;
+    padding: 3rem 3rem 0;
+  }
+  .screen-card img {
+    width: 100%;
+    display: block;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.1);
+  }
+  .screen-caption {
+    font-size: 13px; color: #b0b0b0; font-weight: 300;
+    margin-top: 0.9rem;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Case study graphics, v3</h1>
+  <p class="subtitle">Soft tinted stat rows + full-bleed screens. One font, sentence case, airy.</p>
+
+  <!-- ── AI REPORTING ── -->
+  <div class="case">
+    <p class="case-label">AI Reporting Suite — outcome rows</p>
+    <div class="rows">
+      <div class="row tint-terracotta">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
+        <span>Reports that took a half-day to assemble now generate in seconds — <u>~99% faster</u></span>
+      </div>
+      <div class="row tint-steel">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8h16v-8"/><path d="M12 2v13"/><path d="M7 10l5 5 5-5"/></svg>
+        <span><u>1 in 4 reports</u> was shared outside the product team within the first month</span>
+      </div>
+      <div class="row tint-forest">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        <span>Teams ran <u>20–30 reports a week</u> at launch — it became part of the weekly ritual</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── IDEA SHEET ── -->
+  <div class="case">
+    <p class="case-label">Idea Sheet — full-bleed screen</p>
+    <div class="screen-card">
+      <img src="../brainstorm/idea-detail-v3.png" alt="Idea Sheet redesign — AI Summary panel open"/>
+    </div>
+    <p class="screen-caption">The redesigned idea detail — AI summary surfaced in context, on the page admins already lived in.</p>
+  </div>
+
+  <!-- ── ADMIN GRID ── -->
+  <div class="case">
+    <p class="case-label">Admin Grid — outcome rows</p>
+    <div class="rows">
+      <div class="row tint-steel">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+        <span>NPS had fallen to <u>−36</u> after the React migration quietly broke daily workflows</span>
+      </div>
+      <div class="row tint-terracotta">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span><u>5 focused fixes in 6 weeks</u> — restoring trust before shipping anything new</span>
+      </div>
+      <div class="row tint-forest">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="2.5"/><circle cx="12" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/><path d="M7.5 12h2M14.5 12h2"/></svg>
+        <span>One step in a <u>three-move arc</u>: Grid Recovery → Idea Lists → AI Impact Reports</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

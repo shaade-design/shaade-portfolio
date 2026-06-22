@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Layout Options</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;1,400;1,500&family=Karla:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Karla', sans-serif; background: #f0efed; color: #1a1a1a; padding: 3rem 2rem 5rem; line-height: 1.5; }
+  .page { max-width: 1100px; margin: 0 auto; }
+  h1 { font-family: 'Crimson Pro', serif; font-size: 32px; font-weight: 400; margin-bottom: 0.3rem; }
+  .subtitle { font-size: 14px; color: #7a7a7a; margin-bottom: 3rem; font-weight: 300; }
+
+  .col-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #aaa; margin-bottom: 0.6rem;
+  }
+  .col-title {
+    font-family: 'Crimson Pro', serif; font-size: 20px; font-weight: 400;
+    margin-bottom: 0.3rem; line-height: 1.2;
+  }
+  .col-when {
+    font-size: 12px; color: #8a8a8a; font-weight: 300; margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; align-items: start; }
+
+  /* ── shared card shell ── */
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    border: 0.5px solid rgba(0,0,0,0.08);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+    overflow: hidden;
+  }
+
+  /* ════════════════════════════
+     LAYOUT 1 — METRICS-LED
+  ════════════════════════════ */
+  .l1-top {
+    padding: 14px 16px 12px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+  }
+  .l1-eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #bbb; margin-bottom: 4px; }
+  .l1-title { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+  .l1-sub { font-size: 11px; color: #aaa; margin-top: 2px; }
+
+  .l1-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0; border-bottom: 0.5px solid rgba(0,0,0,0.06);
+  }
+  .l1-stat {
+    padding: 14px 12px; text-align: center;
+    border-right: 0.5px solid rgba(0,0,0,0.06);
+  }
+  .l1-stat:last-child { border-right: none; }
+  .l1-stat-n {
+    font-family: 'Crimson Pro', serif; font-size: 28px;
+    color: #1a1a1a; display: block; line-height: 1; letter-spacing: -0.02em;
+  }
+  .l1-stat-l { font-size: 9px; color: #bbb; display: block; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .l1-rows { padding: 0 16px; }
+  .l1-row {
+    display: flex; align-items: stretch;
+    border-bottom: 0.5px solid rgba(0,0,0,0.05);
+    padding: 9px 0; gap: 10px;
+  }
+  .l1-row:last-child { border-bottom: none; }
+  .l1-accent { width: 3px; border-radius: 2px; flex-shrink: 0; }
+  .l1-content { flex: 1; }
+  .l1-row-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #ccc; margin-bottom: 2px; }
+  .l1-row-text { font-size: 12px; color: #2a2a2a; line-height: 1.4; }
+  .l1-row-sub { font-size: 11px; color: #aaa; margin-top: 2px; font-weight: 300; }
+  .l1-badge {
+    flex-shrink: 0; align-self: center;
+    font-size: 9px; padding: 2px 8px; border-radius: 20px; font-weight: 500;
+  }
+
+  /* ════════════════════════════
+     LAYOUT 2 — QUOTE-LED
+  ════════════════════════════ */
+  .l2-top {
+    padding: 14px 16px 12px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .l2-eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #bbb; margin-bottom: 4px; }
+  .l2-title { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+  .l2-tag { font-size: 9px; padding: 3px 9px; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 20px; color: #aaa; white-space: nowrap; }
+
+  .l2-quote-block {
+    padding: 16px 16px 14px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+    background: #fafaf8;
+  }
+  .l2-quote-mark {
+    font-family: 'Crimson Pro', serif; font-size: 48px; color: rgba(0,0,0,0.08);
+    line-height: 0.6; margin-bottom: 8px; display: block;
+  }
+  .l2-quote {
+    font-family: 'Crimson Pro', serif; font-size: 15px; font-style: italic;
+    color: #2a2a2a; line-height: 1.55; font-weight: 400;
+  }
+  .l2-attribution {
+    margin-top: 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .l2-avatar {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(58,105,145,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 500; color: #3A6991; flex-shrink: 0;
+  }
+  .l2-attr-name { font-size: 11px; font-weight: 500; color: #1a1a1a; }
+  .l2-attr-role { font-size: 10px; color: #aaa; font-weight: 300; }
+
+  .l2-findings { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .l2-finding { display: flex; align-items: flex-start; gap: 8px; }
+  .l2-find-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .l2-find-text { font-size: 12px; color: #3a3a3a; line-height: 1.45; }
+
+  .l2-footer {
+    padding: 10px 16px; border-top: 0.5px solid rgba(0,0,0,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .l2-footer-stat { font-size: 11px; color: #aaa; font-weight: 300; }
+  .l2-footer-stat strong { color: #1a1a1a; font-weight: 500; }
+
+  /* ════════════════════════════
+     LAYOUT 3 — PROCESS ARTIFACT
+  ════════════════════════════ */
+  .l3-top {
+    padding: 14px 16px 12px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+  }
+  .l3-eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #bbb; margin-bottom: 4px; }
+  .l3-title { font-size: 14px; font-weight: 500; color: #1a1a1a; }
+  .l3-sub { font-size: 11px; color: #aaa; margin-top: 2px; }
+
+  .l3-artifact {
+    padding: 14px 16px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.06);
+    background: #fafaf8;
+  }
+  .l3-artifact-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: #ccc; margin-bottom: 10px; }
+
+  /* Before / After strip */
+  .l3-ba { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .l3-panel { border-radius: 6px; overflow: hidden; border: 0.5px solid rgba(0,0,0,0.08); }
+  .l3-panel-head {
+    padding: 5px 9px; font-size: 9px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .l3-panel-head.before { background: #fef3c7; color: #92400e; }
+  .l3-panel-head.after  { background: #f0fdf4; color: #166534; }
+  .l3-panel-body { padding: 8px 9px; display: flex; flex-direction: column; gap: 4px; }
+  .l3-pb-row { display: flex; align-items: center; gap: 5px; }
+  .l3-pb-icon { font-size: 9px; }
+  .l3-pb-line { height: 5px; background: rgba(0,0,0,0.07); border-radius: 3px; flex: 1; }
+
+  .l3-insights { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .l3-insight { display: flex; align-items: flex-start; gap: 8px; }
+  .l3-ins-num {
+    font-family: 'Crimson Pro', serif; font-size: 16px; color: rgba(0,0,0,0.15);
+    flex-shrink: 0; line-height: 1.2; width: 18px;
+  }
+  .l3-ins-content { flex: 1; }
+  .l3-ins-title { font-size: 12px; font-weight: 500; color: #1a1a1a; margin-bottom: 1px; }
+  .l3-ins-text { font-size: 11px; color: #7a7a7a; font-weight: 300; line-height: 1.4; }
+
+  .l3-footer {
+    padding: 10px 16px; border-top: 0.5px solid rgba(0,0,0,0.06);
+    background: #fafaf8;
+  }
+  .l3-principle {
+    font-family: 'Crimson Pro', serif; font-size: 13px; font-style: italic;
+    color: #3a3a3a; line-height: 1.45;
+  }
+  .l3-principle-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #ccc; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Three outcome layouts</h1>
+  <p class="subtitle">Use whichever matches what you actually have for each case study.</p>
+
+  <div class="grid">
+
+    <!-- ── LAYOUT 1: METRICS-LED ── -->
+    <div>
+      <p class="col-label">Layout 1</p>
+      <p class="col-title">Metrics-led</p>
+      <p class="col-when">Use when: you have hard numbers — adoption rates, time saved, retention, revenue impact, usage frequency.</p>
+      <div class="card">
+        <div class="l1-top">
+          <div class="l1-eyebrow">UserVoice · AI Reporting Suite</div>
+          <div class="l1-title">Impact Reports</div>
+          <div class="l1-sub">0→1 product design · 2025</div>
+        </div>
+        <div class="l1-stats">
+          <div class="l1-stat">
+            <span class="l1-stat-n">~99%</span>
+            <span class="l1-stat-l">time saved</span>
+          </div>
+          <div class="l1-stat">
+            <span class="l1-stat-n">25%</span>
+            <span class="l1-stat-l">share rate</span>
+          </div>
+          <div class="l1-stat">
+            <span class="l1-stat-n">30×</span>
+            <span class="l1-stat-l">weekly use</span>
+          </div>
+        </div>
+        <div class="l1-rows">
+          <div class="l1-row">
+            <div class="l1-accent" style="background:#f97316"></div>
+            <div class="l1-content">
+              <div class="l1-row-label">Pain Points</div>
+              <div class="l1-row-text">Setup takes too long for new accounts</div>
+              <div class="l1-row-sub">847 ideas · 312 accounts affected</div>
+            </div>
+            <div class="l1-badge" style="background:rgba(249,115,22,0.1);color:#f97316;">High urgency</div>
+          </div>
+          <div class="l1-row">
+            <div class="l1-accent" style="background:#22c55e"></div>
+            <div class="l1-content">
+              <div class="l1-row-label">Value to Users</div>
+              <div class="l1-row-text">Faster onboarding raises 30-day retention</div>
+              <div class="l1-row-sub">Linked to $2.1M ARR opportunity</div>
+            </div>
+            <div class="l1-badge" style="background:rgba(34,197,94,0.1);color:#22c55e;">$2.1M ARR</div>
+          </div>
+          <div class="l1-row">
+            <div class="l1-accent" style="background:#818cf8"></div>
+            <div class="l1-content">
+              <div class="l1-row-label">Challenge Hypothesis</div>
+              <div class="l1-row-text">Is complexity the barrier, or expectation-setting?</div>
+            </div>
+            <div class="l1-badge" style="background:rgba(129,140,248,0.1);color:#818cf8;">Research</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LAYOUT 2: QUOTE-LED ── -->
+    <div>
+      <p class="col-label">Layout 2</p>
+      <p class="col-title">Quote-led</p>
+      <p class="col-when">Use when: you have strong testimonials, user research quotes, or stakeholder feedback — but limited hard metrics.</p>
+      <div class="card">
+        <div class="l2-top">
+          <div>
+            <div class="l2-eyebrow">UserVoice · Idea Sheet</div>
+            <div class="l2-title">Idea Detail Redesign</div>
+          </div>
+          <span class="l2-tag">Research · 2025</span>
+        </div>
+        <div class="l2-quote-block">
+          <span class="l2-quote-mark">"</span>
+          <p class="l2-quote">This is the first time I've been able to understand what our customers actually want — not just what they asked for.</p>
+          <div class="l2-attribution">
+            <div class="l2-avatar">PM</div>
+            <div>
+              <div class="l2-attr-name">Product Manager, UserVoice customer</div>
+              <div class="l2-attr-role">Beta feedback · May 2025</div>
+            </div>
+          </div>
+        </div>
+        <div class="l2-findings">
+          <div class="l2-finding">
+            <div class="l2-find-dot" style="background:#DC8055"></div>
+            <div class="l2-find-text">Most-visited page in the product — hadn't been redesigned in 5+ years</div>
+          </div>
+          <div class="l2-finding">
+            <div class="l2-find-dot" style="background:#3A6991"></div>
+            <div class="l2-find-text">IA testing revealed admins used "Add voter" as a workaround for a job nobody designed for</div>
+          </div>
+          <div class="l2-finding">
+            <div class="l2-find-dot" style="background:#3F4F3D"></div>
+            <div class="l2-find-text">Research reframed the entire rebuild strategy before a line of code was written</div>
+          </div>
+        </div>
+        <div class="l2-footer">
+          <span class="l2-footer-stat"><strong>JTBD interviews</strong> · IA testing · Usage audit</span>
+          <span class="l2-footer-stat"><strong>Angular → React</strong> rebuild</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LAYOUT 3: PROCESS ARTIFACT ── -->
+    <div>
+      <p class="col-label">Layout 3</p>
+      <p class="col-title">Process artifact</p>
+      <p class="col-when">Use when: the work itself is the proof — a before/after, a framework you built, a decision that shaped the product direction.</p>
+      <div class="card">
+        <div class="l3-top">
+          <div class="l3-eyebrow">UserVoice · Admin Grid</div>
+          <div class="l3-title">Data Grid Redesign</div>
+          <div class="l3-sub">Enterprise UX · 2025</div>
+        </div>
+        <div class="l3-artifact">
+          <div class="l3-artifact-label">Before → After</div>
+          <div class="l3-ba">
+            <div class="l3-panel">
+              <div class="l3-panel-head before">Before</div>
+              <div class="l3-panel-body">
+                <div class="l3-pb-row"><span class="l3-pb-icon">✗</span><div class="l3-pb-line" style="width:70%"></div></div>
+                <div class="l3-pb-row"><span class="l3-pb-icon">✗</span><div class="l3-pb-line" style="width:50%"></div></div>
+                <div class="l3-pb-row"><span class="l3-pb-icon">✗</span><div class="l3-pb-line" style="width:80%"></div></div>
+              </div>
+            </div>
+            <div class="l3-panel">
+              <div class="l3-panel-head after">After</div>
+              <div class="l3-panel-body">
+                <div class="l3-pb-row"><span class="l3-pb-icon">✓</span><div class="l3-pb-line" style="width:70%"></div></div>
+                <div class="l3-pb-row"><span class="l3-pb-icon">✓</span><div class="l3-pb-line" style="width:50%"></div></div>
+                <div class="l3-pb-row"><span class="l3-pb-icon">✓</span><div class="l3-pb-line" style="width:80%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="l3-insights">
+          <div class="l3-insight">
+            <div class="l3-ins-num">01</div>
+            <div class="l3-ins-content">
+              <div class="l3-ins-title">Filter visibility recovered</div>
+              <div class="l3-ins-text">Applied filters now visible across the top — previously hidden in a dropdown</div>
+            </div>
+          </div>
+          <div class="l3-insight">
+            <div class="l3-ins-num">02</div>
+            <div class="l3-ins-content">
+              <div class="l3-ins-title">Built the case first</div>
+              <div class="l3-ins-text">Ran 3+ sec load time audit and stakeholder interviews before any design work</div>
+            </div>
+          </div>
+          <div class="l3-insight">
+            <div class="l3-ins-num">03</div>
+            <div class="l3-ins-content">
+              <div class="l3-ins-title">Search highlighting argued for</div>
+              <div class="l3-ins-text">Championed as non-obvious fix that saved 30–40 sec per lookup</div>
+            </div>
+          </div>
+        </div>
+        <div class="l3-footer">
+          <div class="l3-principle-label">Design principle</div>
+          <div class="l3-principle">"Enterprise users shouldn't have to remember what they filtered — the interface should."</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

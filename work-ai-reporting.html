@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Reporting Suite — Shaade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --sans: 'Inter', system-ui, sans-serif;
+      --serif: 'Crimson Pro', Georgia, serif;
+      --text: #1a1a1a; --muted: #4a4a4a; --faint: #8a8a8a;
+      --border: rgba(0,0,0,0.1); --border-mid: rgba(0,0,0,0.18);
+      --c-terracotta: #E0452E; --c-rust: #C23A2A; --c-brick: #8B2018; --c-clay: #C18E78;
+      --c-navy: #1A3862; --c-deep-blue: #1F4068; --c-steel: #5A7FA8;
+      --c-gold: #D5AB52; --c-olive: #A19D6E; --c-sage: #C5CDB1; --c-forest: #3F4F3D;
+    }
+    body { font-family: var(--sans); color: var(--text); background: #ffffff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    nav {
+      position: relative;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-name { font-family: var(--serif); font-size: 18px; text-decoration: none; color: var(--text); letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.15s; }
+    .nav-links a:hover { color: var(--c-terracotta); }
+    .page { max-width: 1060px; margin: 0 auto; padding: 0 2rem; }
+    .hero { padding: 5rem 0 3.5rem; max-width: 740px; }
+    .hero-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .hero-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); padding: 3px 10px; border: 0.5px solid var(--border-mid); border-radius: 3px; }
+    .hero-co { font-size: 11px; color: var(--faint); }
+    .hero h1 { font-family: var(--serif); font-size: 50px; line-height: 1.1; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .hero h1 em { font-style: italic; color: var(--muted); }
+    .hero-sub { font-size: 17px; line-height: 1.65; color: var(--muted); font-weight: 400; max-width: 580px; }
+    .summary { display: grid; grid-template-columns: repeat(4, 1fr); background: #f8f8f8; border: 1px solid #ebebeb; border-radius: 12px; overflow: hidden; margin-bottom: 5rem; }
+    .s-item { background: transparent; padding: 1.75rem; border-right: 1px solid #ebebeb; }
+    .s-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.5rem; }
+    .s-val { font-size: 14px; line-height: 1.5; color: var(--text); }
+    .layout { margin-bottom: 5rem; }
+    .side { display: none; }
+    .side-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 1rem; }
+    .side ul { list-style: none; }
+    .side a { display: block; font-size: 13px; color: var(--faint); text-decoration: none; padding: 6px 0 6px 12px; border-left: 1.5px solid var(--border); transition: color 0.15s, border-color 0.15s; line-height: 1.4; }
+    .side a:hover, .side a.active { color: var(--text); border-left-color: var(--text); }
+    .sections { display: flex; flex-direction: column; gap: 4rem; }
+    .section { scroll-margin-top: 90px; }
+    .sec-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.9rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+    .section p.sec-label { color: var(--c-brick); }
+    .section h2 { font-family: var(--serif); font-size: 26px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.25; margin-bottom: 1.1rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+    .section p { font-size: 16px; line-height: 1.8; color: var(--muted); font-weight: 400; margin-bottom: 1.1rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+    .section p:last-child { margin-bottom: 0; }
+    .section p strong { color: var(--text); font-weight: 500; }
+    .section p em { font-style: italic; }
+    .img-wrap { margin: 1.75rem 0; border-radius: 6px; overflow: hidden; border: 0.5px solid var(--border); transition: box-shadow 0.2s ease; }
+    .img-wrap:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    .img-wrap img { width: 100%; height: auto; display: block; }
+    .img-placeholder { background: #f5f5f5; border-radius: 6px; border: 0.5px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; color: var(--faint); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3rem 2rem; text-align: center; }
+    .img-placeholder.tall { min-height: 360px; }
+    .img-placeholder.short { min-height: 180px; }
+    .img-placeholder.med { min-height: 260px; }
+    .placeholder-label { font-size: 12px; font-weight: 500; color: var(--muted); text-transform: none; letter-spacing: 0; }
+    .img-cap { font-size: 12px; color: var(--faint); margin-top: 0.5rem; font-style: italic; }
+    .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.75rem 0; }
+    .img-pair .img-placeholder, .img-pair .img-wrap { margin: 0; }
+
+    /* Research cards */
+    .research-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.75rem 0; }
+    .rc { border: 0.5px solid var(--border); border-radius: 6px; padding: 1.25rem; background: #ffffff; border-top: 2px solid var(--faint); }
+    .rc.warn { border-top-color: #c2410c; }
+    .rc.insight { border-top-color: var(--text); }
+    .rc h4 { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.5rem; }
+    .rc p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.55; font-weight: 300; }
+    .rc blockquote { font-size: 12px; color: var(--faint); font-style: italic; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 0.5px solid var(--border); }
+
+    /* Before / after */
+    .ba-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.75rem 0; }
+    .ba-panel { border-radius: 6px; overflow: hidden; border: 0.5px solid var(--border); }
+    .ba-head { padding: 8px 14px; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+    .ba-head.before { background: #fef3c7; color: #92400e; }
+    .ba-head.after  { background: #f0fdf4; color: #166534; }
+
+    /* Callout */
+    .callout { border-left: 2px solid var(--text); padding: 1.1rem 1.4rem; margin: 1.5rem 0; background: #f9f9f9; border-radius: 0 4px 4px 0; }
+    .callout p { font-size: 14px; line-height: 1.7; color: var(--text); font-weight: 400; margin: 0; }
+
+    /* Annotation */
+    .annotation { background: #f5f5f5; border-radius: 6px; padding: 1rem 1.25rem; margin: 1.5rem 0; font-size: 14px; line-height: 1.7; color: var(--muted); font-weight: 300; }
+    .annotation strong { color: var(--text); font-weight: 500; }
+
+    /* Tradeoff */
+    .tradeoff { background: #f9f9f9; border-radius: 6px; padding: 1rem 1.25rem; margin-top: 1.25rem; border: 0.5px solid var(--border); }
+    .tradeoff-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.35rem; }
+    .tradeoff h4 { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.35rem; }
+    .tradeoff p { font-size: 13px; color: var(--muted); margin: 0; font-weight: 300; line-height: 1.55; }
+
+    /* Split layout within a section */
+    .content-split { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; margin: 1.75rem 0; }
+    .content-split-32 { display: grid; grid-template-columns: 3fr 2fr; gap: 2.5rem; align-items: start; margin: 1.75rem 0; }
+
+    /* Decision block */
+    .decision { padding-bottom: 3rem; border-bottom: 0.5px solid var(--border); margin-bottom: 3rem; }
+    .decision:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .decision-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+    .decision-label::after { content: ''; flex: 1; height: 0.5px; background: var(--border); }
+
+    /* Systems cards */
+    .systems-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.75rem 0; }
+    .sc { background: #f9f9f9; border: 0.5px solid var(--border); border-radius: 6px; padding: 1.25rem; }
+    .sc-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.5rem; }
+    .sc h4 { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 0.5rem; }
+    .sc p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.55; font-weight: 300; }
+
+    /* Stat block */
+    .outcome-rows { display: flex; flex-direction: column; gap: 14px; margin: 1.75rem 0; }
+    .outcome-row { display: flex; align-items: center; gap: 1.25rem; padding: 1.5rem 1.75rem; border-radius: 16px; font-size: 17px; font-weight: 300; line-height: 1.5; }
+    .outcome-row u { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; font-weight: 400; }
+    .outcome-row svg { width: 28px; height: 28px; flex-shrink: 0; stroke-width: 1.5; }
+    .tint-terracotta { background: rgba(220,128,85,0.09); color: #6e4630; }
+    .tint-terracotta svg { stroke: #b05a30; }
+    .tint-steel { background: rgba(58,105,145,0.08); color: #2e4a63; }
+    .tint-steel svg { stroke: #3a6991; }
+    .tint-forest { background: rgba(63,79,61,0.08); color: #3a463a; }
+    .tint-forest svg { stroke: #5a6e58; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--border); border: 0.5px solid var(--border); border-radius: 6px; overflow: hidden; margin: 1.75rem 0; }
+    .stat { background: #ffffff; padding: 1.5rem; text-align: center; }
+    .stat-n { font-family: var(--serif); font-size: 40px; font-weight: 400; color: var(--text); letter-spacing: -0.03em; line-height: 1; display: block; margin-bottom: 0.4rem; }
+    .stat-l { font-size: 13px; color: var(--muted); line-height: 1.4; font-weight: 300; }
+
+    /* Reflection */
+    .reflection { background: #f9f9f9; border-radius: 6px; border: 0.5px solid var(--border); padding: 2rem; margin-top: 1.75rem; }
+    .reflection-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.25rem; }
+    .ref-card { background: #ffffff; border: 0.5px solid var(--border); border-radius: 6px; padding: 1.25rem; }
+    .ref-card p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.65; font-weight: 300; }
+    .ref-card p strong { color: var(--text); font-weight: 500; }
+
+    .case-nav { display: flex; justify-content: space-between; align-items: center; padding: 3rem 0; border-top: 0.5px solid var(--border); margin-top: 2rem; }
+    .case-nav a { text-decoration: none; color: var(--text); display: flex; flex-direction: column; gap: 4px; }
+    .cn-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+    .cn-title { font-family: var(--serif); font-size: 18px; font-weight: 400; }
+    .case-nav a:hover .cn-title { text-decoration: underline; text-underline-offset: 3px; }
+    .cn-right { text-align: right; }
+
+    @media (max-width: 720px) {
+      .layout { grid-template-columns: 1fr; }
+      .side { display: none; }
+      .summary { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 34px; }
+      .research-cards, .ba-strip, .content-split, .content-split-32, .systems-cards, .stats, .reflection-cards, .img-pair { grid-template-columns: 1fr; }
+    }
+    
+  .img-wrap { cursor: zoom-in; }
+  #lightbox {
+    position: fixed; inset: 0; z-index: 999;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2.5rem; pointer-events: none;
+    opacity: 0; transition: opacity 0.25s ease;
+  }
+  #lightbox.open { pointer-events: all; opacity: 1; }
+  #lightbox-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.35); }
+  #lightbox-modal {
+    position: relative; z-index: 1; background: #ffffff;
+    border-radius: 10px; box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+    max-width: 90vw; width: 100%; overflow: hidden;
+    transform: scale(0.94) translateY(8px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #lightbox.open #lightbox-modal { transform: scale(1) translateY(0); }
+  #lightbox-modal img { width: 100%; height: auto; display: block; max-height: 88vh; object-fit: contain; }
+  #lightbox-close {
+    position: absolute; top: 0.6rem; right: 0.85rem;
+    color: #aaa; font-size: 22px; line-height: 1; cursor: pointer;
+    z-index: 2; transition: color 0.15s; font-family: sans-serif; font-weight: 300;
+  }
+  #lightbox-close:hover { color: #1a1a1a; }
+
+  
+    /* PROGRESS BAR */
+    #progress-bar { position: absolute; bottom: -1px; left: 0; height: 1.5px; width: 0%; background: var(--c-terracotta); transition: width 0.1s linear; z-index: 101; }
+
+    /* PILL NAV */
+    #pill-nav {
+      position: fixed; bottom: 1.75rem; left: 50%; transform: translateX(-50%) translateY(6px);
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border: 0.5px solid rgba(0,0,0,0.12);
+      border-radius: 14px;
+      padding: 7px 12px;
+      display: flex; align-items: center; gap: 7px;
+      z-index: 200;
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+      cursor: pointer;
+    }
+    #pill-nav.visible { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: all; }
+    .pill-dots { display: flex; align-items: center; gap: 5px; }
+    .pill-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(0,0,0,0.18); transition: background 0.2s, transform 0.2s; cursor: pointer; }
+    .pill-dot.active { background: var(--c-terracotta); transform: scale(1.3); }
+    .pill-divider { width: 0.5px; height: 12px; background: rgba(0,0,0,0.12); }
+    #pill-section { font-size: 11px; color: var(--text); font-weight: 500; white-space: nowrap; }
+  </style>
+</head>
+<body>
+
+<div id="lightbox">
+  <div id="lightbox-backdrop"></div>
+  <div id="lightbox-modal">
+    <span id="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-name">Shaade</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Work</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="https://www.linkedin.com/in/shaade/" target="_blank">Contact</a></li>
+  </ul>
+    <div id="progress-bar"></div>
+</nav>
+
+<div class="page">
+
+  <header class="hero">
+    <div class="hero-meta">
+      <span class="hero-tag">Product Design &middot; AI</span>
+      <span class="hero-co">UserVoice &middot; 2025</span>
+    </div>
+    <h1>AI Reporting Suite — <em>designing AI that PMs will trust</em></h1>
+    <p class="hero-sub">UserVoice had more feedback data than any PM could process. The design challenge wasn't building smarter AI — it was building AI that a PM would stake their roadmap on.</p>
+  </header>
+
+  <div class="summary">
+    <div class="s-item"><p class="s-label">My Role</p><p class="s-val">Product design, systems design, user research, marketing</p></div>
+    <div class="s-item"><p class="s-label">Scope</p><p class="s-val">Theme Explorer &middot; Impact Reports &middot; Component library &middot; Launch page</p></div>
+    <div class="s-item"><p class="s-label">Outcome</p><p class="s-val">~99% faster discovery &middot; Anchor for AI subscription tier</p></div>
+    <div class="s-item"><p class="s-label">Type</p><p class="s-val">0 &rarr; 1 product design</p></div>
+  </div>
+
+  <div class="layout">
+    <div class="sections">
+
+      <section class="section" id="problem">
+        <p class="sec-label">The Problem</p>
+        <h2>Data wealth. Insight poverty.</h2>
+        <p>Product managers were sitting on thousands of pieces of user feedback — and defaulting to gut feelings anyway. The barrier to deep analysis was so high that teams either ignored the data or spent half a day manually building a spreadsheet to present a single insight to leadership. Neither path led to confident decisions.</p>
+
+        <div class="research-cards" style="margin-top: 1.5rem;">
+          <div class="rc warn">
+            <h4>The input</h4>
+            <p>Thousands of unstructured ideas, votes, and comments — more feedback than any PM could read in a week, let alone synthesize into a roadmap argument.</p>
+          </div>
+          <div class="rc warn">
+            <h4>The workaround</h4>
+            <p>Power users were exporting rows to spreadsheets, manually tagging themes, and building pivot tables. A process only accessible to the most data-fluent admins.</p>
+          </div>
+          <div class="rc insight">
+            <h4>The goal</h4>
+            <p>Move UserVoice from a feedback storage tool to a strategic partner. Reduce time-to-insight from hours to seconds. Shift the conversation from "what was said" to "what should we do."</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="research">
+        <p class="sec-label">What Research Taught Us</p>
+        <h2>Our first hypothesis was half right.</h2>
+        <p>We built a sophisticated graph-forward Theme Explorer based on a reasonable assumption: PMs are analytical, they want to see the data. Testing with customers at Procore, Zendesk, Greenhouse, and others returned a consistent verdict — impressive, but not actionable. Three findings reshaped everything.</p>
+
+        <div class="research-cards">
+          <div class="rc warn">
+            <h4>The Complexity Ceiling</h4>
+            <p>The Theme Explorer felt like a pivot table. Powerful for data scientists, too dense for the average PM. 4 out of 4 prototype users couldn't explain what "Activity" meant without prompting.</p>
+            <blockquote>"The accuracy doesn't seem quite right... erroneous ideas inflate the value on the graphics."</blockquote>
+          </div>
+          <div class="rc warn">
+            <h4>The Desire for Control</h4>
+            <p>Users didn't want a black box. They explicitly asked for human-in-the-loop controls — seed themes, merge categories, remove irrelevant ideas. AI that works silently isn't trusted.</p>
+            <blockquote>This became a design mandate across the entire suite: every AI output needed a human override.</blockquote>
+          </div>
+          <div class="rc insight">
+            <h4>The "So What?" Factor</h4>
+            <p>Users loved seeing revenue and urgency trends. They couldn't translate those graphs into a roadmap narrative. A PM at Zendesk was already exporting to PowerPoint weekly — the workaround was the product gap.</p>
+            <blockquote>She needed shareable synthesis, not a better exploration interface.</blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="evolution">
+        <p class="sec-label">Design Evolution</p>
+        <h2>From spaghetti chart to structured narrative.</h2>
+        <p>The visual shift between Theme Explorer and Impact Reports isn't just aesthetic — it's a design argument. Every element that changed reflects something research taught us about how PMs actually make decisions.</p>
+
+        <div class="ba-panel" style="margin-bottom: 1rem;">
+          <div class="ba-head before">Early concept &middot; The original hypothesis</div>
+          <div class="img-wrap" style="margin: 0; border-radius: 0; border: none;">
+            <img src="images/initial_sketches.png" alt="Early sketches — original concept for bringing trend analysis and AI summaries to PMs" />
+          </div>
+        </div>
+
+        <div class="ba-panel">
+          <div class="ba-head before">Theme Explorer &middot; The first build</div>
+          <div class="img-wrap" style="margin: 0; border-radius: 0; border: none;">
+            <img src="images/complex_graphs.png" alt="Theme Explorer — original AI reporting interface with multi-panel trend analysis and metrics grid" />
+          </div>
+        </div>
+        <p class="img-cap" style="margin-top: 0.5rem; margin-bottom: 1.75rem;">Powerful but too complex — users couldn't explain what they were looking at without prompting</p>
+
+        <div class="ba-panel">
+          <div class="ba-head after">Impact Reports &middot; What research built</div>
+          <div class="img-placeholder med" style="border-radius: 0; border: none;">
+            <span class="placeholder-label">Impact Report — full view</span>
+            <span>Document-style, AI narrative, 5 color-coded sections</span>
+          </div>
+        </div>
+
+        <div class="annotation">
+          <strong>The design argument in one line:</strong> The chart asks the PM to synthesize. The report does the synthesis for them — and shows its work so they can verify it. Same data. Completely different cognitive load.
+        </div>
+      </section>
+
+      <section class="section" id="decisions">
+        <p class="sec-label">Key Design Decisions</p>
+        <h2>Four decisions that defined the product's character.</h2>
+        <p>Every design decision in Impact Reports was filtered through one question: will a PM feel safe putting this in front of their VP? Here are the four that mattered most.</p>
+
+        <div class="decision">
+          <p class="decision-label">Icon-anchored metrics — front-loading signal before the narrative</p>
+          <div class="content-split">
+            <div>
+              <div class="img-placeholder short">
+                <span class="placeholder-label">Key metrics block</span>
+                <span>Ideas, voters, account coverage, importance, urgency — each with a custom icon</span>
+              </div>
+              <p class="img-cap">Metric block at the top of every report — the PM knows urgency before reading a word</p>
+            </div>
+            <div>
+              <p>In the Theme Explorer, urgency was a column in a table. In Impact Reports, I moved urgency, revenue, vote count, and account coverage into a fixed metric block at the very top, each anchored with an icon developed for that specific metric type.</p>
+              <p>The icon does cognitive pre-work. A PM can register a high urgency score before they've engaged with any text. <strong>Icons earn their place when they replace a step.</strong></p>
+              <div class="tradeoff">
+                <p class="tradeoff-label">Design principle</p>
+                <h4>Icons earn their place when they replace a step</h4>
+                <p>If an icon only labels what the text already says, remove it. It earns its place when it lets the user skip a cognitive lookup entirely.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="decision">
+          <p class="decision-label">Color-coded sections — visual index for non-linear reading</p>
+          <div class="content-split-32">
+            <div>
+              <div class="img-placeholder tall">
+                <span class="placeholder-label">Full Impact Report — all 5 sections</span>
+                <span>Pain Points (orange), Value to Users (green), Challenge the Hypothesis (blue), Research Questions (purple), Feature Announcement (amber)</span>
+              </div>
+              <p class="img-cap">Five sections, each a distinct color — the report can be navigated by sight, not just by scrolling</p>
+            </div>
+            <div>
+              <p>A PM presenting in a meeting shouldn't have to scroll and read to jump to the right section. Color makes the report visually indexed — each section is instantly recognizable at a glance.</p>
+              <p>Constraint held throughout: <strong>color reinforces, never carries.</strong> Every section has a text label and an icon too, so the design works for color-blind readers and in greyscale print.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="decision">
+          <p class="decision-label">Editability as a trust mechanism — not a safety valve</p>
+          <div class="content-split">
+            <div>
+              <div class="img-placeholder tall">
+                <span class="placeholder-label">Full Impact Report — 5 editable sections</span>
+                <span>Each section editable after generation — PM applies judgment on top of AI synthesis</span>
+              </div>
+              <p class="img-cap">Every section editable post-generation</p>
+            </div>
+            <div>
+              <p>AI-generated content has a trust problem: if a PM can't put their fingerprints on the output, they won't stand behind it. Every section of an Impact Report is editable after it's generated — not as a workaround, but as the core trust mechanism.</p>
+              <p>I also addressed the "black box" gap by anchoring every AI narrative to the raw data beneath it — idea count, vote count, account coverage. The text is interpretive. The numbers are not. <strong>The AI does the synthesis. The numbers do the verifying. The PM applies the judgment.</strong></p>
+              <div class="tradeoff">
+                <p class="tradeoff-label">The tradeoff</p>
+                <h4>Editability vs. canonical output</h4>
+                <p>Two reports on the same data can look completely different. We chose editability over consistency — because a report a PM can't own is a report they won't use.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="decision">
+          <p class="decision-label">Championing "Challenge the Hypothesis" — a section I had to argue for</p>
+          <div class="content-split-32">
+            <div>
+              <p>One of the five AI-generated sections in every Impact Report was my pitch. I advocated for a section that generates research prompts specifically designed to poke holes in the PM's own hypothesis.</p>
+              <p>The problem: confirmation bias. A feedback tool that only surfaces evidence for your existing point of view isn't a decision tool — it's a mirror. The tool had to be honest enough to surface the counterargument.</p>
+              <p>This required internal advocacy. It felt counterintuitive to add friction to a product designed to reduce analysis paralysis. The argument I made: <em>strategic friction is different from cognitive overload.</em></p>
+            </div>
+            <div>
+              <div class="img-placeholder">
+                <span class="placeholder-label">Challenge the Hypothesis section</span>
+                <span>AI-generated research prompts for testing the user's assumptions</span>
+              </div>
+              <p class="img-cap">"Challenge the Hypothesis" — the section PMs cite most in testimonials</p>
+              <div class="tradeoff">
+                <p class="tradeoff-label">Why it works</p>
+                <h4>Trust through honesty</h4>
+                <p>A tool that only confirms what you already believe loses credibility fast. This section is what makes the AI feel like a smart colleague, not a yes-machine.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="systems">
+        <p class="sec-label">Systems Design</p>
+        <h2>Building the component library that made it all consistent.</h2>
+        <p>Impact Reports shipped with a full component library built from scratch — not inherited from the Theme Explorer. Every element had to work across the in-app report, a PDF export, a print state, and the share modal. That constraint forced decisions that made the whole system more coherent.</p>
+
+        <div class="systems-cards">
+          <div class="sc">
+            <p class="sc-label">Color System</p>
+            <h4>Consistent identity across every surface</h4>
+            <p>Each section's color had to read correctly in-app, in PDF, and in print (greyscale). The palette passes contrast checks in all three contexts — the color system is doing accessibility work, not just brand work.</p>
+          </div>
+          <div class="sc">
+            <p class="sc-label">Iconography</p>
+            <h4>Custom icons for five metric types</h4>
+            <p>Revenue, votes, account coverage, importance, urgency each got a dedicated icon — distinctive enough to recognize at small sizes, consistent enough to feel like a system.</p>
+          </div>
+          <div class="sc">
+            <p class="sc-label">Component States</p>
+            <h4>Six states per section component</h4>
+            <p>Default, loading, collapsed, expanded, editing, and shared-view states for every report section. The shared-view state required a separate read-only design that preserved the format without exposing edit controls.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <p>The component library wasn't documentation — it was the mechanism that made the PDF, the print state, and the share modal feel like the same product.</p>
+        </div>
+      </section>
+
+      <section class="section" id="outcome">
+        <p class="sec-label">Outcome</p>
+        <h2>From gut feelings to data-backed decisions.</h2>
+        <p>The efficiency gain was significant, but the more meaningful shift was qualitative — PMs moved from "feature debates" to "problem-solving discussions," using the suite to upend roadmap assumptions when the data didn't support them. Impact Reports became the anchor for UserVoice's AI subscription tier.</p>
+
+        <div class="outcome-rows">
+          <div class="outcome-row tint-terracotta">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
+            <span>Audits that took a half-day to assemble now refine in about 60 seconds — <u>~99% faster</u></span>
+          </div>
+          <div class="outcome-row tint-steel">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8h16v-8"/><path d="M12 2v13"/><path d="M7 10l5 5 5-5"/></svg>
+            <span><u>1 in 4 reports</u> was shared with colleagues — a personal tool became a team artifact</span>
+          </div>
+          <div class="outcome-row tint-forest">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            <span>Teams ran <u>20–30 reports a week</u> at steady state — habitual use, not just exploration</span>
+          </div>
+        </div>
+
+        <p>The sharing number tells the trust story more clearly than any other metric. A PM who shares a report is a PM willing to put their name next to the AI's output. That's not just adoption — that's the trust problem solved.</p>
+
+        <div class="reflection">
+          <p class="sec-label">Reflection</p>
+          <h2 style="font-family: var(--serif); font-size: 20px; font-weight: 400; margin-bottom: 0.75rem;">What I'd carry forward.</h2>
+          <div class="reflection-cards">
+            <div class="ref-card">
+              <p><strong>Build for the moment of sharing, not just the moment of use.</strong> The 25% sharing rate was the signal we hadn't designed for explicitly — and it turned out to be the most meaningful outcome. A report that travels beyond the person who ran it validates the format, the trust model, and the AI's output all at once. I now think about "who else will see this?" as a primary design constraint, not an afterthought.</p>
+            </div>
+            <div class="ref-card">
+              <p><strong>Feedback is a river, not a lake.</strong> Impact Reports is a snapshot — you run it, present it, it ages. The next version needs to surface the delta automatically: not just "here's your report," but "here's what shifted since the last one." The insight doesn't freeze when the report is generated. The tool shouldn't either.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <aside class="side">
+      <p class="side-label">On this page</p>
+      <ul>
+        <li><a href="#problem">The Problem</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#evolution">Evolution</a></li>
+        <li><a href="#decisions">Design Decisions</a></li>
+        <li><a href="#systems">Systems</a></li>
+        <li><a href="#outcome">Outcome</a></li>
+      </ul>
+    </aside>
+  </div>
+  </div>
+</div>
+
+<div id="pill-nav">
+  <div class="pill-dots">
+  <div class="pill-dot active" data-target="problem"></div>
+  <div class="pill-dot" data-target="research"></div>
+  <div class="pill-dot" data-target="evolution"></div>
+  <div class="pill-dot" data-target="decisions"></div>
+  <div class="pill-dot" data-target="systems"></div>
+  <div class="pill-dot" data-target="outcome"></div>
+  </div>
+  <div class="pill-divider"></div>
+  <span id="pill-section">The Problem</span>
+</div>
+
+<div class="case-nav">
+    <div></div>
+    <div></div>
+  </div>
+
+</div>
+
+<script>
+  const sections = document.querySelectorAll(".section[id]");
+  const links = document.querySelectorAll(".side a");
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) links.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + e.target.id));
+    });
+  }, { rootMargin: "-20% 0px -60% 0px" });
+  sections.forEach(s => obs.observe(s));
+
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  document.querySelectorAll('.img-wrap img').forEach(img => {
+    img.addEventListener('click', () => {
+      lbImg.src = img.src; lbImg.alt = img.alt;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function closeLB() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+  document.getElementById('lightbox-backdrop').addEventListener('click', closeLB);
+  document.getElementById('lightbox-close').addEventListener('click', closeLB);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+
+  // Pill nav + progress bar
+  const pill = document.getElementById('pill-nav');
+  const pillSection = document.getElementById('pill-section');
+  const pillDots = document.querySelectorAll('.pill-dot');
+  const progressBar = document.getElementById('progress-bar');
+  const sectionLabels = {
+    'problem': 'The Problem',
+    'research': 'Research',
+    'evolution': 'Design Evolution',
+    'decisions': 'Key Decisions',
+    'systems': 'Systems Design',
+    'outcome': 'Outcome'
+  };
+
+  const pillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        pillDots.forEach(d => d.classList.remove('active'));
+        const dot = document.querySelector(`.pill-dot[data-target="${id}"]`);
+        if (dot) dot.classList.add('active');
+        if (pillSection) pillSection.textContent = sectionLabels[id] || id;
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+
+  document.querySelectorAll('.section').forEach(s => pillObserver.observe(s));
+
+  pillDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const target = document.getElementById(dot.dataset.target);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 120) pill.classList.add('visible');
+    else pill.classList.remove('visible');
+    if (progressBar) {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (scrollTop / docHeight * 100) + '%';
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Visual Direction — Brainstorm</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;1,400&family=Karla:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Karla', sans-serif;
+    background: #f7f6f5;
+    color: #1a1a1a;
+    padding: 3rem 2rem;
+    line-height: 1.6;
+  }
+  .page { max-width: 1100px; margin: 0 auto; }
+  h1 { font-family: 'Crimson Pro', serif; font-size: 36px; font-weight: 400; margin-bottom: 0.5rem; }
+  .subtitle { font-size: 15px; color: #6a6a6a; margin-bottom: 3rem; font-weight: 300; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+
+  .card {
+    border: 1.5px solid rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { border-color: #3A6991; box-shadow: 0 4px 24px rgba(58,105,145,0.12); }
+  .card.selected { border-color: #3A6991; box-shadow: 0 0 0 3px rgba(58,105,145,0.18); }
+
+  .preview {
+    height: 280px;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .card-body { padding: 1.5rem; border-top: 0.5px solid rgba(0,0,0,0.08); }
+  .card-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8a8a; margin-bottom: 0.4rem; }
+  .card-title { font-family: 'Crimson Pro', serif; font-size: 22px; font-weight: 400; margin-bottom: 0.5rem; }
+  .card-desc { font-size: 14px; color: #5a5a5a; font-weight: 300; line-height: 1.6; }
+
+  /* ── Direction A: Dark SaaS ── */
+  .dir-a {
+    background: #0f1117;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+  .dir-a .topbar {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+  }
+  .dir-a .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dir-a .window-title { font-size: 10px; color: #555; margin-left: 4px; font-family: monospace; }
+  .dir-a .sidebar {
+    display: flex; gap: 8px; flex: 1;
+  }
+  .dir-a .side-nav {
+    width: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 4px;
+  }
+  .dir-a .nav-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.06);
+  }
+  .dir-a .nav-icon.active { background: rgba(58,105,145,0.4); }
+  .dir-a .main { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .dir-a .header-row { display: flex; justify-content: space-between; align-items: center; }
+  .dir-a .page-title { font-size: 11px; color: #ccc; font-weight: 500; }
+  .dir-a .badge {
+    font-size: 9px; padding: 2px 7px;
+    background: rgba(58,105,145,0.35);
+    color: #8ab4d4;
+    border-radius: 20px;
+  }
+  .dir-a .metric-row { display: flex; gap: 6px; }
+  .dir-a .metric {
+    flex: 1; background: rgba(255,255,255,0.05);
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 6px; padding: 8px;
+  }
+  .dir-a .metric-n { font-size: 16px; color: #e8e8e8; font-weight: 500; line-height: 1; margin-bottom: 3px; }
+  .dir-a .metric-l { font-size: 8px; color: #666; text-transform: uppercase; letter-spacing: 0.06em; }
+  .dir-a .report-card {
+    background: rgba(255,255,255,0.04);
+    border: 0.5px solid rgba(255,255,255,0.07);
+    border-radius: 6px;
+    padding: 10px;
+    flex: 1;
+  }
+  .dir-a .report-header {
+    display: flex; gap: 6px; margin-bottom: 8px; align-items: center;
+  }
+  .dir-a .section-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .dir-a .report-line {
+    height: 6px; background: rgba(255,255,255,0.07); border-radius: 3px; margin-bottom: 5px;
+  }
+  .dir-a .report-line.short { width: 55%; }
+  .dir-a .report-line.medium { width: 78%; }
+  .dir-a .report-line.full { width: 100%; }
+  .dir-a .tag-row { display: flex; gap: 4px; margin-top: 8px; }
+  .dir-a .tag {
+    font-size: 8px; padding: 2px 6px; border-radius: 3px;
+    border: 0.5px solid rgba(255,255,255,0.12);
+    color: #777;
+  }
+
+  /* ── Direction B: Warm Light (matches portfolio) ── */
+  .dir-b {
+    background: #f7f6f5;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 8px;
+  }
+  .dir-b .b-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.1);
+  }
+  .dir-b .b-logo { font-size: 12px; font-weight: 600; color: #1a1a1a; font-family: 'Crimson Pro', serif; }
+  .dir-b .b-navlinks { display: flex; gap: 10px; }
+  .dir-b .b-navlink { font-size: 9px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 0.06em; }
+  .dir-b .b-main { flex: 1; display: flex; gap: 10px; }
+  .dir-b .b-content { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .dir-b .b-title { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+  .dir-b .b-sub { font-size: 9px; color: #8a8a8a; }
+  .dir-b .b-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .dir-b .b-metric {
+    background: #fff;
+    border: 0.5px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    padding: 8px;
+  }
+  .dir-b .b-metric-n { font-size: 18px; color: #1a1a1a; font-family: 'Crimson Pro', serif; line-height: 1; }
+  .dir-b .b-metric-l { font-size: 8px; color: #8a8a8a; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+  .dir-b .b-report {
+    background: #fff;
+    border: 0.5px solid rgba(0,0,0,0.1);
+    border-radius: 6px;
+    padding: 10px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .dir-b .b-section {
+    display: flex; align-items: center; gap: 7px;
+  }
+  .dir-b .b-section-bar {
+    width: 3px; height: 28px; border-radius: 2px; flex-shrink: 0;
+  }
+  .dir-b .b-section-lines { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .dir-b .b-line {
+    height: 5px; background: rgba(0,0,0,0.07); border-radius: 3px;
+  }
+  .dir-b .b-line.w60 { width: 60%; }
+  .dir-b .b-line.w85 { width: 85%; }
+  .dir-b .b-line.w40 { width: 40%; }
+
+  /* ── Direction C: Editorial / Abstract ── */
+  .dir-c {
+    background: #11243F;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+  }
+  .dir-c .c-header {
+    padding: 14px 16px 10px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  }
+  .dir-c .c-eyebrow {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 5px;
+  }
+  .dir-c .c-headline {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .dir-c .c-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .dir-c .c-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    min-height: 48px;
+  }
+  .dir-c .c-color-strip {
+    width: 3px;
+    flex-shrink: 0;
+  }
+  .dir-c .c-row-content {
+    flex: 1;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+  }
+  .dir-c .c-row-label {
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.3);
+  }
+  .dir-c .c-row-val {
+    font-size: 11px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.3;
+  }
+  .dir-c .c-row-meta {
+    font-size: 9px;
+    color: rgba(255,255,255,0.25);
+  }
+  .dir-c .c-pill {
+    margin-left: auto;
+    align-self: center;
+    flex-shrink: 0;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 500;
+  }
+  .dir-c .c-footer {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    border-top: 0.5px solid rgba(255,255,255,0.06);
+  }
+  .dir-c .c-stat {
+    flex: 1;
+    text-align: center;
+  }
+  .dir-c .c-stat-n {
+    font-size: 16px;
+    font-family: 'Crimson Pro', serif;
+    color: #fff;
+    display: block;
+    line-height: 1;
+  }
+  .dir-c .c-stat-l {
+    font-size: 8px;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-top: 3px;
+  }
+
+  .tag-selected {
+    display: none;
+    font-size: 12px;
+    color: #3A6991;
+    font-weight: 500;
+    margin-top: 8px;
+  }
+  .card.selected .tag-selected { display: block; }
+
+  .bottom-note {
+    margin-top: 2.5rem;
+    font-size: 13px;
+    color: #8a8a8a;
+    font-weight: 300;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>What visual direction feels right?</h1>
+  <p class="subtitle">These are the three aesthetic approaches for your case study graphics. Click to select — or mix and match ideas.</p>
+
+  <div class="grid">
+
+    <!-- Direction A -->
+    <div class="card" onclick="this.classList.toggle('selected')">
+      <div class="preview">
+        <div class="dir-a" style="width:100%">
+          <div class="topbar">
+            <div class="dot" style="background:#ff5f57"></div>
+            <div class="dot" style="background:#febc2e"></div>
+            <div class="dot" style="background:#28c840"></div>
+            <span class="window-title">UserVoice · AI Reports</span>
+          </div>
+          <div class="sidebar">
+            <div class="side-nav">
+              <div class="nav-icon active"></div>
+              <div class="nav-icon"></div>
+              <div class="nav-icon"></div>
+              <div class="nav-icon"></div>
+            </div>
+            <div class="main">
+              <div class="header-row">
+                <span class="page-title">Impact Reports</span>
+                <span class="badge">AI · Beta</span>
+              </div>
+              <div class="metric-row">
+                <div class="metric">
+                  <div class="metric-n">~99%</div>
+                  <div class="metric-l">faster</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-n">25%</div>
+                  <div class="metric-l">shared</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-n">30</div>
+                  <div class="metric-l">/ week</div>
+                </div>
+              </div>
+              <div class="report-card" style="flex:1">
+                <div class="report-header">
+                  <div class="section-dot" style="background:#f97316"></div>
+                  <div class="report-line medium" style="background:rgba(249,115,22,0.25)"></div>
+                </div>
+                <div class="report-line full"></div>
+                <div class="report-line medium"></div>
+                <div class="report-line short"></div>
+                <div class="report-header" style="margin-top:10px">
+                  <div class="section-dot" style="background:#22c55e"></div>
+                  <div class="report-line medium" style="background:rgba(34,197,94,0.2)"></div>
+                </div>
+                <div class="report-line full"></div>
+                <div class="report-line short"></div>
+                <div class="tag-row">
+                  <div class="tag">Pain Points</div>
+                  <div class="tag">Value</div>
+                  <div class="tag">Hypothesis</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-label">Direction A</p>
+        <p class="card-title">Dark SaaS — modern & technical</p>
+        <p class="card-desc">Deep backgrounds, glowing metrics, browser chrome. Signals "real product" — like Linear, Vercel, or Figma. Strong AI association. Stands out against your warm portfolio background.</p>
+        <p class="tag-selected">✓ Selected</p>
+      </div>
+    </div>
+
+    <!-- Direction B -->
+    <div class="card" onclick="this.classList.toggle('selected')">
+      <div class="preview">
+        <div class="dir-b" style="width:100%">
+          <div class="b-nav">
+            <span class="b-logo">UserVoice</span>
+            <div class="b-navlinks">
+              <span class="b-navlink">Reports</span>
+              <span class="b-navlink">Feedback</span>
+              <span class="b-navlink">Settings</span>
+            </div>
+          </div>
+          <div class="b-main">
+            <div class="b-content">
+              <div>
+                <div class="b-title">AI Impact Report · Onboarding</div>
+                <div class="b-sub" style="margin-top:3px">Generated June 2025 · 847 ideas analyzed</div>
+              </div>
+              <div class="b-metrics">
+                <div class="b-metric">
+                  <div class="b-metric-n" style="color:#DC8055">~99%</div>
+                  <div class="b-metric-l">time saved</div>
+                </div>
+                <div class="b-metric">
+                  <div class="b-metric-n" style="color:#3A6991">847</div>
+                  <div class="b-metric-l">ideas analyzed</div>
+                </div>
+                <div class="b-metric">
+                  <div class="b-metric-n" style="color:#3F4F3D">25%</div>
+                  <div class="b-metric-l">share rate</div>
+                </div>
+                <div class="b-metric">
+                  <div class="b-metric-n" style="color:#B05A30">30×</div>
+                  <div class="b-metric-l">weekly usage</div>
+                </div>
+              </div>
+              <div class="b-report">
+                <div class="b-section">
+                  <div class="b-section-bar" style="background:#DC8055"></div>
+                  <div class="b-section-lines">
+                    <div class="b-line w85"></div>
+                    <div class="b-line w60"></div>
+                  </div>
+                </div>
+                <div class="b-section">
+                  <div class="b-section-bar" style="background:#3A6991"></div>
+                  <div class="b-section-lines">
+                    <div class="b-line w60"></div>
+                    <div class="b-line w40"></div>
+                  </div>
+                </div>
+                <div class="b-section">
+                  <div class="b-section-bar" style="background:#3F4F3D"></div>
+                  <div class="b-section-lines">
+                    <div class="b-line w85"></div>
+                    <div class="b-line w60"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-label">Direction B</p>
+        <p class="card-title">Warm Light — on-brand & cohesive</p>
+        <p class="card-desc">Uses your portfolio's exact palette — terracotta, steel blue, forest green. Feels like the same designer made the portfolio and the product. Elegant, but may feel less "AI-native."</p>
+        <p class="tag-selected">✓ Selected</p>
+      </div>
+    </div>
+
+    <!-- Direction C -->
+    <div class="card" onclick="this.classList.toggle('selected')">
+      <div class="preview">
+        <div class="dir-c" style="width:100%">
+          <div class="c-header">
+            <div class="c-eyebrow">UserVoice · Impact Report</div>
+            <div class="c-headline">Onboarding Friction<br>Theme Analysis</div>
+          </div>
+          <div class="c-body">
+            <div class="c-row">
+              <div class="c-color-strip" style="background:#f97316"></div>
+              <div class="c-row-content">
+                <div class="c-row-label">Pain Points</div>
+                <div class="c-row-val">Setup takes too long for new accounts</div>
+              </div>
+              <div class="c-pill" style="background:rgba(249,115,22,0.15);color:#fb923c;">High urgency</div>
+            </div>
+            <div class="c-row">
+              <div class="c-color-strip" style="background:#22c55e"></div>
+              <div class="c-row-content">
+                <div class="c-row-label">Value to Users</div>
+                <div class="c-row-val">Faster time-to-value increases retention</div>
+              </div>
+              <div class="c-pill" style="background:rgba(34,197,94,0.12);color:#4ade80;">$2.1M ARR</div>
+            </div>
+            <div class="c-row">
+              <div class="c-color-strip" style="background:#818cf8"></div>
+              <div class="c-row-content">
+                <div class="c-row-label">Challenge Hypothesis</div>
+                <div class="c-row-val">Is complexity the barrier, or expectation?</div>
+              </div>
+              <div class="c-pill" style="background:rgba(129,140,248,0.12);color:#a5b4fc;">Research</div>
+            </div>
+            <div class="c-row">
+              <div class="c-color-strip" style="background:#fbbf24"></div>
+              <div class="c-row-content">
+                <div class="c-row-label">Feature Announcement</div>
+                <div class="c-row-val">Guided setup wizard — Q3 candidate</div>
+              </div>
+              <div class="c-pill" style="background:rgba(251,191,36,0.12);color:#fcd34d;">Draft</div>
+            </div>
+          </div>
+          <div class="c-footer">
+            <div class="c-stat">
+              <span class="c-stat-n">~99%</span>
+              <span class="c-stat-l">faster</span>
+            </div>
+            <div class="c-stat">
+              <span class="c-stat-n">847</span>
+              <span class="c-stat-l">ideas</span>
+            </div>
+            <div class="c-stat">
+              <span class="c-stat-n">25%</span>
+              <span class="c-stat-l">shared</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-label">Direction C</p>
+        <p class="card-title">Editorial Dark — content-forward & sharp</p>
+        <p class="card-desc">Deep navy background with your portfolio's terracotta/steel accent system. Shows the actual content of the AI output — color-coded sections, real copy, real metrics. Feels like a screenshot but is art-directed.</p>
+        <p class="tag-selected">✓ Selected</p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="bottom-note">You can mix — e.g. Direction C for AI Reporting, Direction A for Admin Grid. Click one or more to select.</p>
+</div>
+</body>
+</html>
