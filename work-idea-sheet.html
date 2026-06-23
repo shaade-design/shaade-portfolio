@@ -73,6 +73,8 @@
     .section p em { font-style: italic; }
     .sec-label { max-width: 680px; }
     .pull-quote { max-width: 680px; }
+    .pull-quote-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; max-width: 680px; margin: 1.5rem auto; }
+    .pull-quote-row .pull-quote { max-width: 100%; margin: 0; }
     .approach-list { max-width: 680px; }
 
     /* IMAGES */
@@ -84,14 +86,16 @@
     .img-placeholder span.note { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--muted); }
 
     /* CALLOUT */
-    .callout { border-left: 2px solid var(--text); padding: 1.1rem 1.4rem; margin: 1.5rem 0; background: #f9f9f9; border-radius: 0 4px 4px 0; }
+    .callout { border-left: 2px solid var(--text); padding: 1.1rem 1.4rem; margin: 1.5rem auto; max-width: 680px; background: #f9f9f9; border-radius: 0 4px 4px 0; }
     .callout p { font-size: 14px; line-height: 1.7; color: var(--text); font-weight: 400; margin: 0; }
     .callout p em { font-style: italic; }
 
     /* PULL QUOTE */
-    .pull-quote { border-left: 2px solid var(--border-mid); padding: 1rem 1.4rem; margin: 1.5rem 0; }
-    .pull-quote p { font-size: 16px; line-height: 1.7; color: var(--muted); font-style: italic; font-weight: 400; margin: 0 0 0.4rem; }
-    .pull-quote cite { font-size: 12px; color: var(--faint); font-style: normal; letter-spacing: 0.03em; }
+    .pull-quote { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.25rem 1rem; margin: 1.5rem auto; max-width: 680px; display: flex; flex-direction: column; gap: 0.75rem; }
+    .pull-quote p { font-family: var(--serif); font-size: 17px; line-height: 1.6; color: var(--text); font-style: italic; font-weight: 400; margin: 0; }
+    .pull-quote cite { font-size: 11px; color: var(--faint); font-style: normal; letter-spacing: 0.03em; }
+    .pull-quote-footer { display: flex; align-items: center; gap: 0.6rem; }
+    .pq-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--c-steel); color: #fff; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; letter-spacing: 0.02em; }
 
     /* APPROACH LIST */
     .approach-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin: 1.25rem 0; }
@@ -99,27 +103,48 @@
     .approach-list li strong { color: var(--text); font-weight: 500; }
 
     /* PRINCIPLE CARDS */
-    .principle-list { display: flex; flex-direction: column; gap: 0.75rem; margin: 1.5rem 0; max-width: 740px; }
-    .principle-card { display: flex; gap: 1rem; align-items: flex-start; background: #f8f8f8; border: 1px solid #ebebeb; border-radius: 12px; padding: 1.25rem 1.4rem; }
-    .principle-icon { width: 36px; height: 36px; border-radius: 8px; background: white; border: 1px solid #e0e0e0; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--c-navy); margin-top: 1px; }
+    .principle-list { display: flex; flex-direction: column; gap: 1.1rem; margin: 1.5rem auto; max-width: 680px; }
+    .principle-card { display: flex; gap: 1rem; align-items: flex-start; }
+    .principle-icon { display: none; }
     .principle-body { flex: 1; }
-    .principle-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; }
-    .principle-desc { font-size: 14px; color: var(--muted); line-height: 1.7; font-weight: 400; margin: 0; }
+    .principle-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+    .principle-desc { font-size: 14px; color: var(--muted); line-height: 1.65; font-weight: 400; margin: 0; }
 
     /* THREE PARTS */
-    .parts-list { display: flex; flex-direction: column; gap: 1.5rem; margin: 1.5rem 0; }
-    .part { background: #f9f9f9; border: 0.5px solid var(--border); border-radius: 6px; padding: 1.4rem; }
-    .part-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.4rem; }
-    .part h4 { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 0.5rem; }
-    .part p { font-size: 14px; color: var(--muted); font-weight: 300; line-height: 1.65; margin: 0; }
+    .parts-stack { display: flex; flex-direction: column; gap: 0; margin: 2rem auto; max-width: 860px; }
+    .part { position: sticky; background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; min-height: 340px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1rem; }
+    .part:nth-child(1) { top: 80px; }
+    .part:nth-child(2) { top: 96px; }
+    .part:nth-child(3) { top: 112px; }
+    .part-content { padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; gap: 0.75rem; }
+    .part-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-brick); }
+    .part h4 { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--text); margin: 0; line-height: 1.3; }
+    .part p { font-size: 14px; color: var(--muted); font-weight: 400; line-height: 1.7; margin: 0; }
+    .part-img { background: #f2f1ef; display: flex; align-items: center; justify-content: center; }
+    .part-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .part-img-placeholder { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 11px; color: var(--faint); letter-spacing: 0.06em; text-transform: uppercase; }
 
     /* CIRCLE GRID */
-    .shipped-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem 2rem; margin: 1.75rem 0; }
-    .shipped-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
-    .circle-wrap { width: 140px; height: 140px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border-mid); background: #ececea; margin-bottom: 1rem; flex-shrink: 0; box-shadow: 0 4px 16px rgba(0,0,0,0.07); display: flex; align-items: center; justify-content: center; }
-    .circle-num { font-family: var(--serif); font-size: 36px; font-weight: 400; color: var(--border-mid); }
-    .circle-label { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; letter-spacing: -0.01em; }
-    .circle-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.55; }
+    .shipped-tabs { display: grid; grid-template-columns: 300px 1fr; gap: 3rem; margin: 2rem auto; max-width: 940px; height: 520px; align-items: center; }
+    .shipped-tab-list { display: flex; flex-direction: column; }
+    .shipped-tab-item { border-bottom: 1px solid var(--border); border-left: 3px solid transparent; overflow: hidden; cursor: pointer; transition: border-left-color 0.15s, background 0.15s; }
+    .shipped-tab-item:first-child { border-top: 1px solid var(--border); }
+    .shipped-tab-item:hover { background: #f9f9f8; }
+    .shipped-tab-item.active { border-left-color: var(--c-navy); background: #f5f6f8; }
+    .shipped-tab-header { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem 0.85rem 1.1rem; }
+    .shipped-tab-num { font-size: 10px; color: var(--faint); font-weight: 600; width: 20px; flex-shrink: 0; letter-spacing: 0.05em; transition: color 0.15s; }
+    .shipped-tab-item.active .shipped-tab-num { color: var(--c-navy); }
+    .shipped-tab-name { font-size: 14px; font-weight: 500; color: var(--muted); line-height: 1.3; transition: color 0.15s; }
+    .shipped-tab-item.active .shipped-tab-name { color: var(--text); }
+    .shipped-tab-detail { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding: 0 1rem 0 3rem; }
+    .shipped-tab-item.active .shipped-tab-detail { max-height: 120px; padding-bottom: 1rem; }
+    .shipped-tab-subs { display: flex; flex-direction: column; gap: 0.3rem; }
+    .shipped-tab-sub { font-size: 13px; color: var(--c-navy); font-weight: 400; letter-spacing: 0.01em; }
+    .shipped-tab-panels { height: 100%; display: flex; align-items: center; justify-content: center; }
+    .shipped-tab-panel { display: none; flex-direction: column; align-items: center; gap: 1rem; width: 100%; }
+    .shipped-tab-panel.active { display: flex; }
+    .shipped-tab-panel img { width: 100%; max-width: 460px; object-fit: contain; display: block; }
+    .shipped-tab-desc { font-size: 13px; color: var(--muted); line-height: 1.65; text-align: center; max-width: 380px; }
 
     /* INSIGHT */
     .insight { background: #f9f9f9; border: 0.5px solid var(--border); border-radius: 6px; padding: 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.4rem; }
@@ -301,16 +326,11 @@
         <p>The interviews were structured around jobs to be done — not "what do you think of this design" but "walk me through the last time you opened an idea." That framing surfaced things a survey never would.</p>
 
         <div class="pull-quote">
-          <p>"Cleaner, more modern look — stuff is front and center."</p>
-          <cite>— Product Manager, Zendesk</cite>
-        </div>
-        <div class="pull-quote">
           <p>"I'd like to tuck away the metadata stuff, to focus on the activity entries."</p>
-          <cite>— Product Manager, Greenhouse</cite>
-        </div>
-
-        <div class="img-wrap">
-          <img src="images/data.png" alt="Heap data — user paths after viewing the idea detail sheet" />
+          <div class="pull-quote-footer">
+            <div class="pq-avatar">PM</div>
+            <cite>Product Manager, Greenhouse</cite>
+          </div>
         </div>
 
         <p>I layered those findings against Heap analytics — heatmaps and path data showing what admins actually did, not what they said they did. Interviews told me why. Data told me how often.</p>
@@ -362,18 +382,8 @@
           <div class="ia-diagram-cap">Everything present, nothing prioritized — high and low-usage items at the same visual weight. 12% of clicks going into an unpredictable menu.</div>
         </div>
 
-        <div class="pull-quote">
-          <p>"Cleaner, more modern look — stuff is front and center."</p>
-          <cite>— Product Manager, Zendesk</cite>
-        </div>
-        <div class="pull-quote">
-          <p>"I'd like to tuck away the metadata stuff, to focus on the activity entries."</p>
-          <cite>— Product Manager, Greenhouse</cite>
-        </div>
-
-        <div class="img-placeholder">
-          <span>Annotated before state — options menu overload, buried revenue data</span>
-          <span class="note">Add idea-sheet-annotated.png to /images/</span>
+        <div class="img-wrap">
+          <img src="images/data.png" alt="Heap data — user paths after viewing the idea detail sheet" />
         </div>
       </section>
 
@@ -387,7 +397,7 @@
             </div>
             <div class="principle-body">
               <div class="principle-title">Separate reading from acting.</div>
-              <p class="principle-desc">Split the page into two zones. Left for read content — description, activity, metrics, the story of the idea. Right rail for admin actions and idea state — statuses, labels, custom fields, integrations. Once that delineation was clear, everything else fell into place.</p>
+              <p class="principle-desc">Two zones: left for content, right rail for actions. Once the split was clear, everything else fell into place.</p>
             </div>
           </div>
           <div class="principle-card">
@@ -396,7 +406,7 @@
             </div>
             <div class="principle-body">
               <div class="principle-title">Explode the Options menu.</div>
-              <p class="principle-desc">The dropdown was doing too much — 12% of all post-view clicks went into a menu that buried edit, merge, status updates, outreach, and delete side by side with no hierarchy. I surfaced the most-used actions into the right rail and reduced the Options menu to what was truly secondary.</p>
+              <p class="principle-desc">12% of post-view clicks went into an unpredictable dropdown. Surfaced the most-used actions into the right rail. Menu kept for secondary actions only.</p>
             </div>
           </div>
           <div class="principle-card">
@@ -405,7 +415,7 @@
             </div>
             <div class="principle-body">
               <div class="principle-title">Reduce modal takeover.</div>
-              <p class="principle-desc">The old sheet launched full-screen modals for almost every action. I introduced slide-in panels — status updates, outreach, commenting — that stayed anchored to the sheet. Context preserved. A deliberate step toward the slideout pattern that would later spread across the product.</p>
+              <p class="principle-desc">Replaced full-screen modals with slide-in panels. Context stays. A stepping stone toward the slideout pattern that later spread across the product.</p>
             </div>
           </div>
           <div class="principle-card">
@@ -414,7 +424,7 @@
             </div>
             <div class="principle-body">
               <div class="principle-title">Subtract before you add.</div>
-              <p class="principle-desc">Analytics told us which features weren't being adopted. We dropped them — not tucked away, dropped. Unused features add cognitive load even when they're not being clicked.</p>
+              <p class="principle-desc">Analytics showed which features weren't being used. We dropped them — not tucked away, dropped.</p>
             </div>
           </div>
           <div class="principle-card">
@@ -423,7 +433,7 @@
             </div>
             <div class="principle-body">
               <div class="principle-title">Design for the scroll.</div>
-              <p class="principle-desc">Sticky navigation anchored key idea information — title, status, key metrics — as admins scrolled through long activity feeds. Borrowed from mobile scrolling patterns. A small decision that made a large difference.</p>
+              <p class="principle-desc">Sticky nav anchored title and key state as admins scrolled long activity feeds. A small decision with a large effect.</p>
             </div>
           </div>
         </div>
@@ -434,21 +444,30 @@
         <h2>Sequenced deliberately.</h2>
         <p>This wasn't a single redesign. It was three separate pitches, each scoped tightly, each building on the last.</p>
 
-        <div class="parts-list">
+        <div class="parts-stack">
           <div class="part">
-            <div class="part-label">Part 1</div>
-            <h4>The shell and right rail</h4>
-            <p>Replace the Angular sheet component with React Dock. Redesign everything except the activity feed — the right rail, quick actions, status, labels, tabs, the two-zone layout. The activity feed stayed as-is because it was its own complex Angular component, outside the scope of this cycle.</p>
+            <div class="part-content">
+              <div class="part-label">Part 1</div>
+              <h4>The shell and right rail</h4>
+              <p>Replace the Angular sheet component with React Dock. Redesign everything except the activity feed — the right rail, quick actions, status, labels, tabs, the two-zone layout.</p>
+            </div>
+            <div class="part-img"><div class="part-img-placeholder">Image coming</div></div>
           </div>
           <div class="part">
-            <div class="part-label">Part 2</div>
-            <h4>The activity feed</h4>
-            <p>Its own pitch, its own complexity. Internal and external activity made visually distinct. Iconography introduced to differentiate user types, accounts, revenue. Quick filter tabs — Comments &amp; Feedback, Internal Comments, All Activity. Improved scannability for high-volume feeds.</p>
+            <div class="part-content">
+              <div class="part-label">Part 2</div>
+              <h4>The activity feed</h4>
+              <p>Its own pitch, its own complexity. Internal and external activity made visually distinct. Iconography introduced to differentiate user types, accounts, revenue. Quick filter tabs added.</p>
+            </div>
+            <div class="part-img"><div class="part-img-placeholder">Image coming</div></div>
           </div>
           <div class="part">
-            <div class="part-label">Part 3</div>
-            <h4>The inner tabs</h4>
-            <p>Users, Accounts, Features, Validation, and SFDC Opportunity tabs all still running old designs after parts 1 and 2 shipped. Updated to match the new design language. User Detail and Account Detail pages redesigned to match. One system, propagated across the product.</p>
+            <div class="part-content">
+              <div class="part-label">Part 3</div>
+              <h4>The inner tabs</h4>
+              <p>Users, Accounts, Features, Validation tabs updated to match the new design language. User Detail and Account Detail redesigned to match. One system, propagated across the product.</p>
+            </div>
+            <div class="part-img" style="overflow:hidden;border-radius:0 16px 16px 0;"><video src="images/sheet_tabs_video.mov" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video></div>
           </div>
         </div>
 
@@ -466,43 +485,60 @@
         <p class="sec-label">What Shipped</p>
         <h2>Six decisions that defined the surface.</h2>
 
-        <div class="shipped-grid">
-          <div class="shipped-card">
-            <div class="circle-wrap"><span class="circle-num">01</span></div>
-            <div class="circle-label">Two-Zone Layout</div>
-            <div class="circle-desc">Read left, act right — the IA decision that structured everything else.</div>
+        <div class="shipped-tabs">
+          <div class="shipped-tab-list">
+            <div class="shipped-tab-item active" data-tab="0">
+              <div class="shipped-tab-header"><span class="shipped-tab-num">01</span><span class="shipped-tab-name">Two-Zone Layout</span></div>
+              <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Left: content &amp; activity</span><span class="shipped-tab-sub">Right: status, actions &amp; fields</span></div></div>
+            </div>
+            <div class="shipped-tab-item" data-tab="1">
+              <div class="shipped-tab-header"><span class="shipped-tab-num">02</span><span class="shipped-tab-name">Right Rail Actions</span></div>
+              <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Public &amp; internal status</span><span class="shipped-tab-sub">Labels · Custom fields · Integrations</span></div></div>
+            </div>
+            <div class="shipped-tab-item" data-tab="2">
+              <div class="shipped-tab-header"><span class="shipped-tab-num">03</span><span class="shipped-tab-name">Status Updates</span></div>
+              <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Slide-in panel, not a modal</span><span class="shipped-tab-sub">Email subscribers notified inline</span></div></div>
+            </div>
+            <div class="shipped-tab-item" data-tab="3">
+              <div class="shipped-tab-header"><span class="shipped-tab-num">04</span><span class="shipped-tab-name">Activity Feed</span></div>
+              <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Comments &amp; Feedback · Internal · All</span><span class="shipped-tab-sub">Quick filters · Improved scannability</span></div></div>
+            </div>
+            <div class="shipped-tab-item" data-tab="4">
+              <div class="shipped-tab-header"><span class="shipped-tab-num">05</span><span class="shipped-tab-name">Slide-in Panels</span></div>
+              <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Slideout over modals</span><span class="shipped-tab-sub">Context preserved · Pattern that spread</span></div></div>
+            </div>
+            <div class="shipped-tab-item" data-tab="5">
+              <div class="shipped-tab-header"><span class="shipped-tab-num">06</span><span class="shipped-tab-name">Iconography</span></div>
+              <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">User type · Account · Revenue source</span><span class="shipped-tab-sub">Visual language carried across the product</span></div></div>
+            </div>
           </div>
-          <div class="shipped-card">
-            <div class="circle-wrap"><span class="circle-num">02</span></div>
-            <div class="circle-label">Right Rail Actions</div>
-            <div class="circle-desc">Status, labels, custom fields, integrations — persistent and one click regardless of scroll position.</div>
-          </div>
-          <div class="shipped-card">
-            <div class="circle-wrap"><span class="circle-num">03</span></div>
-            <div class="circle-label">Status Updates</div>
-            <div class="circle-desc">Hidden by default, expandable on demand. Progressive disclosure at the component level.</div>
-          </div>
-          <div class="shipped-card">
-            <div class="circle-wrap"><span class="circle-num">04</span></div>
-            <div class="circle-label">Activity Feed</div>
-            <div class="circle-desc">Iconography distinguishing internal from external, user type from account type.</div>
-          </div>
-          <div class="shipped-card">
-            <div class="circle-wrap"><span class="circle-num">05</span></div>
-            <div class="circle-label">Sticky Navigation</div>
-            <div class="circle-desc">Title and key state anchored as admins scroll deep into the activity feed.</div>
-          </div>
-          <div class="shipped-card">
-            <div class="circle-wrap"><span class="circle-num">06</span></div>
-            <div class="circle-label">Design Language</div>
-            <div class="circle-desc">Color system, revenue badges, source attribution — carried forward from the grid.</div>
+          <div class="shipped-tab-panels">
+            <div class="shipped-tab-panel active">
+              <img src="images/sheet-two-panel.png" alt="Two-zone layout" style="width:100%;max-width:460px;height:auto;display:block;" />
+            </div>
+            <div class="shipped-tab-panel"><img src="images/sheet_rails.png" alt="Right rail actions" style="width:100%;max-width:460px;height:auto;display:block;" /></div>
+            <div class="shipped-tab-panel">
+              <div style="position:relative;width:460px;height:460px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="460" height="460" style="position:absolute;top:0;left:0;" aria-hidden="true"><circle cx="230" cy="230" r="226" fill="#f0efed"/></svg>
+                <video src="images/sheet_status_video.mov" autoplay muted loop playsinline style="width:55%;height:auto;border-radius:12px;position:relative;z-index:1;box-shadow:0 4px 24px rgba(0,0,0,0.1);"></video>
+              </div>
+            </div>
+            <div class="shipped-tab-panel">
+              <div style="position:relative;width:460px;height:460px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="460" height="460" style="position:absolute;top:0;left:0;" aria-hidden="true"><circle cx="230" cy="230" r="226" fill="#f0efed"/></svg>
+                <video src="images/sheet_activity_video.mov" autoplay muted loop playsinline style="width:82%;height:auto;border-radius:12px;position:relative;z-index:1;box-shadow:0 4px 24px rgba(0,0,0,0.1);"></video>
+              </div>
+            </div>
+            <div class="shipped-tab-panel">
+              <div style="position:relative;width:460px;height:460px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="460" height="460" style="position:absolute;top:0;left:0;" aria-hidden="true"><circle cx="230" cy="230" r="226" fill="#f0efed"/></svg>
+                <video src="images/sheet_slideout_video.mov" autoplay muted loop playsinline style="width:82%;height:auto;border-radius:12px;position:relative;z-index:1;box-shadow:0 4px 24px rgba(0,0,0,0.1);"></video>
+              </div>
+            </div>
+            <div class="shipped-tab-panel"><img src="images/sheet_feedback_circle.png" alt="Iconography" /></div>
           </div>
         </div>
 
-        <div class="screen-card">
-          <img src="images/idea-sheet-detail.png" alt="Redesigned idea detail sheet with AI Summary panel open" />
-          <p class="screen-caption">The redesigned idea detail — AI summary surfaced in context, on the page admins already lived in.</p>
-        </div>
       </section>
 
       <section class="section" id="connective">
@@ -514,7 +550,10 @@
 
         <div class="pull-quote">
           <p>"It was a way of keeping an eye on the chatter."</p>
-          <cite>— Product Manager, Procore</cite>
+          <div class="pull-quote-footer">
+            <div class="pq-avatar">PM</div>
+            <cite>Product Manager, Procore</cite>
+          </div>
         </div>
       </section>
 
@@ -526,6 +565,8 @@
         <p>The second round was informed by heatmapping data and a shift in how admins were beginning to think about ideas. Not just individual ideas, but groupings. Themes. Patterns across the backlog. The work was scoped and slated — designs in progress when the project paused.</p>
         <p>That shift pointed toward AI: an overview landing page with AI-generated problem/solution/why it matters summaries. An activity feed that could summarize recent changes rather than requiring admins to scroll through every entry. Internal chat with @ mentions replacing internal comments. Idea Owner as a native field. AI label recommendations.</p>
         <p>The sheet wasn't just a management tool anymore. It was becoming an intelligence layer — a place where the product could help admins understand what a piece of feedback meant, not just store it.</p>
+
+        <img src="images/final_sheet_ux.png" alt="Redesigned idea detail sheet with AI Summary panel open" style="width:100%;height:auto;display:block;margin:1.75rem 0;" />
 
         <div class="content-split">
           <div>
@@ -672,6 +713,15 @@
     dot.addEventListener('click', () => {
       const target = document.getElementById(dot.dataset.target);
       if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  document.querySelectorAll('.shipped-tab-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.shipped-tab-item').forEach(i => i.classList.remove('active'));
+      document.querySelectorAll('.shipped-tab-panel').forEach(p => p.classList.remove('active'));
+      item.classList.add('active');
+      document.querySelectorAll('.shipped-tab-panel')[+item.dataset.tab].classList.add('active');
     });
   });
 
