@@ -66,8 +66,32 @@
     /* PAGE */
     .page { max-width: 1060px; margin: 0 auto; padding: 0 2rem; }
 
+    /* LAPTOP MOCKUP */
+    .laptop-mockup { margin: 2rem 0 0; max-width: 860px; }
+    .laptop-screen {
+      background: #1a1a1a;
+      border-radius: 10px 10px 0 0;
+      padding: 10px 10px 0;
+      border: 1.5px solid #3a3a3a;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    }
+    .laptop-screen img {
+      width: 100%; display: block;
+      border-radius: 4px 4px 0 0;
+    }
+    .laptop-base {
+      background: linear-gradient(180deg, #d0d0d0 0%, #b8b8b8 100%);
+      height: 18px; border-radius: 0 0 8px 8px;
+      border: 1.5px solid #aaa; border-top: none;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .laptop-notch {
+      width: 60px; height: 5px;
+      background: #999; border-radius: 0 0 4px 4px;
+    }
+
     /* HERO */
-    .hero { padding: 5rem 0 3.5rem; max-width: 740px; }
+    .hero { padding: 5rem 0 3.5rem; max-width: 860px; }
     .hero-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
     .hero-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); padding: 3px 10px; border: 0.5px solid var(--border-mid); border-radius: 3px; }
     .hero-co { font-size: 11px; color: var(--faint); }
@@ -117,7 +141,8 @@
     }
     .slider-divider {
       position: absolute; top: 0; bottom: 0; left: 50%;
-      width: 1px; background: rgba(255,255,255,0.7);
+      width: 2px; background: #2563eb;
+      box-shadow: 0 0 8px rgba(37,99,235,0.4);
       transform: translateX(-50%); pointer-events: none;
     }
     .slider-handle {
@@ -301,6 +326,15 @@
     </div>
     <h1>From looking at ideas to <em>doing something with them</em></h1>
     <p class="hero-sub">The Idea Grid was UserVoice's most-visited surface — over a million page views a year, 60% of all admin interactions. It was also running on a legacy architecture where every filter, sort, and click triggered a full page reload. I used performance as the strategic wedge to get this work resourced, then designed a foundation that the product grew into for the next two years.</p>
+
+    <div class="laptop-mockup">
+      <div class="laptop-screen">
+        <img src="images/hero_grid.png" alt="Admin Grid Overhaul — redesigned idea grid with filters, sorting, and real-time updates" />
+      </div>
+      <div class="laptop-base">
+        <div class="laptop-notch"></div>
+      </div>
+    </div>
   </header>
 
   <div class="summary">

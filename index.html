@@ -102,6 +102,53 @@
     }
     .nav-links a:hover { color: var(--color-accent-warm); }
 
+
+    /* ORBS */
+    @keyframes orb-breathe-a {
+      0%,100% { transform: scale(1);    filter: blur(70px); opacity: 0.28; }
+      50%     { transform: scale(1.2);  filter: blur(90px); opacity: 0.14; }
+    }
+    @keyframes orb-breathe-b {
+      0%,100% { transform: scale(1.1); filter: blur(80px); opacity: 0.22; }
+      50%     { transform: scale(0.9); filter: blur(60px); opacity: 0.32; }
+    }
+    @keyframes orb-breathe-c {
+      0%,100% { transform: scale(1);   filter: blur(65px); opacity: 0.2;  }
+      50%     { transform: scale(1.15);filter: blur(85px); opacity: 0.1;  }
+    }
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform;
+    }
+    .orb-red {
+      width: 480px; height: 480px;
+      top: 10vh; right: -100px;
+      background: radial-gradient(circle at 40% 40%, #E0452E, #C23A2A 50%, transparent 70%);
+      animation: orb-breathe-a 3s ease-in-out infinite;
+    }
+    .orb-purple {
+      width: 420px; height: 420px;
+      top: 40vh; left: -60px;
+      background: radial-gradient(circle at 55% 45%, #9333ea, #6d28d9 50%, transparent 70%);
+      animation: orb-breathe-b 4s ease-in-out infinite;
+    }
+    .orb-blue {
+      width: 460px; height: 460px;
+      top: 70vh; right: -80px;
+      background: radial-gradient(circle at 40% 50%, #2563eb, #1d4ed8 50%, transparent 70%);
+      animation: orb-breathe-c 3.5s ease-in-out infinite;
+    }
+    .orb-blue2 {
+      width: 360px; height: 360px;
+      top: 55vh; left: -40px;
+      background: radial-gradient(circle at 50% 50%, #3b82f6, #2563eb 50%, transparent 70%);
+      animation: orb-breathe-a 4s ease-in-out infinite;
+      animation-delay: 1.5s;
+    }
+
     /* HERO */
     .hero {
       padding: 1.25rem 0 2rem;
@@ -151,7 +198,7 @@
       gap: 6px;
       transition: background 0.15s;
     }
-    .btn-primary:hover { background: #333; }
+    .btn-primary:hover { background: var(--c-rust); }
     .btn-outline {
       font-family: var(--font-sans);
       font-size: 14px;
@@ -167,7 +214,7 @@
       align-items: center;
       transition: border-color 0.15s, color 0.15s;
     }
-    .btn-outline:hover { border-color: var(--color-muted); }
+    .btn-outline:hover { border-color: var(--c-rust); color: var(--c-rust); }
     .hero-stats {
       display: flex;
       gap: 3rem;
@@ -521,8 +568,8 @@
       font-weight: 500;
       letter-spacing: 0.03em;
       padding: 10px 20px;
-      background: var(--c-forest);
-      color: #f5efe6;
+      background: var(--color-text);
+      color: #fff;
       border: none;
       border-radius: 4px;
       cursor: pointer;
@@ -530,7 +577,7 @@
       display: inline-block;
       transition: background 0.15s;
     }
-    .btn:hover { background: var(--c-olive); }
+    .btn:hover { background: var(--c-rust); }
 
     /* RESPONSIVE */
     @media (max-width: 680px) {
@@ -542,6 +589,11 @@
   </style>
 </head>
 <body>
+
+  <div class="orb orb-red"    id="orb-red"></div>
+  <div class="orb orb-purple" id="orb-purple"></div>
+  <div class="orb orb-blue"   id="orb-blue"></div>
+  <div class="orb orb-blue2"  id="orb-blue2"></div>
 
   <nav>
     <div class="nav-inner">
@@ -569,7 +621,7 @@
 
     <div class="work-grid">
       <a href="work-ai-reporting.html" class="card">
-        <div class="card-thumb"><img src="images/hero_impact_thumbnail.png" alt="AI Reporting Suite — Impact Reports preview" /></div>
+        <div class="card-thumb"><img src="images/ai_thumbnail.png" alt="AI Reporting Suite — Impact Reports preview" style="object-position: center;" /></div>
         <div class="card-body">
           <div class="card-meta"><span class="card-tag">AI Product</span></div>
           <h3>Impact Reports</h3>
@@ -677,5 +729,27 @@
     </section>
 
   </div>
+
+  <script>
+    const orbRed    = document.getElementById('orb-red');
+    const orbPurple = document.getElementById('orb-purple');
+    const orbBlue   = document.getElementById('orb-blue');
+    const orbBlue2  = document.getElementById('orb-blue2');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = window.scrollY;
+          orbRed.style.transform    = `translateY(${y * 0.25}px)`;
+          orbPurple.style.transform = `translateY(${y * 0.18}px)`;
+          orbBlue.style.transform   = `translateY(${y * 0.30}px)`;
+          orbBlue2.style.transform  = `translateY(${y * 0.22}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  </script>
+
 </body>
 </html>
