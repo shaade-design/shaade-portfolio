@@ -101,16 +101,16 @@
 
     /* ORBS */
     @keyframes orb-breathe-a {
-      0%,100% { transform: scale(1);    filter: blur(70px); opacity: 0.28; }
-      50%     { transform: scale(1.2);  filter: blur(90px); opacity: 0.14; }
+      0%,100% { transform: scale(1);    filter: blur(80px); opacity: 0.18; }
+      50%     { transform: scale(1.2);  filter: blur(100px); opacity: 0.08; }
     }
     @keyframes orb-breathe-b {
-      0%,100% { transform: scale(1.1); filter: blur(80px); opacity: 0.22; }
-      50%     { transform: scale(0.9); filter: blur(60px); opacity: 0.32; }
+      0%,100% { transform: scale(1.1); filter: blur(90px); opacity: 0.14; }
+      50%     { transform: scale(0.9); filter: blur(70px); opacity: 0.20; }
     }
     @keyframes orb-breathe-c {
-      0%,100% { transform: scale(1);   filter: blur(65px); opacity: 0.2;  }
-      50%     { transform: scale(1.15);filter: blur(85px); opacity: 0.1;  }
+      0%,100% { transform: scale(1);   filter: blur(80px); opacity: 0.14;  }
+      50%     { transform: scale(1.15);filter: blur(100px); opacity: 0.07;  }
     }
     .orb {
       position: fixed;
@@ -142,7 +142,7 @@
     }
     .orb-blue2 {
       width: 360px; height: 360px;
-      top: 55vh; left: -40px;
+      top: 55vh; left: -100px;
       background: radial-gradient(circle at 50% 50%, #3b82f6, #2563eb 50%, transparent 70%);
       animation: orb-breathe-a 4s ease-in-out infinite;
       animation-delay: 1.5s;
