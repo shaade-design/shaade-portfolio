@@ -83,7 +83,7 @@
     .s-val { font-size: 14px; line-height: 1.5; color: var(--text); }
 
     /* STATS */
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--border); border: 0.5px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 3rem; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--border); border: 0.5px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 0; }
     .stat { background: var(--bg); padding: 1.5rem; text-align: center; }
     .stat-n { font-family: var(--serif); font-size: 40px; font-weight: 400; color: var(--text); letter-spacing: -0.03em; line-height: 1; display: block; margin-bottom: 0.4rem; }
     .stat-l { font-size: 13px; color: var(--muted); line-height: 1.4; font-weight: 300; }
@@ -91,7 +91,7 @@
     /* SLIDER */
     .slider-wrap { margin-bottom: 3rem; }
     .slider-label-row { display: flex; justify-content: space-between; margin-bottom: 10px; padding: 0 2px; }
-    .slider-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+    .slider-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); background: #f0f0f0; border: 1px solid rgba(0,0,0,0.12); border-radius: 4px; padding: 4px 10px; }
     .slider-container {
       position: relative;
       width: 100%;
@@ -124,12 +124,12 @@
       position: absolute; top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       width: 40px; height: 40px;
-      background: #fff; border-radius: 50%;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      background: #2563eb; border-radius: 50%;
+      box-shadow: 0 2px 12px rgba(37,99,235,0.4);
       display: flex; align-items: center; justify-content: center;
       pointer-events: none; z-index: 10;
     }
-    .slider-handle svg { width: 18px; height: 18px; color: #555; }
+    .slider-handle svg { width: 18px; height: 18px; color: #fff; }
     .slider-cap { font-size: 12px; color: var(--faint); margin-top: 0.5rem; font-style: italic; text-align: center; }
 
     /* LAYOUT */
@@ -143,7 +143,7 @@
     /* SECTIONS */
     .sections { display: flex; flex-direction: column; gap: 4rem; }
     .section { scroll-margin-top: 90px; }
-    .sec-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-brick); margin-bottom: 0.9rem; }
+    .sec-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-brick); margin-bottom: 0.9rem; max-width: 680px; display: block; margin-left: auto; margin-right: auto; }
     .section h2 { font-family: var(--serif); font-size: 26px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.25; margin-bottom: 1.1rem; max-width: 680px; margin-left: auto; margin-right: auto; }
     .section p { font-size: 16px; line-height: 1.8; color: var(--muted); font-weight: 400; margin-bottom: 1.1rem; max-width: 680px; margin-left: auto; margin-right: auto; }
     .section p:last-child { margin-bottom: 0; }
@@ -156,8 +156,14 @@
     .img-cap { font-size: 12px; color: var(--faint); margin-top: 0.5rem; font-style: italic; }
     .img-placeholder { background: #f5f5f5; border-radius: 6px; border: 0.5px dashed var(--border-mid); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; color: var(--faint); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 3rem 2rem; text-align: center; min-height: 200px; margin: 1.75rem 0; }
 
+    /* BENCH CARD */
+    .bench-card { border: 1px solid #ebebeb; border-radius: 14px; overflow: hidden; margin: 1.75rem 0; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+    .bench-card-label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); padding: 0.75rem 1.25rem; border-bottom: 1px solid #f0f0f0; background: #fafafa; }
+    .bench-card-body { padding: 1.25rem 1.25rem 0; }
+    .bench-card-cap { font-size: 12px; color: var(--faint); font-style: italic; padding: 0.75rem 1.25rem; border-top: 1px solid #f0f0f0; background: #fafafa; margin-top: 0.5rem; }
+
     /* TABLE */
-    .perf-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 14px; }
+    .perf-table { width: 100%; border-collapse: collapse; margin: 0.75rem 0 1rem; font-size: 14px; }
     .perf-table th { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); padding: 8px 12px; text-align: left; border-bottom: 0.5px solid var(--border-mid); }
     .perf-table td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--muted); font-weight: 300; }
     .perf-table td:first-child { color: var(--text); font-weight: 500; }
@@ -166,27 +172,49 @@
     .table-cap { font-size: 12px; color: var(--faint); font-style: italic; margin-top: 0.5rem; }
 
     /* CALLOUT */
-    .callout { border-left: 2px solid var(--text); padding: 1.1rem 1.4rem; margin: 1.5rem 0; background: #f9f9f9; border-radius: 0 4px 4px 0; }
+    .callout { border-left: 2px solid var(--text); padding: 1.1rem 1.4rem; margin: 1.5rem auto; background: #f9f9f9; border-radius: 0 4px 4px 0; max-width: 680px; }
     .callout p { font-size: 14px; line-height: 1.7; color: var(--text); font-weight: 400; margin: 0; }
 
     /* PULL QUOTE */
-    .pull-quote { border-left: 2px solid var(--border-mid); padding: 1rem 1.4rem; margin: 1.5rem 0; }
+    .pull-quote { border-left: 2px solid var(--border-mid); padding: 1rem 1.4rem; margin: 1.5rem auto; max-width: 680px; }
     .pull-quote p { font-size: 16px; line-height: 1.7; color: var(--muted); font-style: italic; font-weight: 400; margin: 0 0 0.4rem; }
     .pull-quote cite { font-size: 12px; color: var(--faint); font-style: normal; letter-spacing: 0.03em; }
 
+    /* BA PANEL */
+    .ba-panel { border-radius: 6px; overflow: hidden; border: 0.5px solid var(--border); margin: 1.75rem 0; }
+    .ba-head { padding: 8px 14px; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--sans); }
+
+    /* QUOTE GRID */
+    .quote-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem auto; max-width: 680px; }
+    .quote-card { background: #f5f5f5; border-radius: 10px; padding: 1.25rem 1.4rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .quote-card p { font-family: var(--serif); font-size: 17px; line-height: 1.6; color: var(--text); font-style: italic; font-weight: 400; margin: 0; }
+    .quote-card cite { font-size: 11px; color: var(--faint); font-style: normal; letter-spacing: 0.03em; }
+
     /* APPROACH LIST */
-    .approach-list { display: flex; flex-direction: column; gap: 0.75rem; margin: 1.25rem 0; list-style: none; }
-    .approach-list li { font-size: 16px; line-height: 1.75; color: var(--muted); font-weight: 400; padding-left: 1rem; }
+    .approach-list { display: flex; flex-direction: column; gap: 0.75rem; margin: 1.25rem auto; list-style: none; max-width: 680px; padding-left: 0; }
+    .approach-list li { font-size: 16px; line-height: 1.75; color: var(--muted); font-weight: 400; }
     .approach-list li strong { color: var(--text); font-weight: 500; }
 
-    /* CIRCLE GRID */
-    .shipped-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem 2rem; margin: 1.75rem 0; }
-    .shipped-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
-    .circle-wrap { width: 140px; height: 140px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border-mid); background: #ececea; margin-bottom: 1rem; flex-shrink: 0; box-shadow: 0 4px 16px rgba(0,0,0,0.07); transition: box-shadow 0.2s, border-color 0.2s; }
-    .shipped-card:hover .circle-wrap { box-shadow: 0 8px 28px rgba(0,0,0,0.13); border-color: #bbb; }
-    .circle-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .circle-label { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; letter-spacing: -0.01em; }
-    .circle-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.55; }
+    /* SHIPPED ACCORDION */
+    .shipped-tabs { display: grid; grid-template-columns: 380px 1fr; gap: 3rem; margin: 2rem auto; max-width: 940px; align-items: start; }
+    .shipped-tab-list { display: flex; flex-direction: column; }
+    .shipped-tab-item { border-bottom: 1px solid var(--border); border-left: 3px solid transparent; cursor: pointer; transition: border-left-color 0.15s, background 0.15s; }
+    .shipped-tab-item:first-child { border-top: 1px solid var(--border); }
+    .shipped-tab-item:hover { background: #eef0f3; }
+    .shipped-tab-item.active { border-left-color: var(--c-navy); background: #e8ebf0; }
+    .shipped-tab-header { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem 0.85rem 1.1rem; }
+    .shipped-tab-num { font-size: 10px; color: var(--faint); font-weight: 600; width: 20px; flex-shrink: 0; letter-spacing: 0.05em; transition: color 0.15s; }
+    .shipped-tab-item.active .shipped-tab-num { color: var(--c-navy); }
+    .shipped-tab-name { font-size: 14px; font-weight: 500; color: var(--muted); line-height: 1.3; transition: color 0.15s; }
+    .shipped-tab-item.active .shipped-tab-name { color: var(--text); }
+    .shipped-tab-detail { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding: 0 1rem 0 3rem; box-sizing: border-box; }
+    .shipped-tab-item.active .shipped-tab-detail { max-height: 120px; padding-bottom: 1rem; }
+    .shipped-tab-subs { display: flex; flex-direction: column; gap: 0.3rem; }
+    .shipped-tab-sub { font-size: 13px; color: var(--c-navy); font-weight: 400; letter-spacing: 0.01em; }
+    .shipped-tab-panels { height: 460px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .shipped-tab-panel { display: none; flex-direction: column; align-items: center; gap: 1rem; width: 100%; }
+    .shipped-tab-panel.active { display: flex; }
+    .shipped-tab-panel img { width: 100%; max-width: 460px; object-fit: contain; display: block; border-radius: 12px; mix-blend-mode: multiply; }
 
     /* CASE NAV */
     .case-nav { display: flex; justify-content: space-between; align-items: center; padding: 3rem 0; border-top: 0.5px solid var(--border); margin-top: 2rem; }
@@ -314,29 +342,33 @@
         <h2>The problem you couldn't pitch directly.</h2>
         <p>The wedge was performance. I benchmarked our core interactions against ProductBoard and anchored the gap to Nielsen Norman Group's response time thresholds — the research standard for when delays break user focus and erode trust.</p>
 
-        <div class="stats">
-          <div class="stat"><span class="stat-n">1M+</span><span class="stat-l">page views / year</span></div>
-          <div class="stat"><span class="stat-n">3.6s</span><span class="stat-l">grid load time</span></div>
-          <div class="stat"><span class="stat-n">60%</span><span class="stat-l">of all admin interactions</span></div>
+        <div class="bench-card">
+          <div class="bench-card-label">Surface impact · Heap analytics + session data</div>
+          <div class="bench-card-body">
+            <div class="stats">
+              <div class="stat"><span class="stat-n">1M+</span><span class="stat-l">page views / year</span></div>
+              <div class="stat"><span class="stat-n">3.6s</span><span class="stat-l">grid load time</span></div>
+              <div class="stat"><span class="stat-n">60%</span><span class="stat-l">of all admin interactions</span></div>
+            </div>
+            <table class="perf-table">
+              <thead>
+                <tr>
+                  <th>Core action</th>
+                  <th>UserVoice</th>
+                  <th>Productboard</th>
+                  <th>Target</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Grid load</td><td class="bad">3.6s</td><td>1.75s</td><td class="good">1.0s</td></tr>
+                <tr><td>Applying filters</td><td class="bad">~3.5s</td><td>0.10s</td><td class="good">0.10s</td></tr>
+                <tr><td>Sorting</td><td class="bad">2.0s</td><td>0.10s</td><td class="good">0.10s</td></tr>
+                <tr><td>Idea detail open</td><td class="bad">2.7s</td><td>0.30s</td><td class="good">1.0s</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="bench-card-cap">NNG threshold: under 1s feels responsive. Over 3s, flow breaks. Most of our core actions were in the wrong zone.</div>
         </div>
-
-        <table class="perf-table">
-          <thead>
-            <tr>
-              <th>Core action</th>
-              <th>UserVoice</th>
-              <th>Productboard</th>
-              <th>Target</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Grid load</td><td class="bad">3.6s</td><td>1.75s</td><td class="good">1.0s</td></tr>
-            <tr><td>Applying filters</td><td class="bad">~3.5s</td><td>0.10s</td><td class="good">0.10s</td></tr>
-            <tr><td>Sorting</td><td class="bad">2.0s</td><td>0.10s</td><td class="good">0.10s</td></tr>
-            <tr><td>Idea detail open</td><td class="bad">2.7s</td><td>0.30s</td><td class="good">1.0s</td></tr>
-          </tbody>
-        </table>
-        <p class="table-cap"><em>NNG threshold: under 1s feels responsive. Over 3s, flow breaks. Most of our core actions were in the wrong zone.</em></p>
 
         <div class="img-wrap">
           <img src="images/grid-before.png" alt="The old Admin Grid — horizontal scroll, bar chart visualizations, no filter state visibility" />
@@ -365,14 +397,15 @@
         <p>I ran moderated sessions with 10 users — power users from pre-development interviews and first-time participants. Task-based: filter to a forum, manage saved views, sort and save, search, add a label.</p>
         <p>What surfaced: admins weren't coming to the grid to look at ideas. They were coming to make decisions and clear their backlog. The job wasn't "browse feedback" — it was "process a set of ideas and move on." Slow loads, invisible filter state, bulk actions that went nowhere — all of it was getting in the way of that job.</p>
 
-        <div class="pull-quote">
-          <p>"The less she has to do page loads, the better."</p>
-          <cite>— Power User, Procore</cite>
-        </div>
-
-        <div class="pull-quote">
-          <p>"The new color scheme makes it clear to see and the slide out filter list is easy to use. I like the idea of mass selection for tasks."</p>
-          <cite>— Product Manager, ShowingTime</cite>
+        <div class="quote-grid">
+          <div class="quote-card">
+            <p>"The less she has to do page loads, the better."</p>
+            <cite>— Power User, Procore</cite>
+          </div>
+          <div class="quote-card">
+            <p>"The new color scheme makes it clear to see and the slide out filter list is easy to use. I like the idea of mass selection for tasks."</p>
+            <cite>— Product Manager, ShowingTime</cite>
+          </div>
         </div>
       </section>
 
@@ -383,15 +416,11 @@
         <p>The old grid exposed everything at once. Maximum density, no hierarchy. It didn't scale as customers added more forums, labels, and status types. I introduced a filter drawer — a slideout that exposed the full filter set in context without leaving the grid. Most-used filters stayed surfaced in a persistent top bar. Everything else was one click away.</p>
         <p>The same model shaped bulk actions. The job wasn't "select ideas" — it was "process a batch and move on." A persistent action bar made that visible: here's what you've selected, here's what you can do. It worked for this cycle. When the action set outgrew it, the job definition pointed to what came next — a slideout that could scale.</p>
 
-        <div class="img-placeholder">
-          <span>Filter system — all states</span>
-          <span style="text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--muted);">Add grid-filter-system.png to /images/</span>
-        </div>
-        <p class="img-cap">Filter system mapped across all states — top-level entry, parent/child nesting up to three levels, expanded states for large taxonomies, and per-column mini filters.</p>
-
-        <div class="pull-quote">
-          <p>"Forum and category filters worked better when they were above the ideas heading — all the filters were clearly visible. Having them hidden can cause confusion."</p>
-          <cite>— Product Manager, SimplePractice</cite>
+        <div class="ba-panel">
+          <div class="ba-head" style="background: #1a3260; color: #8ab4d8;">Filter system · All states mapped — top-level, parent/child nesting, expanded and per-column mini filters</div>
+          <div class="img-wrap" style="margin: 0; border-radius: 0; border: none;">
+            <video src="images/filter-system-video.mov" autoplay loop muted playsinline style="width:100%;height:auto;display:block;"></video>
+          </div>
         </div>
 
         <div class="callout">
@@ -399,48 +428,79 @@
         </div>
       </section>
 
-      <section class="section" id="shipped">
+      <section class="section" id="shipped" style="background:#f9f9f8;border-radius:16px;padding:3rem 2.5rem;margin-left:-2.5rem;margin-right:-2.5rem;">
         <p class="sec-label">What Shipped</p>
         <h2>Six decisions that defined the surface.</h2>
 
-        <div class="shipped-grid">
-          <div class="shipped-card">
-            <div class="circle-wrap"><img src="images/circle-columns.png" alt="Flexible columns" /></div>
-            <div class="circle-label">Flexible columns</div>
-            <div class="circle-desc">Reorder, resize, add, remove — saved as named views.</div>
+        <div class="shipped-tabs">
+          <div style="display:flex;flex-direction:column;">
+            <div class="shipped-tab-list">
+              <div class="shipped-tab-item active" data-tab="0">
+                <div class="shipped-tab-header"><span class="shipped-tab-num">01</span><span class="shipped-tab-name">Flexible Columns</span></div>
+                <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Reorder, resize, add, remove</span><span class="shipped-tab-sub">Saved as named views</span></div></div>
+              </div>
+              <div class="shipped-tab-item" data-tab="1">
+                <div class="shipped-tab-header"><span class="shipped-tab-num">02</span><span class="shipped-tab-name">Filter Drawer</span></div>
+                <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Full filter set in context</span><span class="shipped-tab-sub">Chips show applied state at a glance</span></div></div>
+              </div>
+              <div class="shipped-tab-item" data-tab="2">
+                <div class="shipped-tab-header"><span class="shipped-tab-num">03</span><span class="shipped-tab-name">Bulk Actions</span></div>
+                <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Persistent action bar</span><span class="shipped-tab-sub">The seed of the slideout pattern</span></div></div>
+              </div>
+              <div class="shipped-tab-item" data-tab="3">
+                <div class="shipped-tab-header"><span class="shipped-tab-num">04</span><span class="shipped-tab-name">Reusable Grid System</span></div>
+                <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Accounts · Users · Idea Lists · Impact Reports</span><span class="shipped-tab-sub">One component, used wherever a table was needed</span></div></div>
+              </div>
+              <div class="shipped-tab-item" data-tab="4">
+                <div class="shipped-tab-header"><span class="shipped-tab-num">05</span><span class="shipped-tab-name">Cleaner Signal</span></div>
+                <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Removed reach column visualizations</span><span class="shipped-tab-sub">Added filter chips and merge match</span></div></div>
+              </div>
+              <div class="shipped-tab-item" data-tab="5">
+                <div class="shipped-tab-header"><span class="shipped-tab-num">06</span><span class="shipped-tab-name">Built to Extend</span></div>
+                <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Designed for Custom Fields · inline editing</span><span class="shipped-tab-sub">Eventually AI labels — patterns held</span></div></div>
+              </div>
+            </div>
           </div>
-          <div class="shipped-card">
-            <div class="circle-wrap"><img src="images/circle-filter.png" alt="Filter drawer" /></div>
-            <div class="circle-label">Filter drawer</div>
-            <div class="circle-desc">Full filter set in context. Chips show applied state at a glance.</div>
-          </div>
-          <div class="shipped-card">
-            <div class="circle-wrap"><img src="images/circle-bulk.png" alt="Bulk actions" /></div>
-            <div class="circle-label">Bulk actions</div>
-            <div class="circle-desc">Persistent action bar — the seed of the slideout pattern.</div>
-          </div>
-          <div class="shipped-card">
-            <div class="circle-wrap"><img src="images/circle-color.png" alt="Color as wayfinding" /></div>
-            <div class="circle-label">Color as wayfinding</div>
-            <div class="circle-desc">Darkest blue for Lists, light blue for saved views, royal blue default.</div>
-          </div>
-          <div class="shipped-card">
-            <div class="circle-wrap"><img src="images/circle-subtraction.png" alt="Strategic subtraction" /></div>
-            <div class="circle-label">Strategic subtraction</div>
-            <div class="circle-desc">Removed reach column visualizations. Added filter chips and merge match.</div>
-          </div>
-          <div class="shipped-card">
-            <div class="circle-wrap"><img src="images/circle-extend.png" alt="Built to extend" /></div>
-            <div class="circle-label">Built to extend</div>
-            <div class="circle-desc">Designed for Custom Fields, inline editing, and eventually AI labels.</div>
+          <div class="shipped-tab-panels">
+            <div class="shipped-tab-panel active">
+              <div style="position:relative;width:420px;height:420px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="420" height="420" style="position:absolute;top:0;left:0;" aria-hidden="true"><circle cx="210" cy="210" r="206" fill="#eeecea"/></svg>
+                <div style="position:relative;z-index:1;width:300px;height:300px;border-radius:28px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.12);background:#f9f9f8;">
+                  <video src="images/grid-columns-video.mov" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+                </div>
+              </div>
+            </div>
+            <div class="shipped-tab-panel">
+              <div style="position:relative;width:420px;height:420px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <img src="images/grid_adv_filters_circle.png" alt="Filter drawer" style="position:relative;z-index:1;width:380px;height:380px;object-fit:contain;display:block;" />
+              </div>
+            </div>
+            <div class="shipped-tab-panel">
+              <div style="position:relative;width:420px;height:420px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="420" height="420" style="position:absolute;top:0;left:0;" aria-hidden="true"><circle cx="210" cy="210" r="206" fill="#eeecea"/></svg>
+                <video src="images/bulk-actions-video.mov" autoplay loop muted playsinline style="position:relative;z-index:1;width:260px;height:420px;object-fit:cover;object-position:top;border-radius:20px;display:block;box-shadow:0 8px 32px rgba(0,0,0,0.14);"></video>
+              </div>
+            </div>
+            <div class="shipped-tab-panel">
+              <div style="position:relative;width:420px;height:420px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <img src="images/users_circle.png" alt="Reusable grid system" style="position:relative;z-index:1;width:380px;height:380px;object-fit:contain;display:block;" />
+              </div>
+            </div>
+            <div class="shipped-tab-panel">
+              <div style="position:relative;width:420px;height:420px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <img src="images/importance_circle.png" alt="Cleaner signal" style="position:relative;z-index:1;width:380px;height:380px;object-fit:contain;display:block;" />
+              </div>
+            </div>
+            <div class="shipped-tab-panel">
+              <div style="position:relative;width:420px;height:420px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="420" height="420" style="position:absolute;top:0;left:0;" aria-hidden="true"><circle cx="210" cy="210" r="206" fill="#eeecea"/></svg>
+                <div style="position:relative;z-index:1;width:300px;height:300px;border-radius:28px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.12);background:#f9f9f8;">
+                  <video src="images/grid-editing-video.mov" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div class="img-placeholder">
-          <span>Navigation bar — all states</span>
-          <span style="text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--muted);">Add grid-nav-states.png to /images/</span>
-        </div>
-        <p class="img-cap">Navigation bar in all states — default, saved view, edit mode, responsive from 1200px down to 400px.</p>
 
         <div class="img-wrap">
           <img src="images/grid-custom-fields.png" alt="Column picker open with Custom Fields visible" />
@@ -504,7 +564,18 @@
       </ul>
     </aside>
   </div>
+
+  <div class="case-nav">
+    <a href="work-idea-sheet.html">
+      <span class="cn-label">&larr; Previous</span>
+      <span class="cn-title">Idea Sheet</span>
+    </a>
+    <a href="work-dashboard.html" class="cn-right">
+      <span class="cn-label">Next &rarr;</span>
+      <span class="cn-title">Blockchain Health Dashboard</span>
+    </a>
   </div>
+
 </div>
 
 <div id="pill-nav">
@@ -520,18 +591,6 @@
   </div>
   <div class="pill-divider"></div>
   <span id="pill-section">The Setup</span>
-</div>
-
-<div class="case-nav">
-    <a href="index.html">
-      <span class="cn-label">← All work</span>
-    </a>
-    <a href="work-idea-sheet.html" class="cn-right">
-      <span class="cn-label">Next case study</span>
-      <span class="cn-title">Idea Detail Sheet →</span>
-    </a>
-  </div>
-
 </div>
 
 <script>
@@ -617,6 +676,15 @@
     dot.addEventListener('click', () => {
       const target = document.getElementById(dot.dataset.target);
       if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  document.querySelectorAll('.shipped-tab-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.shipped-tab-item').forEach(i => i.classList.remove('active'));
+      document.querySelectorAll('.shipped-tab-panel').forEach(p => p.classList.remove('active'));
+      item.classList.add('active');
+      document.querySelectorAll('.shipped-tab-panel')[+item.dataset.tab].classList.add('active');
     });
   });
 

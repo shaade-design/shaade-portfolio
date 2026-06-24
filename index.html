@@ -104,36 +104,90 @@
 
     /* HERO */
     .hero {
-      margin-bottom: 5rem;
-      max-width: 620px;
-    }
-    .hero-tag {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-faint);
-      margin-bottom: 1.25rem;
+      padding: 1.25rem 0 2rem;
+      max-width: 780px;
     }
     .hero h1 {
       font-family: var(--font-serif);
-      font-size: 52px;
-      line-height: 1.15;
+      font-size: clamp(48px, 7vw, 76px);
+      line-height: 1.1;
       letter-spacing: -0.02em;
       font-weight: 400;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.75rem;
+      color: var(--color-text);
     }
     .hero h1 em {
       font-style: italic;
       font-weight: 400;
-      color: var(--c-rust);
+      color: var(--color-muted);
     }
-    .hero p {
-      font-size: 16px;
-      line-height: 1.75;
+    .hero-sub {
+      font-size: 17px;
+      line-height: 1.7;
       color: var(--color-muted);
       font-weight: 400;
-      max-width: 500px;
+      max-width: 520px;
+      margin-bottom: 2.25rem;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+    }
+    .btn-primary {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 11px 22px;
+      background: var(--color-text);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: #333; }
+    .btn-outline {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 11px 22px;
+      background: transparent;
+      color: var(--color-text);
+      border: 1px solid var(--color-border-mid);
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-outline:hover { border-color: var(--color-muted); }
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .hero-stat-n {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      display: block;
+      color: var(--color-text);
+    }
+    .hero-stat-l {
+      font-size: 12px;
+      color: var(--color-faint);
+      font-weight: 400;
+      margin-top: 4px;
+      display: block;
     }
 
     /* SECTION LABEL */
@@ -150,27 +204,54 @@
     .work-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.5px;
-      background: var(--color-border);
-      border: 0.5px solid var(--color-border);
+      gap: 1.5rem;
       margin-bottom: 5rem;
     }
     .card {
       background: #ffffff;
-      padding: 2rem;
+      padding: 1rem;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: box-shadow 0.2s, transform 0.2s;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      min-height: 200px;
       text-decoration: none;
       color: inherit;
       opacity: 0;
       transform: translateY(10px);
       animation: cardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 0.5px solid var(--color-border);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
-    .card:hover { background: #fcfbfa; }
+    .card:hover {
+      box-shadow: 0 6px 24px rgba(0,0,0,0.10);
+      transform: translateY(-2px) translateY(0px);
+    }
+    .card-thumb {
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+      background: #f3f3f1;
+      flex-shrink: 0;
+      border-radius: 10px;
+    }
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top left;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      display: block;
+    }
+    .card:hover .card-thumb img { transform: scale(1.03); }
+    .card-body {
+      padding: 1.25rem 0.75rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
+    }
     .card-meta {
       display: flex;
       justify-content: space-between;
@@ -236,18 +317,42 @@
     }
 
     /* TESTIMONIALS */
-    .testimonials {
-      padding-top: 3rem;
+    .testimonials-section {
+      padding: 4rem 0;
       border-top: 0.5px solid var(--color-border);
       margin-bottom: 5rem;
     }
-    .test-scroll {
+    .test-marquee-wrap {
+      height: 500px;
+      overflow: hidden;
+      margin-top: 1.75rem;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+    }
+    .test-marquee-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      margin-top: 1.5rem;
+      gap: 1.25rem;
+    }
+    .test-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      animation: test-scroll-up var(--col-dur, 24s) linear infinite;
+    }
+    .test-col:nth-child(1) { --col-dur: 28s; }
+    .test-col:nth-child(2) { --col-dur: 22s; }
+    .test-col:nth-child(3) { --col-dur: 26s; }
+    @keyframes test-scroll-up {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
     }
     .test-card {
+      background: #fff;
+      border: 0.5px solid var(--color-border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.05);
       display: flex;
       flex-direction: column;
       gap: 1rem;
@@ -256,84 +361,139 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding-bottom: 1rem;
-      border-bottom: 0.5px solid var(--color-border);
     }
     .avatar {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 600;
       flex-shrink: 0;
+      letter-spacing: 0.02em;
     }
-    .avatar-tm { background: #e8eef4; color: var(--c-steel); }
-    .avatar-cb { background: #ecead4; color: #6b6a3f; }
-    .avatar-lx { background: #f6e7da; color: var(--c-brick); }
+    .avatar-my { background: #1A3862; color: #fff; }
+    .avatar-za { background: #C18E78; color: #fff; }
+    .avatar-am { background: #5A7FA8; color: #fff; }
+    .avatar-tm { background: #7A8F72; color: #fff; }
+    .avatar-cb { background: #A19D6E; color: #fff; }
+    .avatar-lx { background: #C87B6A; color: #fff; }
     .test-name {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
       color: var(--color-text);
-      margin-bottom: 1px;
+      line-height: 1.3;
     }
-    .test-title {
-      font-size: 12px;
+    .test-role {
+      font-size: 11.5px;
       color: var(--color-faint);
-      font-weight: 300;
-      line-height: 1.4;
+      font-weight: 400;
+      line-height: 1.3;
     }
     .test-quote {
-      font-size: 15px;
-      line-height: 1.75;
-      color: var(--color-muted);
-      font-weight: 300;
-    }
-    .test-quote em {
-      font-style: italic;
-      color: var(--c-deep-blue);
-      font-weight: 400;
-    }
-
-    /* ABOUT */
-    .about {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      padding-top: 3rem;
-      border-top: 0.5px solid var(--color-border);
-      margin-bottom: 4rem;
-    }
-    .about h2 {
-      font-family: var(--font-serif);
-      font-size: 30px;
-      font-weight: 400;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-      margin-bottom: 1rem;
-    }
-    .about p {
-      font-size: 14px;
+      font-size: 13.5px;
       line-height: 1.8;
       color: var(--color-muted);
       font-weight: 300;
     }
-    .details {
-      padding-top: 0.5rem;
+
+    /* ABOUT / APPROACH */
+    .about-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      padding: 4rem 0;
+      border-top: 0.5px solid var(--color-border);
+      margin-bottom: 4rem;
+      align-items: start;
+    }
+    .about-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-faint);
+      margin-bottom: 1.25rem;
+    }
+    .about-section h2 {
+      font-family: var(--font-sans);
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+    .about-section p {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--color-muted);
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+    .caps-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-faint);
+      margin: 1.5rem 0 0.75rem;
+    }
+    .caps-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .cap-chip {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--color-muted);
+      border: 0.5px solid var(--color-border-mid);
+      border-radius: 100px;
+      padding: 4px 12px;
+    }
+    .approach-list {
       display: flex;
       flex-direction: column;
+      gap: 1.75rem;
     }
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 11px 0;
-      border-bottom: 0.5px solid var(--color-border);
+    .approach-item {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 0.75rem;
+    }
+    .approach-num {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--color-faint);
+      padding-top: 3px;
+    }
+    .approach-title {
       font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 0.3rem;
     }
-    .detail-row span:first-child { color: var(--color-muted); }
-    .detail-row span:last-child { color: var(--color-faint); font-weight: 300; }
+    .approach-desc {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--color-muted);
+      font-weight: 300;
+    }
+    .about-quote {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 0.5px solid var(--color-border);
+    }
+    .about-quote p {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--color-muted);
+      font-weight: 400;
+    }
 
     /* CONTACT */
     .contact {
@@ -376,8 +536,7 @@
     @media (max-width: 680px) {
       .work-grid { grid-template-columns: 1fr; }
       .test-scroll { grid-template-columns: 1fr; }
-      .about { grid-template-columns: 1fr; gap: 2rem; }
-      .hero h1 { font-size: 36px; }
+      .about-section { grid-template-columns: 1fr; gap: 2.5rem; }
       .contact { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
     }
   </style>
@@ -398,149 +557,114 @@
   <div class="wrap">
 
     <section class="hero">
-      <h1>Complex systems, made <em>clear and human</em></h1>
-      <p>I design data-rich enterprise products that help people do their best work. Currently at UserVoice.</p>
+      <h1>Clarity inside <em>complex systems.</em></h1>
+      <p class="hero-sub">I'm Shaade, a product designer focused on SaaS and data-intensive products. I believe the best design removes friction without losing depth — and builds foundations that hold as products grow.</p>
+      <div class="hero-btns">
+        <a href="#work" class="btn-primary">View my work ↓</a>
+        <a href="https://www.linkedin.com/in/shaade/" target="_blank" class="btn-outline">Get in touch</a>
+      </div>
     </section>
 
-    <p class="section-label">Selected Work</p>
+    <p class="section-label" id="work">Selected Work</p>
 
     <div class="work-grid">
-      <a href="work-idea-sheet.html" class="card">
-        <div class="card-meta">
-          <span class="card-tag">Design System</span>
-
-        </div>
-        <h3>Idea Sheet</h3>
-        <p>A structured canvas for capturing, refining, and triaging product ideas across teams.</p>
-        <span class="card-arrow">↗</span>
-      </a>
       <a href="work-ai-reporting.html" class="card">
-        <div class="card-meta">
-          <span class="card-tag">Product Design</span>
-
+        <div class="card-thumb"><img src="images/hero_impact_thumbnail.png" alt="AI Reporting Suite — Impact Reports preview" /></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag">AI Product</span></div>
+          <h3>Impact Reports</h3>
+          <p>Designing an intelligent reporting experience for enterprise users at UserVoice.</p>
+          <span class="card-arrow">↗</span>
         </div>
-        <h3>AI Reporting Suite</h3>
-        <p>Designing an intelligent reporting experience for enterprise users at UserVoice.</p>
-        <span class="card-arrow">↗</span>
+      </a>
+      <a href="work-idea-sheet.html" class="card">
+        <div class="card-thumb"><img src="images/hero.png" alt="Idea Sheet preview" /></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag">Design System</span></div>
+          <h3>Idea Sheet</h3>
+          <p>A structured canvas for capturing, refining, and triaging product ideas across teams.</p>
+          <span class="card-arrow">↗</span>
+        </div>
       </a>
       <a href="work-admin-grid.html" class="card">
-        <div class="card-meta">
-          <span class="card-tag">Design System</span>
-
+        <div class="card-thumb"><img src="images/hero_grid.png" alt="Admin Grid preview" /></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag">Design System</span></div>
+          <h3>Admin Grid</h3>
+          <p>A data-dense admin interface for managing users, permissions, and settings at scale.</p>
+          <span class="card-arrow">↗</span>
         </div>
-        <h3>Admin Grid</h3>
-        <p>A data-dense admin interface for managing users, permissions, and settings at scale.</p>
-        <span class="card-arrow">↗</span>
       </a>
       <a href="work-dashboard.html" class="card">
-        <div class="card-meta">
-          <span class="card-tag">Blockchain · UX</span>
-
+        <div class="card-thumb"><img src="images/blockchain-env-dash.webp" alt="Blockchain Dashboard preview" /></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag">Blockchain · UX</span></div>
+          <h3>Blockchain Health Dashboard</h3>
+          <p>A data-dense dashboard for monitoring blockchain infrastructure at a glance.</p>
+          <span class="card-arrow">↗</span>
         </div>
-        <h3>Blockchain Health Dashboard</h3>
-        <p>A data-dense dashboard for monitoring blockchain infrastructure at a glance.</p>
-        <span class="card-arrow">↗</span>
       </a>
       <a href="work-zkp.html" class="card">
-        <div class="card-meta">
-          <span class="card-tag">Blockchain · Tokens</span>
-
+        <div class="card-thumb"><img src="images/zkp-hero.png" alt="Blockchain Tokens preview" /></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag">Blockchain · Tokens</span></div>
+          <h3>Blockchain Tokens</h3>
+          <p>End-to-end design of a token management interface for a blockchain platform.</p>
+          <span class="card-arrow">↗</span>
         </div>
-        <h3>Blockchain Tokens</h3>
-        <p>End-to-end design of a token management interface for a blockchain platform.</p>
-        <span class="card-arrow">↗</span>
       </a>
       <a href="work-relay.html" class="card">
-        <div class="card-meta">
-          <span class="card-tag">Mobile · UX</span>
-
+        <div class="card-thumb"><img src="images/relay-hero.png" alt="Relay App preview" /></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag">Mobile · UX</span></div>
+          <h3>Relay App</h3>
+          <p>Designing a mobile-first relay communication experience from the ground up.</p>
+          <span class="card-arrow">↗</span>
         </div>
-        <h3>Relay App</h3>
-        <p>Designing a mobile-first relay communication experience from the ground up.</p>
-        <span class="card-arrow">↗</span>
       </a>
       <a href="work-activation.html" class="card">
-        <div class="card-meta">
-          <span class="card-tag">Growth · CRO</span>
-
+        <div class="card-thumb"><img src="images/activation-screen1.png" alt="Activation Flow preview" /></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag">Growth · CRO</span></div>
+          <h3>Republic Activation Flow</h3>
+          <p>Redesigning the user activation funnel to improve conversion and onboarding clarity.</p>
+          <span class="card-arrow">↗</span>
         </div>
-        <h3>Republic Activation Flow</h3>
-        <p>Redesigning the user activation funnel to improve conversion and onboarding clarity.</p>
-        <span class="card-arrow">↗</span>
       </a>
       <a href="work-help-ticket.html" class="card">
-        <div class="card-meta">
-          <span class="card-tag">Support · UX</span>
-
+        <div class="card-thumb"><img src="images/htw-screen1.png" alt="Help Ticket Wizard preview" /></div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-tag">Support · UX</span></div>
+          <h3>Republic Help Ticket Wizard</h3>
+          <p>A guided ticket-submission experience that routes customer issues to the right team.</p>
+          <span class="card-arrow">↗</span>
         </div>
-        <h3>Republic Help Ticket Wizard</h3>
-        <p>A guided ticket-submission experience that routes customer issues to the right team.</p>
-        <span class="card-arrow">↗</span>
-      </a>
-      <a href="work-republic-site.html" class="card">
-        <div class="card-meta">
-          <span class="card-tag">Web · Optimization</span>
-
-        </div>
-        <h3>Republic Site Optimization</h3>
-        <p>Performance and UX improvements across Republic's marketing and product pages.</p>
-        <span class="card-arrow">↗</span>
       </a>
     </div>
 
-    <section class="testimonials">
-      <p class="section-label">What colleagues have said</p>
-      <div class="test-scroll">
 
-        <div class="test-card">
-          <div class="test-person">
-            <div class="avatar avatar-tm">TM</div>
-            <div>
-              <p class="test-name">Torre Matthew</p>
-              <p class="test-title">Product Manager</p>
-            </div>
-          </div>
-          <p class="test-quote">Shaade is thoughtful and creative in how she approaches problem-solving and customer discovery. <em>Her dependability and deep understanding of what separates a great user experience from an average one have consistently contributed to beautiful outcomes</em> — even in messy interfaces like data tables.</p>
-        </div>
-
-        <div class="test-card">
-          <div class="test-person">
-            <div class="avatar avatar-cb">CB</div>
-            <div>
-              <p class="test-name">Chelsea Brown</p>
-              <p class="test-title">Design Leader, Design Systems &amp; Creative Tooling</p>
-            </div>
-          </div>
-          <p class="test-quote">Shaade is a great UX designer and researcher. <em>She has a talent for solving a user need with a creative, on-brand solution — her designs are innovative, tested, and clear.</em> Her work established a consistent and effective process for user testing across the company.</p>
-        </div>
-
-        <div class="test-card">
-          <div class="test-person">
-            <div class="avatar avatar-lx">LX</div>
-            <div>
-              <p class="test-name">Likkie Xiong</p>
-              <p class="test-title">Senior Product Designer</p>
-            </div>
-          </div>
-          <p class="test-quote">Shaade was my wonderful mentor at Republic Wireless. <em>Thanks to her guidance, I now understand what it truly means to put users first — and how to balance the needs of the business.</em> Anyone would be lucky to have her as a mentor and collaborator.</p>
-        </div>
-
-      </div>
-    </section>
-
-    <section class="about">
+    <section class="about-section">
       <div>
-        <h2>About me</h2>
-        <p>I'm a product designer focused on turning complex, data-rich systems into clear, intuitive experiences that help people do their best work. I partner closely with cross-functional teams to shape product direction, uncover real user needs, and design thoughtful, scalable solutions.</p>
-        <br>
-        <p>My approach is grounded in curiosity, research, and craft — constantly testing ideas and refining designs to make products easier to use, more efficient, and more human. NC State College of Design grad.</p>
+        <p class="about-label">About</p>
+        <h2>Designing with intention.</h2>
+        <p>I'm a product designer focused on SaaS and data-intensive products — turning complex systems into clear, intuitive experiences that help people do their best work.</p>
+        <p>I've spent my career partnering closely with cross-functional teams to shape product direction, uncover real user needs, and design scalable solutions. NC State College of Design grad.</p>
+        <p class="caps-label">Capabilities</p>
+        <div class="caps-chips">
+          <span class="cap-chip">UI/UX Design</span>
+          <span class="cap-chip">AI Product Design</span>
+          <span class="cap-chip">Product Strategy</span>
+          <span class="cap-chip">Design Systems</span>
+          <span class="cap-chip">User Research</span>
+          <span class="cap-chip">Prototyping</span>
+          <span class="cap-chip">Data Visualization</span>
+          <span class="cap-chip">Enterprise UX</span>
+        </div>
       </div>
-      <div class="details">
-        <div class="detail-row"><span>Currently</span><span>UserVoice</span></div>
-        <div class="detail-row"><span>Location</span><span>North Carolina</span></div>
-        <div class="detail-row"><span>Education</span><span>NC State, College of Design</span></div>
-        <div class="detail-row"><span>Focus</span><span>Enterprise product design</span></div>
-        <div class="detail-row"><span>Interests</span><span>Systems, research, craft</span></div>
+      <div>
+        <p class="about-label">Approach</p>
+        <p>My approach is grounded in curiosity, research, and craft. I'm constantly testing ideas, listening to users, and refining designs to make products easier to use, more efficient, and more human.</p>
+        <p>Lately, I've been especially interested in how products can respect people's time and emotions — particularly in moments when they're seeking help or clarity.</p>
       </div>
     </section>
 

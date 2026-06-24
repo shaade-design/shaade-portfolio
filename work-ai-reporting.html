@@ -49,7 +49,7 @@
     .hero h1 { font-family: var(--serif); font-size: 50px; line-height: 1.1; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 1rem; }
     .hero h1 em { font-style: italic; color: var(--muted); }
     .hero-sub { font-size: 17px; line-height: 1.65; color: var(--muted); font-weight: 400; max-width: 580px; }
-    .summary { display: grid; grid-template-columns: repeat(4, 1fr); background: #f8f8f8; border: 1px solid #ebebeb; border-radius: 12px; overflow: hidden; margin-bottom: 5rem; }
+    .summary { display: grid; grid-template-columns: repeat(3, 1fr); background: #f8f8f8; border: 1px solid #ebebeb; border-radius: 12px; overflow: hidden; margin-bottom: 5rem; }
     .s-item { background: transparent; padding: 1.75rem; border-right: 1px solid #ebebeb; }
     .s-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.5rem; }
     .s-val { font-size: 14px; line-height: 1.5; color: var(--text); }
@@ -76,23 +76,28 @@
     .img-placeholder.short { min-height: 180px; }
     .img-placeholder.med { min-height: 260px; }
     .placeholder-label { font-size: 12px; font-weight: 500; color: var(--muted); text-transform: none; letter-spacing: 0; }
-    .img-cap { font-size: 12px; color: var(--faint); margin-top: 0.5rem; font-style: italic; }
+    .img-cap { font-size: 12px; color: var(--faint); margin-top: 0.5rem; font-style: italic; max-width: 680px; margin-left: auto; margin-right: auto; }
     .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.75rem 0; }
     .img-pair .img-placeholder, .img-pair .img-wrap { margin: 0; }
 
-    /* Research cards */
-    .research-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.75rem 0; }
-    .rc { border: 0.5px solid var(--border); border-radius: 6px; padding: 1.25rem; background: #ffffff; border-top: 2px solid var(--faint); }
-    .rc.warn { border-top-color: #c2410c; }
-    .rc.insight { border-top-color: var(--text); }
-    .rc h4 { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.5rem; }
-    .rc p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.55; font-weight: 300; }
-    .rc blockquote { font-size: 12px; color: var(--faint); font-style: italic; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 0.5px solid var(--border); }
+    /* Research parts stack */
+    .parts-stack { display: flex; flex-direction: column; gap: 0; margin: 2rem 0; }
+    .part { position: sticky; background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; min-height: 320px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 1rem; }
+    .part:nth-child(1) { top: 80px; }
+    .part:nth-child(2) { top: 96px; }
+    .part:nth-child(3) { top: 112px; }
+    .part:nth-child(4) { top: 128px; }
+    .part-content { padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; gap: 0.75rem; }
+    .part-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-brick); }
+    .part h4 { font-family: var(--serif); font-size: 22px; font-weight: 400; color: var(--text); margin: 0; line-height: 1.3; }
+    .part p { font-size: 14px; color: var(--muted); font-weight: 400; line-height: 1.7; margin: 0; max-width: none; }
+    .part-img { background: #f2f1ef; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .part-img img { width: 100%; height: 100%; object-fit: cover; object-position: right center; display: block; }
 
     /* Before / after */
     .ba-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.75rem 0; }
     .ba-panel { border-radius: 6px; overflow: hidden; border: 0.5px solid var(--border); }
-    .ba-head { padding: 8px 14px; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+    .ba-head { padding: 8px 14px; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--sans); }
     .ba-head.before { background: #fef3c7; color: #92400e; }
     .ba-head.after  { background: #f0fdf4; color: #166534; }
 
@@ -105,7 +110,7 @@
     .annotation strong { color: var(--text); font-weight: 500; }
 
     /* Tradeoff */
-    .tradeoff { background: #f9f9f9; border-radius: 6px; padding: 1rem 1.25rem; margin-top: 1.25rem; border: 0.5px solid var(--border); }
+    .tradeoff { background: #f9f9f9; border-radius: 6px; padding: 1rem 1.25rem; margin-top: 1.25rem; border: 0.5px solid var(--border); max-width: 680px; margin-left: auto; margin-right: auto; }
     .tradeoff-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.35rem; }
     .tradeoff h4 { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.35rem; }
     .tradeoff p { font-size: 13px; color: var(--muted); margin: 0; font-weight: 300; line-height: 1.55; }
@@ -128,16 +133,19 @@
     .sc p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.55; font-weight: 300; }
 
     /* Stat block */
-    .outcome-rows { display: flex; flex-direction: column; gap: 14px; margin: 1.75rem 0; }
-    .outcome-row { display: flex; align-items: center; gap: 1.25rem; padding: 1.5rem 1.75rem; border-radius: 16px; font-size: 17px; font-weight: 300; line-height: 1.5; }
-    .outcome-row u { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; font-weight: 400; }
-    .outcome-row svg { width: 28px; height: 28px; flex-shrink: 0; stroke-width: 1.5; }
-    .tint-terracotta { background: rgba(220,128,85,0.09); color: #6e4630; }
+    .outcome-bar { display: flex; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin: 1.75rem 0; }
+    .outcome-stat { flex: 1; padding: 1.5rem 1.75rem; border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.5rem; }
+    .outcome-stat:last-child { border-right: none; }
+    .outcome-stat-head { display: flex; align-items: center; gap: 0.6rem; }
+    .outcome-stat-head svg { width: 20px; height: 20px; flex-shrink: 0; stroke-width: 1.5; }
+    .outcome-stat strong { font-size: 14px; font-weight: 600; }
+    .outcome-stat p { font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0; max-width: none; }
+    .tint-terracotta strong { color: #b05a30; }
     .tint-terracotta svg { stroke: #b05a30; }
-    .tint-steel { background: rgba(58,105,145,0.08); color: #2e4a63; }
+    .tint-steel strong { color: #3a6991; }
     .tint-steel svg { stroke: #3a6991; }
-    .tint-forest { background: rgba(63,79,61,0.08); color: #3a463a; }
-    .tint-forest svg { stroke: #5a6e58; }
+    .tint-forest strong { color: #4a6648; }
+    .tint-forest svg { stroke: #4a6648; }
 
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--border); border: 0.5px solid var(--border); border-radius: 6px; overflow: hidden; margin: 1.75rem 0; }
     .stat { background: #ffffff; padding: 1.5rem; text-align: center; }
@@ -151,7 +159,7 @@
     .ref-card p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.65; font-weight: 300; }
     .ref-card p strong { color: var(--text); font-weight: 500; }
 
-    .case-nav { display: flex; justify-content: space-between; align-items: center; padding: 3rem 0; border-top: 0.5px solid var(--border); margin-top: 2rem; }
+    .case-nav { display: flex; justify-content: space-between; align-items: center; padding: 3rem 2rem; border-top: 0.5px solid var(--border); margin-top: 2rem; max-width: 1060px; margin-left: auto; margin-right: auto; }
     .case-nav a { text-decoration: none; color: var(--text); display: flex; flex-direction: column; gap: 4px; }
     .cn-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
     .cn-title { font-family: var(--serif); font-size: 18px; font-weight: 400; }
@@ -250,10 +258,13 @@
     <p class="hero-sub">UserVoice had more feedback data than any PM could process. The design challenge wasn't building smarter AI — it was building AI that a PM would stake their roadmap on.</p>
   </header>
 
+  <div class="img-wrap" style="margin: 0 0 2rem; border: none; border-radius: 16px; overflow: hidden;">
+    <img src="images/Hero_impact_report.png" alt="Impact Reports — full report view in browser showing 5 AI-generated color-coded sections" />
+  </div>
+
   <div class="summary">
-    <div class="s-item"><p class="s-label">My Role</p><p class="s-val">Product design, systems design, user research, marketing</p></div>
+    <div class="s-item"><p class="s-label">My Role</p><p class="s-val">Product design, systems design, user research</p></div>
     <div class="s-item"><p class="s-label">Scope</p><p class="s-val">Theme Explorer &middot; Impact Reports &middot; Component library &middot; Launch page</p></div>
-    <div class="s-item"><p class="s-label">Outcome</p><p class="s-val">~99% faster discovery &middot; Anchor for AI subscription tier</p></div>
     <div class="s-item"><p class="s-label">Type</p><p class="s-val">0 &rarr; 1 product design</p></div>
   </div>
 
@@ -262,45 +273,59 @@
 
       <section class="section" id="problem">
         <p class="sec-label">The Problem</p>
-        <h2>Data wealth. Insight poverty.</h2>
+        <h2>PMs had the data. Getting to insight took half a day.</h2>
         <p>Product managers were sitting on thousands of pieces of user feedback — and defaulting to gut feelings anyway. The barrier to deep analysis was so high that teams either ignored the data or spent half a day manually building a spreadsheet to present a single insight to leadership. Neither path led to confident decisions.</p>
 
-        <div class="research-cards" style="margin-top: 1.5rem;">
-          <div class="rc warn">
-            <h4>The input</h4>
-            <p>Thousands of unstructured ideas, votes, and comments — more feedback than any PM could read in a week, let alone synthesize into a roadmap argument.</p>
+        <div style="display: flex; align-items: stretch; gap: 0; margin-top: 1.5rem;">
+          <div style="flex: 1; padding: 1.25rem; border: 0.5px solid var(--border); border-radius: 10px 0 0 10px;">
+            <div style="font-size: 10px; font-weight: 500; color: var(--faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem;">01</div>
+            <h4 style="font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.4rem;">The input</h4>
+            <p style="font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; max-width: none;">Thousands of unstructured ideas, votes, and comments — more feedback than any PM could read in a week, let alone synthesize into a roadmap argument.</p>
           </div>
-          <div class="rc warn">
-            <h4>The workaround</h4>
-            <p>Power users were exporting rows to spreadsheets, manually tagging themes, and building pivot tables. A process only accessible to the most data-fluent admins.</p>
+          <div style="display: flex; align-items: center; padding: 0 0.5rem; color: var(--faint); font-size: 14px; flex-shrink: 0;">→</div>
+          <div style="flex: 1; padding: 1.25rem; border: 0.5px solid var(--border); border-left: none; border-right: none;">
+            <div style="font-size: 10px; font-weight: 500; color: var(--faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem;">02</div>
+            <h4 style="font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.4rem;">The workaround</h4>
+            <p style="font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; max-width: none;">Power users were exporting rows to spreadsheets, manually tagging themes, and building pivot tables. A process only accessible to the most data-fluent admins.</p>
           </div>
-          <div class="rc insight">
-            <h4>The goal</h4>
-            <p>Move UserVoice from a feedback storage tool to a strategic partner. Reduce time-to-insight from hours to seconds. Shift the conversation from "what was said" to "what should we do."</p>
+          <div style="display: flex; align-items: center; padding: 0 0.5rem; color: var(--faint); font-size: 14px; flex-shrink: 0;">→</div>
+          <div style="flex: 1; padding: 1.25rem; border: 0.5px solid var(--border); border-radius: 0 10px 10px 0; background: #f5f5f5;">
+            <div style="font-size: 10px; font-weight: 500; color: var(--faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.6rem;">03</div>
+            <h4 style="font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 0.4rem;">The goal</h4>
+            <p style="font-size: 13px; color: var(--muted); line-height: 1.65; margin: 0; max-width: none;">Move UserVoice from a feedback storage tool to a strategic partner. Reduce time-to-insight from hours to seconds. Shift the conversation from "what was said" to "what should we do."</p>
           </div>
         </div>
       </section>
 
       <section class="section" id="research">
         <p class="sec-label">What Research Taught Us</p>
-        <h2>Our first hypothesis was half right.</h2>
+        <h2>The first build was powerful. It was also too complex to use daily.</h2>
         <p>We built a sophisticated graph-forward Theme Explorer based on a reasonable assumption: PMs are analytical, they want to see the data. Testing with customers at Procore, Zendesk, Greenhouse, and others returned a consistent verdict — impressive, but not actionable. Three findings reshaped everything.</p>
 
-        <div class="research-cards">
-          <div class="rc warn">
-            <h4>The Complexity Ceiling</h4>
-            <p>The Theme Explorer felt like a pivot table. Powerful for data scientists, too dense for the average PM. 4 out of 4 prototype users couldn't explain what "Activity" meant without prompting.</p>
-            <blockquote>"The accuracy doesn't seem quite right... erroneous ideas inflate the value on the graphics."</blockquote>
+        <div class="parts-stack">
+          <div class="part">
+            <div class="part-content">
+              <div class="part-label">Finding 01</div>
+              <h4>The Complexity Ceiling</h4>
+              <p>The Theme Explorer felt like a pivot table. Powerful for data scientists, too dense for the average PM. 4 out of 4 prototype users couldn't explain what "Activity" meant without prompting.</p>
+            </div>
+            <div class="part-img"><img src="images/graph_complex.png" alt="Theme Explorer trend analysis — complex multi-line graph showing data PMs couldn't parse" style="cursor:pointer;" /></div>
           </div>
-          <div class="rc warn">
-            <h4>The Desire for Control</h4>
-            <p>Users didn't want a black box. They explicitly asked for human-in-the-loop controls — seed themes, merge categories, remove irrelevant ideas. AI that works silently isn't trusted.</p>
-            <blockquote>This became a design mandate across the entire suite: every AI output needed a human override.</blockquote>
+          <div class="part">
+            <div class="part-content">
+              <div class="part-label">Finding 02</div>
+              <h4>The Desire for Control</h4>
+              <p>Users didn't want a black box. They explicitly asked for human-in-the-loop controls — seed themes, merge categories, remove irrelevant ideas. AI that works silently isn't trusted.</p>
+            </div>
+            <div class="part-img"><img src="images/auto_theme.png" alt="Create new theme report modal — autogenerate vs manually select themes showing human-in-the-loop control" style="cursor:pointer;" /></div>
           </div>
-          <div class="rc insight">
-            <h4>The "So What?" Factor</h4>
-            <p>Users loved seeing revenue and urgency trends. They couldn't translate those graphs into a roadmap narrative. A PM at Zendesk was already exporting to PowerPoint weekly — the workaround was the product gap.</p>
-            <blockquote>She needed shareable synthesis, not a better exploration interface.</blockquote>
+          <div class="part">
+            <div class="part-content">
+              <div class="part-label">Finding 03</div>
+              <h4>The "So What?" Factor</h4>
+              <p>Users loved seeing revenue and urgency trends. They couldn't translate those graphs into a roadmap narrative. PMs were still building slide decks by hand to present analysis to leadership. The tool wasn't closing it.</p>
+            </div>
+            <div class="part-img"><img src="images/control_thems.png" alt="Sample Report Themes list — data without narrative showing the gap PMs couldn't bridge" style="cursor:pointer;" /></div>
           </div>
         </div>
       </section>
@@ -311,30 +336,21 @@
         <p>The visual shift between Theme Explorer and Impact Reports isn't just aesthetic — it's a design argument. Every element that changed reflects something research taught us about how PMs actually make decisions.</p>
 
         <div class="ba-panel" style="margin-bottom: 1rem;">
-          <div class="ba-head before">Early concept &middot; The original hypothesis</div>
+          <div class="ba-head" style="background: #1a3260; color: #8ab4d8;">Early concept &middot; The original hypothesis</div>
           <div class="img-wrap" style="margin: 0; border-radius: 0; border: none;">
             <img src="images/initial_sketches.png" alt="Early sketches — original concept for bringing trend analysis and AI summaries to PMs" />
           </div>
         </div>
 
-        <div class="ba-panel">
-          <div class="ba-head before">Theme Explorer &middot; The first build</div>
+        <div class="ba-panel" style="margin-bottom: 1rem;">
+          <div class="ba-head" style="background: #c5b5dc; color: #3d2a60;">In progress &middot; Real customer data</div>
           <div class="img-wrap" style="margin: 0; border-radius: 0; border: none;">
-            <img src="images/complex_graphs.png" alt="Theme Explorer — original AI reporting interface with multi-panel trend analysis and metrics grid" />
-          </div>
-        </div>
-        <p class="img-cap" style="margin-top: 0.5rem; margin-bottom: 1.75rem;">Powerful but too complex — users couldn't explain what they were looking at without prompting</p>
-
-        <div class="ba-panel">
-          <div class="ba-head after">Impact Reports &middot; What research built</div>
-          <div class="img-placeholder med" style="border-radius: 0; border: none;">
-            <span class="placeholder-label">Impact Report — full view</span>
-            <span>Document-style, AI narrative, 5 color-coded sections</span>
+            <img src="images/in_progress_mock_realdata.png" alt="Impact Report in progress — Volunteer Management Module report using real customer data, showing AI-generated pain points and user needs" />
           </div>
         </div>
 
         <div class="annotation">
-          <strong>The design argument in one line:</strong> The chart asks the PM to synthesize. The report does the synthesis for them — and shows its work so they can verify it. Same data. Completely different cognitive load.
+          <strong>Why real data changed everything:</strong> Theoretical prototypes produce theoretical feedback. To get reactions that actually moved the design forward, we ran sessions where users looked at Impact Reports generated from their own customer data — their real ideas, their real themes, their real urgency scores. The feedback shifted immediately. Instead of "I think I'd use this," we got "this section is wrong" and "I'd never say it that way." That specificity is what informed the final round.
         </div>
       </section>
 
@@ -343,116 +359,52 @@
         <h2>Four decisions that defined the product's character.</h2>
         <p>Every design decision in Impact Reports was filtered through one question: will a PM feel safe putting this in front of their VP? Here are the four that mattered most.</p>
 
-        <div class="decision">
-          <p class="decision-label">Icon-anchored metrics — front-loading signal before the narrative</p>
-          <div class="content-split">
-            <div>
-              <div class="img-placeholder short">
-                <span class="placeholder-label">Key metrics block</span>
-                <span>Ideas, voters, account coverage, importance, urgency — each with a custom icon</span>
-              </div>
-              <p class="img-cap">Metric block at the top of every report — the PM knows urgency before reading a word</p>
+        <div class="parts-stack">
+          <div class="part">
+            <div class="part-content">
+              <div class="part-label">Decision 01</div>
+              <h4>Icon-anchored metrics</h4>
+              <p>Urgency, revenue, vote count, and account coverage — moved out of a data table and into a fixed block at the top of every report, each anchored with a custom icon. The icon does cognitive pre-work: a PM registers the urgency signal before reading a word. The same icons appear consistently across every report, so the visual language becomes familiar fast.</p>
             </div>
-            <div>
-              <p>In the Theme Explorer, urgency was a column in a table. In Impact Reports, I moved urgency, revenue, vote count, and account coverage into a fixed metric block at the very top, each anchored with an icon developed for that specific metric type.</p>
-              <p>The icon does cognitive pre-work. A PM can register a high urgency score before they've engaged with any text. <strong>Icons earn their place when they replace a step.</strong></p>
-              <div class="tradeoff">
-                <p class="tradeoff-label">Design principle</p>
-                <h4>Icons earn their place when they replace a step</h4>
-                <p>If an icon only labels what the text already says, remove it. It earns its place when it lets the user skip a cognitive lookup entirely.</p>
-              </div>
-            </div>
+            <div class="part-img" style="background: #f7f7f7; padding: 1.5rem;"><img src="images/metrics_impacts.png" alt="Metrics panel — five stat cards showing ideas, voters, account coverage, importance, and urgency at a glance" style="width:100%;height:100%;object-fit:contain;object-position:center;display:block;cursor:pointer;" /></div>
           </div>
-        </div>
-
-        <div class="decision">
-          <p class="decision-label">Color-coded sections — visual index for non-linear reading</p>
-          <div class="content-split-32">
-            <div>
-              <div class="img-placeholder tall">
-                <span class="placeholder-label">Full Impact Report — all 5 sections</span>
-                <span>Pain Points (orange), Value to Users (green), Challenge the Hypothesis (blue), Research Questions (purple), Feature Announcement (amber)</span>
-              </div>
-              <p class="img-cap">Five sections, each a distinct color — the report can be navigated by sight, not just by scrolling</p>
+          <div class="part">
+            <div class="part-content">
+              <div class="part-label">Decision 02</div>
+              <h4>Nudging to action</h4>
+              <p>A report that ends with a summary isn't done — it's stalled. Every section closes with a prompt pushing the PM toward a concrete next step: update users on what's next, take action on this idea list, run a follow-up. The report becomes a decision surface, not just a document.</p>
             </div>
-            <div>
-              <p>A PM presenting in a meeting shouldn't have to scroll and read to jump to the right section. Color makes the report visually indexed — each section is instantly recognizable at a glance.</p>
-              <p>Constraint held throughout: <strong>color reinforces, never carries.</strong> Every section has a text label and an icon too, so the design works for color-blind readers and in greyscale print.</p>
-            </div>
+            <div class="part-img" style="background: #fde8dc; padding: 1.5rem;"><img src="images/actionable_report.png" alt="Actionable report sections — Pain Point identified card and Inform users on what's next prompt" style="width:100%;height:100%;object-fit:contain;object-position:center;display:block;cursor:pointer;" /></div>
           </div>
-        </div>
-
-        <div class="decision">
-          <p class="decision-label">Editability as a trust mechanism — not a safety valve</p>
-          <div class="content-split">
-            <div>
-              <div class="img-placeholder tall">
-                <span class="placeholder-label">Full Impact Report — 5 editable sections</span>
-                <span>Each section editable after generation — PM applies judgment on top of AI synthesis</span>
-              </div>
-              <p class="img-cap">Every section editable post-generation</p>
+          <div class="part">
+            <div class="part-content">
+              <div class="part-label">Decision 03</div>
+              <h4>Built to share, not just to read</h4>
+              <p>A PM who can't edit a report won't send it. Editability isn't a workaround — it's what makes the report shareable. The AI generates. The PM shapes it. And once it's theirs, they share it: with their team, their VP, their users. 1 in 4 reports generated was shared. That number only works if the output feels like something worth putting your name on.</p>
             </div>
-            <div>
-              <p>AI-generated content has a trust problem: if a PM can't put their fingerprints on the output, they won't stand behind it. Every section of an Impact Report is editable after it's generated — not as a workaround, but as the core trust mechanism.</p>
-              <p>I also addressed the "black box" gap by anchoring every AI narrative to the raw data beneath it — idea count, vote count, account coverage. The text is interpretive. The numbers are not. <strong>The AI does the synthesis. The numbers do the verifying. The PM applies the judgment.</strong></p>
-              <div class="tradeoff">
-                <p class="tradeoff-label">The tradeoff</p>
-                <h4>Editability vs. canonical output</h4>
-                <p>Two reports on the same data can look completely different. We chose editability over consistency — because a report a PM can't own is a report they won't use.</p>
-              </div>
-            </div>
+            <div class="part-img" style="background: #f7f7f7; padding: 1.5rem;"><img src="images/edit_icons.png" alt="Edit and share flow — icon diagram showing the sharing and distribution journey for Impact Reports" style="width:100%;height:100%;object-fit:contain;object-position:center;display:block;cursor:pointer;" /></div>
           </div>
-        </div>
-
-        <div class="decision">
-          <p class="decision-label">Championing "Challenge the Hypothesis" — a section I had to argue for</p>
-          <div class="content-split-32">
-            <div>
-              <p>One of the five AI-generated sections in every Impact Report was my pitch. I advocated for a section that generates research prompts specifically designed to poke holes in the PM's own hypothesis.</p>
-              <p>The problem: confirmation bias. A feedback tool that only surfaces evidence for your existing point of view isn't a decision tool — it's a mirror. The tool had to be honest enough to surface the counterargument.</p>
-              <p>This required internal advocacy. It felt counterintuitive to add friction to a product designed to reduce analysis paralysis. The argument I made: <em>strategic friction is different from cognitive overload.</em></p>
+          <div class="part">
+            <div class="part-content">
+              <div class="part-label">Decision 04</div>
+              <h4>Challenge the Hypothesis</h4>
+              <p>Not every section in the report followed the typical summary format. Challenge the Hypothesis was one that didn't — it surfaced research prompts designed to pressure-test the PM's own assumptions rather than just confirm them. The concept came from leadership, but the design challenge was making it feel useful rather than confrontational: prompts that pushed back without feeling like an attack on the person who ran the report.</p>
             </div>
-            <div>
-              <div class="img-placeholder">
-                <span class="placeholder-label">Challenge the Hypothesis section</span>
-                <span>AI-generated research prompts for testing the user's assumptions</span>
-              </div>
-              <p class="img-cap">"Challenge the Hypothesis" — the section PMs cite most in testimonials</p>
-              <div class="tradeoff">
-                <p class="tradeoff-label">Why it works</p>
-                <h4>Trust through honesty</h4>
-                <p>A tool that only confirms what you already believe loses credibility fast. This section is what makes the AI feel like a smart colleague, not a yes-machine.</p>
-              </div>
-            </div>
+            <div class="part-img" style="background: #ffffff; padding: 1.5rem;"><img src="images/challenge_hypothesis.png" alt="Challenge the Hypothesis and Research Questions sections — AI-generated prompts to pressure-test the PM's assumptions" style="width:100%;height:100%;object-fit:contain;object-position:center;display:block;cursor:pointer;" /></div>
           </div>
         </div>
       </section>
 
       <section class="section" id="systems">
         <p class="sec-label">Systems Design</p>
-        <h2>Building the component library that made it all consistent.</h2>
-        <p>Impact Reports shipped with a full component library built from scratch — not inherited from the Theme Explorer. Every element had to work across the in-app report, a PDF export, a print state, and the share modal. That constraint forced decisions that made the whole system more coherent.</p>
+        <h2>One system. Every surface it had to live on.</h2>
+        <p>Impact Reports shipped with a component library built from scratch — not inherited from the Theme Explorer. Every element had to work across the in-app report, PDF export, print, and share modal simultaneously. That constraint is what made the system coherent: when a component has to survive four contexts, every decision gets pressure-tested.</p>
 
-        <div class="systems-cards">
-          <div class="sc">
-            <p class="sc-label">Color System</p>
-            <h4>Consistent identity across every surface</h4>
-            <p>Each section's color had to read correctly in-app, in PDF, and in print (greyscale). The palette passes contrast checks in all three contexts — the color system is doing accessibility work, not just brand work.</p>
+        <div class="ba-panel">
+          <div class="ba-head" style="background: #1a3260; color: #8ab4d8;">Components that fueled the report</div>
+          <div class="img-wrap" style="margin: 0; border-radius: 0; border: none;">
+            <img src="images/design_system_impact.png" alt="Design system components — new report, modified report, footer states and section component variants across the sharing and editing flow" />
           </div>
-          <div class="sc">
-            <p class="sc-label">Iconography</p>
-            <h4>Custom icons for five metric types</h4>
-            <p>Revenue, votes, account coverage, importance, urgency each got a dedicated icon — distinctive enough to recognize at small sizes, consistent enough to feel like a system.</p>
-          </div>
-          <div class="sc">
-            <p class="sc-label">Component States</p>
-            <h4>Six states per section component</h4>
-            <p>Default, loading, collapsed, expanded, editing, and shared-view states for every report section. The shared-view state required a separate read-only design that preserved the format without exposing edit controls.</p>
-          </div>
-        </div>
-
-        <div class="callout">
-          <p>The component library wasn't documentation — it was the mechanism that made the PDF, the print state, and the share modal feel like the same product.</p>
         </div>
       </section>
 
@@ -461,35 +413,52 @@
         <h2>From gut feelings to data-backed decisions.</h2>
         <p>The efficiency gain was significant, but the more meaningful shift was qualitative — PMs moved from "feature debates" to "problem-solving discussions," using the suite to upend roadmap assumptions when the data didn't support them. Impact Reports became the anchor for UserVoice's AI subscription tier.</p>
 
-        <div class="outcome-rows">
-          <div class="outcome-row tint-terracotta">
-            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
-            <span>Audits that took a half-day to assemble now refine in about 60 seconds — <u>~99% faster</u></span>
-          </div>
-          <div class="outcome-row tint-steel">
-            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8h16v-8"/><path d="M12 2v13"/><path d="M7 10l5 5 5-5"/></svg>
-            <span><u>1 in 4 reports</u> was shared with colleagues — a personal tool became a team artifact</span>
-          </div>
-          <div class="outcome-row tint-forest">
-            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
-            <span>Teams ran <u>20–30 reports a week</u> at steady state — habitual use, not just exploration</span>
+        <div class="ba-panel" style="margin-bottom: 1.75rem;">
+          <div class="ba-head" style="background: #1a3260; color: #8ab4d8;">Impact Reports &middot; The product in use</div>
+          <div style="background: #0d1b2a;">
+            <video src="images/impact-report-demo.mov" autoplay loop muted playsinline style="width:100%;height:auto;display:block;"></video>
           </div>
         </div>
 
-        <p>The sharing number tells the trust story more clearly than any other metric. A PM who shares a report is a PM willing to put their name next to the AI's output. That's not just adoption — that's the trust problem solved.</p>
-
-        <div class="reflection">
-          <p class="sec-label">Reflection</p>
-          <h2 style="font-family: var(--serif); font-size: 20px; font-weight: 400; margin-bottom: 0.75rem;">What I'd carry forward.</h2>
-          <div class="reflection-cards">
-            <div class="ref-card">
-              <p><strong>Build for the moment of sharing, not just the moment of use.</strong> The 25% sharing rate was the signal we hadn't designed for explicitly — and it turned out to be the most meaningful outcome. A report that travels beyond the person who ran it validates the format, the trust model, and the AI's output all at once. I now think about "who else will see this?" as a primary design constraint, not an afterthought.</p>
+        <div class="outcome-bar">
+          <div class="outcome-stat tint-terracotta">
+            <div class="outcome-stat-head">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4.5 13.5h6L11 22l8.5-11.5h-6L13 2z"/></svg>
+              <strong>Audits now take minutes</strong>
             </div>
-            <div class="ref-card">
-              <p><strong>Feedback is a river, not a lake.</strong> Impact Reports is a snapshot — you run it, present it, it ages. The next version needs to surface the delta automatically: not just "here's your report," but "here's what shifted since the last one." The insight doesn't freeze when the report is generated. The tool shouldn't either.</p>
+            <p>Feedback that once took half a day to assemble — without touching a spreadsheet</p>
+          </div>
+          <div class="outcome-stat tint-steel">
+            <div class="outcome-stat-head">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8h16v-8"/><path d="M12 2v13"/><path d="M7 10l5 5 5-5"/></svg>
+              <strong>1 in 4 reports shared</strong>
             </div>
+            <p>A personal tool became a team artifact</p>
+          </div>
+          <div class="outcome-stat tint-forest">
+            <div class="outcome-stat-head">
+              <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+              <strong>20–30 reports a week</strong>
+            </div>
+            <p>Habitual use at steady state — not just exploration</p>
           </div>
         </div>
+
+        <p>A PM who shares a report is willing to put their name next to the AI's output. That's the trust problem solved.</p>
+
+        <p><strong>Impact beyond reports.</strong> The goal was never to replace Themes and Trends — it was to connect them. Impact Reports became a second path into the same data: one that reads like a document instead of a dashboard. From inside the Ideas grid, PMs could surface an Impact Report or a Theme Report depending on what question they were trying to answer. Two AI modes. One workflow.</p>
+
+        <div class="ba-panel" style="margin-top: 1.25rem;">
+          <div class="ba-head" style="background: #1a3260; color: #8ab4d8;">Impact Report and Theme Report &middot; Linked from the same Ideas list</div>
+          <div class="img-wrap" style="margin: 0; border-radius: 0; border: none;">
+            <img src="images/impact_beyond_reports.png" alt="Impact Reports and Theme Reports surfaced side by side from the Ideas list — two AI modes, one workflow" />
+          </div>
+        </div>
+
+        <p class="sec-label" style="margin-top: 2rem;">Reflection</p>
+        <h2>What I'd carry forward.</h2>
+        <p><strong>Build for the moment of sharing, not just the moment of use.</strong> The 25% sharing rate was the signal we hadn't designed for explicitly — and it turned out to be the most meaningful outcome. A report that travels beyond the person who ran it validates the format, the trust model, and the AI's output all at once. I now think about "who else will see this?" as a primary design constraint, not an afterthought.</p>
+        <p><strong>Reports age. The tool shouldn't.</strong> Impact Reports is a snapshot — you run it, present it, it ages. The next version needs to surface the delta automatically: what shifted since the last report, what's new, what changed. The insight doesn't freeze when the report is generated.</p>
       </section>
 
     </div>
@@ -523,8 +492,11 @@
 </div>
 
 <div class="case-nav">
-    <div></div>
-    <div></div>
+    <span></span>
+    <a href="work-idea-sheet.html" class="cn-right">
+      <span class="cn-label">Next &rarr;</span>
+      <span class="cn-title">Idea Sheet</span>
+    </a>
   </div>
 
 </div>

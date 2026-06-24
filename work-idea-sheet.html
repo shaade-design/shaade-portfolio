@@ -79,6 +79,8 @@
 
     /* IMAGES */
     .img-wrap { margin: 1.75rem 0; border-radius: 6px; overflow: hidden; border: 0.5px solid var(--border); cursor: zoom-in; transition: box-shadow 0.2s; }
+    .ba-panel { border-radius: 6px; overflow: hidden; border: 0.5px solid var(--border); }
+    .ba-head { padding: 8px 14px; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--sans); }
     .img-wrap:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
     .img-wrap img { width: 100%; height: auto; display: block; }
     .img-cap { font-size: 12px; color: var(--faint); margin-top: 0.5rem; font-style: italic; }
@@ -86,7 +88,7 @@
     .img-placeholder span.note { text-transform: none; letter-spacing: 0; font-size: 12px; color: var(--muted); }
 
     /* CALLOUT */
-    .callout { border-left: 2px solid var(--text); padding: 1.1rem 1.4rem; margin: 1.5rem auto; max-width: 680px; background: #f9f9f9; border-radius: 0 4px 4px 0; }
+    .callout { padding: 1.1rem 1.4rem; margin: 1.5rem auto; max-width: 680px; background: #f5f5f5; border-radius: 6px; }
     .callout p { font-size: 14px; line-height: 1.7; color: var(--text); font-weight: 400; margin: 0; }
     .callout p em { font-style: italic; }
 
@@ -125,25 +127,26 @@
     .part-img-placeholder { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 11px; color: var(--faint); letter-spacing: 0.06em; text-transform: uppercase; }
 
     /* CIRCLE GRID */
-    .shipped-tabs { display: grid; grid-template-columns: 300px 1fr; gap: 3rem; margin: 2rem auto; max-width: 940px; height: 520px; align-items: center; }
+    .shipped-header { max-width: 940px; margin: 0 auto 0 auto; }
+    .shipped-tabs { display: grid; grid-template-columns: 380px 1fr; gap: 3rem; margin: 2rem auto; max-width: 940px; align-items: start; }
     .shipped-tab-list { display: flex; flex-direction: column; }
-    .shipped-tab-item { border-bottom: 1px solid var(--border); border-left: 3px solid transparent; overflow: hidden; cursor: pointer; transition: border-left-color 0.15s, background 0.15s; }
+    .shipped-tab-item { border-bottom: 1px solid var(--border); border-left: 3px solid transparent; cursor: pointer; transition: border-left-color 0.15s, background 0.15s; }
     .shipped-tab-item:first-child { border-top: 1px solid var(--border); }
-    .shipped-tab-item:hover { background: #f9f9f8; }
-    .shipped-tab-item.active { border-left-color: var(--c-navy); background: #f5f6f8; }
+    .shipped-tab-item:hover { background: #eef0f3; }
+    .shipped-tab-item.active { border-left-color: var(--c-navy); background: #e8ebf0; }
     .shipped-tab-header { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem 0.85rem 1.1rem; }
     .shipped-tab-num { font-size: 10px; color: var(--faint); font-weight: 600; width: 20px; flex-shrink: 0; letter-spacing: 0.05em; transition: color 0.15s; }
     .shipped-tab-item.active .shipped-tab-num { color: var(--c-navy); }
     .shipped-tab-name { font-size: 14px; font-weight: 500; color: var(--muted); line-height: 1.3; transition: color 0.15s; }
     .shipped-tab-item.active .shipped-tab-name { color: var(--text); }
-    .shipped-tab-detail { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding: 0 1rem 0 3rem; }
+    .shipped-tab-detail { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding: 0 1rem 0 3rem; box-sizing: border-box; }
     .shipped-tab-item.active .shipped-tab-detail { max-height: 120px; padding-bottom: 1rem; }
     .shipped-tab-subs { display: flex; flex-direction: column; gap: 0.3rem; }
     .shipped-tab-sub { font-size: 13px; color: var(--c-navy); font-weight: 400; letter-spacing: 0.01em; }
-    .shipped-tab-panels { height: 100%; display: flex; align-items: center; justify-content: center; }
+    .shipped-tab-panels { height: 460px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .shipped-tab-panel { display: none; flex-direction: column; align-items: center; gap: 1rem; width: 100%; }
     .shipped-tab-panel.active { display: flex; }
-    .shipped-tab-panel img { width: 100%; max-width: 460px; object-fit: contain; display: block; }
+    .shipped-tab-panel img { width: 100%; max-width: 460px; object-fit: contain; display: block; border-radius: 12px; mix-blend-mode: multiply; }
     .shipped-tab-desc { font-size: 13px; color: var(--muted); line-height: 1.65; text-align: center; max-width: 380px; }
 
     /* INSIGHT */
@@ -261,6 +264,17 @@
     .pill-dot.active { background: var(--c-terracotta); transform: scale(1.3); }
     .pill-divider { width: 0.5px; height: 12px; background: rgba(0,0,0,0.12); }
     #pill-section { font-size: 11px; color: var(--text); font-weight: 500; white-space: nowrap; }
+
+    .slider-wrap { margin: 2rem 0; }
+    .slider-label-row { display: flex; justify-content: space-between; margin-bottom: 10px; padding: 0 2px; }
+    .slider-label { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint); }
+    .slider-container { position: relative; width: 100%; aspect-ratio: 700/750; overflow: hidden; border-radius: 10px; border: 0.5px solid var(--border); box-shadow: 0 4px 24px rgba(0,0,0,0.08); cursor: col-resize; user-select: none; }
+    .slider-after, .slider-before { position: absolute; top: 0; left: 0; width: 100%; height: auto; display: block; }
+    .slider-before { clip-path: inset(0 50% 0 0); }
+    .slider-divider { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; transform: translateX(-50%); pointer-events: none; box-shadow: 0 0 8px rgba(0,0,0,0.15); }
+    .slider-handle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #2563eb; border-radius: 100px; padding: 0 14px; height: 36px; display: flex; align-items: center; gap: 8px; pointer-events: none; z-index: 10; box-shadow: 0 2px 12px rgba(37,99,235,0.35); }
+    .slider-handle svg { width: 14px; height: 14px; color: #fff; flex-shrink: 0; }
+    .slider-cap { font-size: 12px; color: var(--faint); margin-top: 0.5rem; font-style: italic; text-align: center; }
   </style>
 </head>
 <body>
@@ -295,8 +309,8 @@
     <p class="hero-sub">The Idea Sheet was the second most-visited page in the product — 700K+ page views a year, over 13 minutes average time on page. Admins weren't bouncing. They were working. The page had everything. It just had no way of telling you what mattered.</p>
   </header>
 
-  <div class="screen-card" style="margin-bottom: 3.5rem;">
-    <img src="images/hero.png" alt="Redesigned Idea Sheet — the full two-zone layout with activity feed and right rail" />
+  <div style="margin-bottom: 3.5rem; border-radius: 16px; overflow: hidden; background: #ffffff;">
+    <img src="images/hero.png" alt="Redesigned Idea Sheet — the full two-zone layout with activity feed and right rail" style="width:100%;display:block;" />
   </div>
 
   <div class="summary">
@@ -314,8 +328,11 @@
         <h2>Solve the technical wall first.</h2>
         <p>Before any design work could happen, there was a technical wall. When the Idea Sheet was first built, the team forked Angular UI Router. That decision had compounded for years — it blocked Angular updates, blocked the React migration, and meant you couldn't meaningfully change the layout without first replacing the component underneath it.</p>
         <p>So that's where we started. Product, engineering, and I aligned on replacing it with React Dock before touching the design. Not a win on its own — just what had to happen first. Same situation as the grid, same approach: unblock the technology, then do the work.</p>
-        <div class="img-wrap">
-          <img src="images/ogidea.png" alt="The old Idea Sheet — everything present, nothing prioritized" />
+        <div class="ba-panel" style="margin: 1.75rem 0;">
+          <div class="ba-head" style="background: #f0f0f0; color: #555;">Original idea sheet &middot; What I inherited when I joined UserVoice</div>
+          <div class="img-wrap" style="margin: 0; border-radius: 0; border: none;">
+            <img src="images/ogidea.png" alt="The old Idea Sheet — everything present, nothing prioritized" />
+          </div>
         </div>
       </section>
 
@@ -336,6 +353,13 @@
         <p>I layered those findings against Heap analytics — heatmaps and path data showing what admins actually did, not what they said they did. Interviews told me why. Data told me how often.</p>
         <p>The Options dropdown is a good example of why both mattered. It came up constantly in interviews as something admins relied on. Heap confirmed it — 12% of all post-view clicks went straight into that menu. But the interviews explained why that was a problem: nobody could predict what was inside it.</p>
         <p>Before Part 1 shipped we ran prototype sessions with a subset of participants. The removed features weren't noticed or missed. Buried actions started getting used — merge match came up unprompted. After launch we iterated on feedback as real usage surfaced edge cases. Testing was part of the process, not a checkpoint at the end.</p>
+
+        <div class="ba-panel" style="margin: 1.75rem 0;">
+          <div class="ba-head" style="background: #1a3260; color: #8ab4d8;">Analytics audit &middot; Top-used actions mapped from Heap data</div>
+          <div class="img-wrap" style="margin: 0; border-radius: 0; border: none;">
+            <img src="images/data.png" alt="Heap data — user paths after viewing the idea detail sheet" />
+          </div>
+        </div>
 
         <div class="ia-diagram">
           <div class="ia-diagram-label">Existing IA — mapped before redesign · Heap data + moderated interviews</div>
@@ -382,9 +406,6 @@
           <div class="ia-diagram-cap">Everything present, nothing prioritized — high and low-usage items at the same visual weight. 12% of clicks going into an unpredictable menu.</div>
         </div>
 
-        <div class="img-wrap">
-          <img src="images/data.png" alt="Heap data — user paths after viewing the idea detail sheet" />
-        </div>
       </section>
 
       <section class="section" id="approach">
@@ -451,7 +472,7 @@
               <h4>The shell and right rail</h4>
               <p>Replace the Angular sheet component with React Dock. Redesign everything except the activity feed — the right rail, quick actions, status, labels, tabs, the two-zone layout.</p>
             </div>
-            <div class="part-img"><div class="part-img-placeholder">Image coming</div></div>
+            <div class="part-img"><img src="images/Idea_top.png" alt="The shell and right rail" style="width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;" /></div>
           </div>
           <div class="part">
             <div class="part-content">
@@ -459,7 +480,7 @@
               <h4>The activity feed</h4>
               <p>Its own pitch, its own complexity. Internal and external activity made visually distinct. Iconography introduced to differentiate user types, accounts, revenue. Quick filter tabs added.</p>
             </div>
-            <div class="part-img"><div class="part-img-placeholder">Image coming</div></div>
+            <div class="part-img"><img src="images/activity_feed.png" alt="Activity feed" style="width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;" /></div>
           </div>
           <div class="part">
             <div class="part-content">
@@ -467,7 +488,7 @@
               <h4>The inner tabs</h4>
               <p>Users, Accounts, Features, Validation tabs updated to match the new design language. User Detail and Account Detail redesigned to match. One system, propagated across the product.</p>
             </div>
-            <div class="part-img" style="overflow:hidden;border-radius:0 16px 16px 0;"><video src="images/sheet_tabs_video.mov" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video></div>
+            <div class="part-img"><img src="images/Idea_activity_graphs.png" alt="The inner tabs" style="width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;" /></div>
           </div>
         </div>
 
@@ -475,18 +496,14 @@
           <p>This sequencing mirrors what we did on the grid — target the highest-impact piece first, leave the complex Angular component for a separate cycle, build forward iteratively.</p>
         </div>
 
-        <div class="img-placeholder">
-          <span>After state — full sheet, two-zone layout</span>
-          <span class="note">Add idea-sheet-after.png to /images/</span>
-        </div>
       </section>
 
-      <section class="section" id="shipped">
-        <p class="sec-label">What Shipped</p>
-        <h2>Six decisions that defined the surface.</h2>
-
+      <section class="section" id="shipped" style="background:#f9f9f8;border-radius:16px;padding:3rem 2.5rem;margin-left:-2.5rem;margin-right:-2.5rem;">
         <div class="shipped-tabs">
-          <div class="shipped-tab-list">
+          <div style="display:flex;flex-direction:column;">
+            <p class="sec-label" style="margin:0 0 0.5rem 0;text-align:left;">What Shipped</p>
+            <h2 style="margin:0 0 1.5rem 0;max-width:none;font-size:22px;">Six decisions that defined the surface.</h2>
+            <div class="shipped-tab-list">
             <div class="shipped-tab-item active" data-tab="0">
               <div class="shipped-tab-header"><span class="shipped-tab-num">01</span><span class="shipped-tab-name">Two-Zone Layout</span></div>
               <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">Left: content &amp; activity</span><span class="shipped-tab-sub">Right: status, actions &amp; fields</span></div></div>
@@ -511,22 +528,39 @@
               <div class="shipped-tab-header"><span class="shipped-tab-num">06</span><span class="shipped-tab-name">Iconography</span></div>
               <div class="shipped-tab-detail"><div class="shipped-tab-subs"><span class="shipped-tab-sub">User type · Account · Revenue source</span><span class="shipped-tab-sub">Visual language carried across the product</span></div></div>
             </div>
-          </div>
+            </div><!-- end shipped-tab-list -->
+          </div><!-- end left wrapper -->
           <div class="shipped-tab-panels">
             <div class="shipped-tab-panel active">
-              <img src="images/sheet-two-panel.png" alt="Two-zone layout" style="width:100%;max-width:460px;height:auto;display:block;" />
+              <img src="images/two_panel.png" alt="Two-zone layout" style="width:100%;max-width:460px;height:auto;display:block;" />
             </div>
             <div class="shipped-tab-panel"><img src="images/sheet_rails.png" alt="Right rail actions" style="width:100%;max-width:460px;height:auto;display:block;" /></div>
             <div class="shipped-tab-panel">
               <div style="position:relative;width:460px;height:460px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="460" height="460" style="position:absolute;top:0;left:0;" aria-hidden="true"><circle cx="230" cy="230" r="226" fill="#f0efed"/></svg>
-                <video src="images/sheet_status_video.mov" autoplay muted loop playsinline style="width:55%;height:auto;border-radius:12px;position:relative;z-index:1;box-shadow:0 4px 24px rgba(0,0,0,0.1);"></video>
+                <video src="images/sheet_status_video.mov" autoplay muted loop playsinline style="width:55%;height:auto;border-radius:12px;position:relative;z-index:1;box-shadow:0 4px 24px rgba(0,0,0,0.1);clip-path:inset(0 0 0 4px round 12px);"></video>
               </div>
             </div>
             <div class="shipped-tab-panel">
               <div style="position:relative;width:460px;height:460px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                 <svg width="460" height="460" style="position:absolute;top:0;left:0;" aria-hidden="true"><circle cx="230" cy="230" r="226" fill="#f0efed"/></svg>
-                <video src="images/sheet_activity_video.mov" autoplay muted loop playsinline style="width:82%;height:auto;border-radius:12px;position:relative;z-index:1;box-shadow:0 4px 24px rgba(0,0,0,0.1);"></video>
+                <video id="activity-vid" src="images/sheet_activity_video.mov" muted playsinline preload="auto" style="width:82%;height:auto;border-radius:12px;position:relative;z-index:1;box-shadow:0 4px 24px rgba(0,0,0,0.1);opacity:0;transition:opacity 0.2s;"></video>
+                <script>
+                  (function(){
+                    var v = document.getElementById('activity-vid');
+                    var start = 2;
+                    var shown = false;
+                    function show(){ if(!shown){ shown = true; v.style.opacity = 1; } }
+                    function seek(){ v.currentTime = start; }
+                    v.addEventListener('loadedmetadata', seek);
+                    v.addEventListener('canplay', function(){ if(v.currentTime < start){ seek(); } v.play().then(show).catch(show); });
+                    v.addEventListener('timeupdate', function(){
+                      show();
+                      if(v.currentTime >= v.duration - 0.1){ v.currentTime = start; }
+                    });
+                    v.load();
+                  })();
+                </script>
               </div>
             </div>
             <div class="shipped-tab-panel">
@@ -535,7 +569,7 @@
                 <video src="images/sheet_slideout_video.mov" autoplay muted loop playsinline style="width:82%;height:auto;border-radius:12px;position:relative;z-index:1;box-shadow:0 4px 24px rgba(0,0,0,0.1);"></video>
               </div>
             </div>
-            <div class="shipped-tab-panel"><img src="images/sheet_feedback_circle.png" alt="Iconography" /></div>
+            <div class="shipped-tab-panel"><img src="images/iconography.png" alt="Iconography" style="width:100%;max-width:460px;height:auto;display:block;" /></div>
           </div>
         </div>
 
@@ -548,13 +582,10 @@
         <p>The grid introduced the filter drawer as a slide-in pattern for exposing complexity without navigating away. The sheet introduced slide-in panels for actions — a stepping stone between full modal takeover and the full slideout that would later appear in bulk actions. Each project pushed the pattern one step further.</p>
         <p>The color system, status pills, and iconography carried forward deliberately. An admin who'd learned to read the grid could read the sheet without relearning anything. That consistency wasn't visual tidiness — it was reduced cognitive load across the whole product.</p>
 
-        <div class="pull-quote">
-          <p>"It was a way of keeping an eye on the chatter."</p>
-          <div class="pull-quote-footer">
-            <div class="pq-avatar">PM</div>
-            <cite>Product Manager, Procore</cite>
-          </div>
+        <div style="margin:2rem 0;border-radius:12px;overflow:hidden;border:0.5px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,0.07);max-height:480px;">
+          <video src="images/extending_philosophy.mov" autoplay muted loop playsinline style="width:100%;display:block;margin-bottom:-160px;"></video>
         </div>
+
       </section>
 
       <section class="section" id="possible">
@@ -568,44 +599,21 @@
 
         <img src="images/final_sheet_ux.png" alt="Redesigned idea detail sheet with AI Summary panel open" style="width:100%;height:auto;display:block;margin:1.75rem 0;" />
 
-        <div class="content-split">
-          <div>
-            <div class="img-placeholder">
-              <span>AI overview page mock</span>
-              <span class="note">Add idea-sheet-ai-overview.png to /images/</span>
-            </div>
-          </div>
-          <div>
-            <div class="img-placeholder">
-              <span>Internal chat / @ mentions mock</span>
-              <span class="note">Add idea-sheet-internal-chat.png to /images/</span>
-            </div>
-          </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1.75rem 0;">
+          <img src="images/comments_feedbackv2.png" alt="Comments and feedback" style="width:100%;height:auto;display:block;border-radius:12px;" />
+          <img src="images/ai_summary.png" alt="AI Summary panel" style="width:100%;height:auto;display:block;border-radius:12px;" />
         </div>
+
       </section>
 
       <section class="section" id="takeaways">
         <p class="sec-label">What I'd Tell You</p>
         <h2>Four things that carried forward.</h2>
 
-        <div class="insight-grid">
-          <div class="insight-card">
-            <h4>The IA decision is the design decision.</h4>
-            <p>Reorganizing elements within a broken structure doesn't fix the structure. The two-zone split — read left, act right — sounds obvious in retrospect. It took eight interviews and click analytics to see it clearly enough to commit to it.</p>
-          </div>
-          <div class="insight-card">
-            <h4>Sequence the work like you sequence the design.</h4>
-            <p>Three separate pitches, each scoped tightly, each building on the last. The activity feed wasn't in scope for Part 1 because it was too complex. Trying to do everything at once would have meant shipping nothing. Bounded work ships.</p>
-          </div>
-          <div class="insight-card">
-            <h4>Subtraction is a design skill.</h4>
-            <p>Every feature we removed was something engineering had built and someone had once believed in. Dropping them based on analytics rather than sentiment is harder than adding new ones. But unused features add noise even when they're not being used.</p>
-          </div>
-          <div class="insight-card">
-            <h4>One step at a time builds the pattern.</h4>
-            <p>The slide-in panels weren't the end state — they were a deliberate step toward it. Two years later the slideout pattern was everywhere in the product. The direction was clear from the first cycle; each iteration moved closer.</p>
-          </div>
-        </div>
+        <p><strong>The IA decision is the design decision.</strong> Reorganizing elements within a broken structure doesn't fix the structure. The two-zone split — read left, act right — sounds obvious in retrospect. It took eight interviews and click analytics to see it clearly enough to commit to it.</p>
+        <p><strong>Sequence the work like you sequence the design.</strong> Three separate pitches, each scoped tightly, each building on the last. The activity feed wasn't in scope for Part 1 because it was too complex. Trying to do everything at once would have meant shipping nothing. Bounded work ships.</p>
+        <p><strong>Subtraction is a design skill.</strong> Every feature we removed was something engineering had built and someone had once believed in. Dropping them based on analytics rather than sentiment is harder than adding new ones. But unused features add noise even when they're not being used.</p>
+        <p><strong>One step at a time builds the pattern.</strong> The slide-in panels weren't the end state — they were a deliberate step toward it. Two years later the slideout pattern was everywhere in the product. The direction was clear from the first cycle; each iteration moved closer.</p>
       </section>
 
     </div>
@@ -624,7 +632,18 @@
       </ul>
     </aside>
   </div>
-  </div>
+
+  <nav class="case-nav">
+    <a href="work-ai-reporting.html">
+      <span class="cn-label">&larr; Previous</span>
+      <span class="cn-title">Impact Reports</span>
+    </a>
+    <a href="work-admin-grid.html" class="cn-right">
+      <span class="cn-label">Next &rarr;</span>
+      <span class="cn-title">Admin Grid Overhaul</span>
+    </a>
+  </nav>
+
 </div>
 
 <div id="pill-nav">
@@ -642,20 +661,30 @@
   <span id="pill-section">The Constraint</span>
 </div>
 
-<nav class="case-nav">
-    <a href="work-admin-grid.html">
-      <span class="cn-label">&larr; Previous</span>
-      <span class="cn-title">Admin Grid Overhaul</span>
-    </a>
-    <a href="work-ai-reporting.html" class="cn-right">
-      <span class="cn-label">Next &rarr;</span>
-      <span class="cn-title">AI Reporting Suite</span>
-    </a>
-  </nav>
-
-</div>
-
 <script>
+  (function() {
+    const slider = document.getElementById('idea-slider');
+    if (!slider) return;
+    const before = document.getElementById('idea-slider-before');
+    const divider = document.getElementById('idea-slider-divider');
+    const handle = document.getElementById('idea-slider-handle');
+    let dragging = false;
+    function setPos(x) {
+      const rect = slider.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
+      const pctPx = (pct * 100).toFixed(2) + '%';
+      before.style.clipPath = `inset(0 ${(100 - pct * 100).toFixed(2)}% 0 0)`;
+      divider.style.left = pctPx;
+      handle.style.left = pctPx;
+    }
+    slider.addEventListener('mousedown', e => { dragging = true; setPos(e.clientX); e.preventDefault(); });
+    window.addEventListener('mousemove', e => { if (dragging) setPos(e.clientX); });
+    window.addEventListener('mouseup', () => { dragging = false; });
+    slider.addEventListener('touchstart', e => { dragging = true; setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchmove', e => { if (dragging) setPos(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchend', () => { dragging = false; });
+  })();
+
   const sections = document.querySelectorAll('.section[id]');
   const links = document.querySelectorAll('.side a');
   const obs = new IntersectionObserver(entries => {
@@ -667,7 +696,7 @@
 
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lightbox-img');
-  document.querySelectorAll('.img-wrap img, .screen-card img').forEach(img => {
+  document.querySelectorAll('.img-wrap img, .screen-card img, .part-img img').forEach(img => {
     img.addEventListener('click', () => {
       lbImg.src = img.src; lbImg.alt = img.alt;
       lb.classList.add('open');
